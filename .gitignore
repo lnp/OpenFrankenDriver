@@ -1,0 +1,27 @@
+# Executables and Large Binaries
+*.exe
+*.dll
+*.sys
+*.7z
+*.zip
+*.tar
+*.iso
+
+# Exception: Keep our lightweight helper C source and prebuilt helper if needed
+!src/install_helper.exe
+
+# Certificates with Private Keys (Security best practice)
+*.pfx
+*.key
+certs/*.pfx
+
+# Build directories & caches
+build_work/
+__pycache__/
+*.pyc
+*.obj
+*.log
+
+# Temp files
+*.tmp
+*.bak
