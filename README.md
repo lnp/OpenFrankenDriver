@@ -14,13 +14,13 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![NVIDIA Driver Version](https://img.shields.io/badge/NVIDIA-621.14%20WHQL-76B900?logo=nvidia)](https://www.nvidia.com)
 [![Anti-Cheat Ready](https://img.shields.io/badge/Anti--Cheat-EAC%20%7C%20BattlEye%20%7C%20VAC%20Passed-success)](docs/ARCHITECTURE.md)
-[![Platform](https://img.shields.io/badge/Windows-10%20%7C%2011%20(24H2%2B)-0078D6?logo=windows)](docs/SUPPORTED_DEVICES.md)
+[![Platform](https://img.shields.io/badge/Windows-10%20%7C%2011%20(26H2%2B)-0078D6?logo=windows)](docs/SUPPORTED_DEVICES.md)
 [![Boosty](https://img.shields.io/badge/Boosty-Поддержать%20проект-F15F2C?logo=boosty)](https://boosty.to/defrag)
 
 ---
 
 ### 📥 [Скачать готовый драйвер OpenFrankenDriver 621.14 (Google Drive)](https://drive.google.com/file/d/19S8CCdlnbFrJYeqBKCQSK9nPMyMB8aFr/view?usp=sharing)
-*(Размер: ~1.07 ГБ • Стабильная ветка 621.14 WHQL • Протестировано и работает из коробки на Windows 10 и Windows 11 24H2 • Встроена автономная классическая Панель управления)*
+*(Размер: ~1.07 ГБ • Стабильная ветка 621.14 WHQL • Протестировано и работает из коробки на Windows 10 и Windows 11 26H2 • Встроена автономная классическая Панель управления)*
 
 ---
 
@@ -80,7 +80,7 @@
    ```
    Скрипт автоматически:
    - Распакует инсталлятор;
-   - Внедрит 71 конфигурацию видеокарт-мутантов в секции `17134` (Win10) и `26200` (Win11 24H2);
+   - Внедрит 71 конфигурацию видеокарт-мутантов в секции `17134` (Win10) и `26200` (Win11 26H2);
    - Устранит блокировку драйвера и снимет код ошибки 43 (`RM1457588`);
    - Пересоберёт и подпишет сертификатом безопасности каталог `nv_disp.cat` с официальной меткой времени DigiCert;
    - Интегрирует автономную классическую Панель управления (`nvcplui.exe`);

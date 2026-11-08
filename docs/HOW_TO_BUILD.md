@@ -53,7 +53,7 @@ python scripts/build.py --nvidia-exe "C:\Path\To\621.14-desktop-win10-win11-64bi
 
 1. **Секция Windows 10 / Windows 11 (`17134`)**:
    Найдите строку `[NVIDIA_Devices.NTamd64.10.0...17134]` и сразу под ней вставьте строки ваших моделей из файла `data/devices.json` (список `devices_17134`).
-2. **Секция Windows 11 24H2 (`26200`)**:
+2. **Секция Windows 11 26H2 (`26200`)**:
    Найдите строку `[NVIDIA_Devices.NTamd64.10.0...26200]` и сразу под ней вставьте строки ваших моделей из файла `data/devices.json` (список `devices_26200`).
 3. **Обход Ошибки 43 (Error 43)**:
    Найдите секции:
