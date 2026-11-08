@@ -19,7 +19,6 @@ def find_tool(name, default_candidates):
     for candidate in default_candidates:
         if os.path.isfile(candidate):
             return candidate
-    # Try PATH
     which_res = shutil.which(name)
     if which_res:
         return which_res
@@ -39,7 +38,6 @@ def main():
 
     repo_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-    # Locate tools
     seven_zip = args.seven_zip or find_tool("7z.exe", [
         r"C:\Program Files\7-Zip\7z.exe",
         r"C:\Program Files (x86)\7-Zip\7z.exe"
@@ -63,10 +61,8 @@ def main():
     if not makecat:
         sys.exit("[-] Error: makecat.exe not found. Install Windows SDK or pass --makecat.")
 
-    # Locate original NVIDIA exe
     orig_exe = args.nvidia_exe
     if not orig_exe:
-        # Search common directories
         search_dirs = [repo_dir, os.path.dirname(repo_dir), os.getcwd()]
         for d in search_dirs:
             if not os.path.exists(d):
@@ -86,7 +82,6 @@ def main():
     print("=" * 75)
     print(f"[*] Original NVIDIA Installer: {orig_exe}")
 
-    # Certificates
     pfx_path = args.pfx
     cer_path = None
     if not pfx_path:
@@ -98,50 +93,28 @@ def main():
         elif os.path.exists(default_pfx):
             pfx_path = default_pfx
             cer_path = os.path.join(repo_dir, "certs", "OpenFrankenDriver.cer")
-        else:
-            print("[*] Generating local self-signed certificate...")
-            cert_script = os.path.join(repo_dir, "scripts", "create_cert.ps1")
-            subprocess.run(["powershell", "-ExecutionPolicy", "Bypass", "-File", cert_script], check=True)
-            pfx_path = default_pfx
-            cer_path = os.path.join(repo_dir, "certs", "OpenFrankenDriver.cer")
-    else:
-        cer_path = os.path.splitext(pfx_path)[0] + ".cer"
 
-    # Working and output paths
-    base_name = os.path.splitext(os.path.basename(orig_exe))[0]
-    work_dir = args.work_dir or os.path.join(repo_dir, "build_work")
-    unpack_dir = os.path.join(work_dir, "unpacked")
-    final_exe = args.output or os.path.join(repo_dir, f"{base_name}-openfrankendriver.exe")
+    if not pfx_path or not os.path.isfile(pfx_path):
+        sys.exit("[-] Error: Code signing .pfx certificate not found. Pass --pfx.")
 
-    # Step 1: Clean & Extract
-    print("\n[1/7] Extracting official NVIDIA package...")
-    subprocess.run(["taskkill", "/f", "/im", "PackageLauncher.exe"], capture_output=True)
-    if os.path.exists(work_dir):
-        shutil.rmtree(work_dir, ignore_errors=True)
+    work_dir = args.work_dir or os.path.join(repo_dir, "build_temp")
+    os.makedirs(work_dir, exist_ok=True)
+    unpack_dir = os.path.join(work_dir, "driver_unpacked")
+
+    print(f"\n[1/7] Extracting official NVIDIA installer to: {unpack_dir}")
+    if os.path.exists(unpack_dir):
+        shutil.rmtree(unpack_dir)
     os.makedirs(unpack_dir, exist_ok=True)
 
-    subprocess.run([seven_zip, "x", orig_exe, f"-o{unpack_dir}", "-y"], check=True)
+    cmd_extract = [seven_zip, "x", orig_exe, f"-o{unpack_dir}", "-y"]
+    subprocess.run(cmd_extract, check=True)
 
-    # Expand nvngx_dlssd.dl_ if compressed
-    dl_file = os.path.join(unpack_dir, "Display.Driver", "ngx-builtins", "nvngx_dlssd.dl_")
-    dll_file = os.path.join(unpack_dir, "Display.Driver", "ngx-builtins", "nvngx_dlssd.dll")
-    if os.path.exists(dl_file) and not os.path.exists(dll_file):
-        print("[*] Expanding nvngx_dlssd.dl_ -> nvngx_dlssd.dll...")
-        subprocess.run(["expand", dl_file, dll_file], check=True)
-
-    # Remove laptop battery management driver NVPCF
-    nvpcf_dir = os.path.join(unpack_dir, "NVPCF")
-    if os.path.exists(nvpcf_dir):
-        shutil.rmtree(nvpcf_dir, ignore_errors=True)
-
-    # Step 2: Inject Mutant Models & Error 43 Fix
-    print("\n[2/7] Injecting 68 mutant GPU IDs and RM1457588 (Error 43 bypass)...")
+    print("\n[2/7] Patching nv_dispi.inf with Mutant GPUs database...")
+    target_inf = os.path.join(unpack_dir, "Display.Driver", "nv_dispi.inf")
     inject_script = os.path.join(repo_dir, "scripts", "inject.py")
-    inf_path = os.path.join(unpack_dir, "Display.Driver", "nv_dispi.inf")
-    subprocess.run([sys.executable, inject_script, inf_path], check=True)
+    subprocess.run([sys.executable, inject_script, target_inf], check=True)
 
-    # Step 3: Rebuild Security Catalog
-    print("\n[3/7] Rebuilding security catalog (nv_disp.cat) recursively for all 271 driver files...")
+    print("\n[3/7] Generating and signing security catalog (nv_disp.cat)...")
     driver_dir = os.path.join(unpack_dir, "Display.Driver")
     cdf_path = os.path.join(driver_dir, "nv_disp.cdf")
     cat_path = os.path.join(driver_dir, "nv_disp.cat")
@@ -155,10 +128,7 @@ def main():
             all_files.append((f, rel))
 
     with open(cdf_path, "w", encoding="ascii") as f_cdf:
-        f_cdf.write("[CatalogHeader]\n")
-        f_cdf.write("Name=nv_disp.cat\n")
-        f_cdf.write("ResultDir=.\n\n")
-        f_cdf.write("[CatalogFiles]\n")
+        f_cdf.write("[CatalogHeader]\nName=nv_disp.cat\nResultDir=.\n\n[CatalogFiles]\n")
         for fname, relpath in sorted(all_files):
             f_cdf.write(f"<HASH>{fname}={relpath}\n")
 
@@ -176,38 +146,39 @@ def main():
     ]
     subprocess.run(cmd_sign_cat, check=True)
 
-    # Copy to EACSupport for Easy Anti-Cheat compatibility
     eac_dir = os.path.join(unpack_dir, "EACSupport")
     os.makedirs(eac_dir, exist_ok=True)
     shutil.copy2(cat_path, os.path.join(eac_dir, "nv_disp.cat"))
 
-    # Step 4: Neutralize hostile removeCPLInstallData in DisplayDriver.nvi
-    print("\n[4/7] Neutralizing removeCPLInstallData in DisplayDriver.nvi...")
-    dd_nvi_path = os.path.join(driver_dir, "DisplayDriver.nvi")
-    with open(dd_nvi_path, "r", encoding="utf-8") as f:
-        dd_nvi_text = f.read()
+    print("\n[4/7] Neutralizing NVI2 installer signature verification...")
+    nvi2_dll = os.path.join(unpack_dir, "NVI2", "NVI2.dll")
+    with open(nvi2_dll, "rb") as f:
+        dll_bytes = f.read()
 
-    target_cpl_remove = '<custom phase="removeCPLInstallData" action="removeCPLInstallData" when="install"/>'
-    if target_cpl_remove in dd_nvi_text:
-        dd_nvi_text = dd_nvi_text.replace(target_cpl_remove, '<!-- ' + target_cpl_remove + ' -->')
-        with open(dd_nvi_path, "w", encoding="utf-8") as f:
-            f.write(dd_nvi_text)
-        print("[+] removeCPLInstallData neutralized successfully.")
+    pos1 = dll_bytes.find(bytes.fromhex("E8 D2 85 1B 00"))
+    if pos1 != -1 and dll_bytes[pos1 - 6] == 0x74:
+        dll_bytes = dll_bytes[:pos1 - 6] + b"\xEB" + dll_bytes[pos1 - 5:]
+        print("[+] Patched WinVerifyTrust early-exit jump.")
 
-    # Step 5: Configure Subpackages & setup.cfg
-    print("\n[5/7] Integrating standalone Win32 Control Panel and silent certificate package...")
-    # 5.1 Certificate subpackage
+    pos2 = dll_bytes.find(bytes.fromhex("55 8B EC 83 EC 14 53 56 8B 75 08 85 F6 57"))
+    if pos2 != -1:
+        patch_stub = bytes.fromhex("31 C0 40 C2 04 00")
+        dll_bytes = dll_bytes[:pos2] + patch_stub + dll_bytes[pos2 + len(patch_stub):]
+        print("[+] Patched signature validator stub.")
+
+    with open(nvi2_dll, "wb") as f:
+        f.write(dll_bytes)
+
+    print("\n[5/7] Integrating custom subpackages...")
     franken_pkg_dir = os.path.join(unpack_dir, "FrankenDriver")
     os.makedirs(franken_pkg_dir, exist_ok=True)
     shutil.copy2(cer_path, os.path.join(franken_pkg_dir, "FrankenDriver.cer"))
     shutil.copy2(os.path.join(repo_dir, "src", "FrankenDriver.nvi"), 
                  os.path.join(franken_pkg_dir, "FrankenDriver.nvi"))
 
-    # 5.2 Classic NVIDIA Control Panel (Display.NVCPL) subpackage
     nvcpl_pkg_dir = os.path.join(unpack_dir, "Display.NVCPL")
     os.makedirs(nvcpl_pkg_dir, exist_ok=True)
 
-    # Extract standalone Win32 binaries from NVCPL appx if needed
     appx_path = os.path.join(unpack_dir, "Display.Driver", "NVCPL", "7e010d7e2de54a439dbd340dd1f61212.appx")
     cpl_files = ['nvcplui.exe', 'nvcpluir.dll', 'nvImage.dll', 'NvGpuUtilization.exe', 'EULA.txt']
     if os.path.exists(appx_path):
@@ -215,83 +186,9 @@ def main():
             for name in cpl_files:
                 z.extract(name, nvcpl_pkg_dir)
 
-    # Copy native helper
     helper_exe = os.path.join(repo_dir, "src", "install_helper.exe")
     shutil.copy2(helper_exe, os.path.join(nvcpl_pkg_dir, "install_helper.exe"))
 
-    # NVCPL.nvi definition
-    nvcpl_nvi_content = """<?xml version="1.0" encoding="utf-8"?>
-<nvi name="Display.NVCPL" title="${title}" version="${version}" versionText="${version}" timestamp="2026-11-06T00:00:00" disposition="default" hidden="false" installerMin="2.1002.158.1139" preserveCache="false">
-\t<strings>
-\t\t<string name="version" value="8.1.969.0"/>
-\t\t<string name="AppPathsKey" value="HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\App Paths\\nvcplui.exe"/>
-\t\t<string name="ContextMenuKey" value="HKEY_LOCAL_MACHINE\\SOFTWARE\\Classes\\DesktopBackground\\Shell\\NvControlPanel"/>
-\t\t<localized locale="0x0409">
-\t\t\t<string name="title" value="NVIDIA Control Panel (Classic)"/>
-\t\t\t<string name="arpDisplayName" value="NVIDIA Control Panel (Classic)"/>
-\t\t\t<string name="MenuTitle" value="NVIDIA Control Panel"/>
-\t\t\t<string name="description" value="Installs the classic standalone Win32 NVIDIA Control Panel (nvcplui.exe) into Program Files."/>
-\t\t</localized>
-\t\t<localized locale="0x0419">
-\t\t\t<string name="title" value="Панель управления NVIDIA (Классическая)"/>
-\t\t\t<string name="arpDisplayName" value="Панель управления NVIDIA (Классическая)"/>
-\t\t\t<string name="MenuTitle" value="Панель управления NVIDIA"/>
-\t\t\t<string name="description" value="Устанавливает классическую автономную Win32 панель управления NVIDIA (nvcplui.exe) в Program Files."/>
-\t\t</localized>
-\t</strings>
-\t<dependencies>
-\t\t<package type="after" package="Display.Driver"/>
-\t</dependencies>
-\t<properties>
-\t\t<bool name="FixedInstallLocation" value="true"/>
-\t\t<string name="InstallLocation" value="${NvidiaProgramFiles}\\Control Panel Client"/>
-\t\t<string name="ArpDisplayName" value="${arpDisplayName}"/>
-\t\t<string name="ArpIcon" value="${InstallLocation}\\nvcplui.exe,0"/>
-\t</properties>
-\t<manifest>
-\t\t<file name="NVCPL.nvi"/>
-\t\t<file name="install_helper.exe"/>
-\t\t<file name="nvcplui.exe"/>
-\t\t<file name="nvcpluir.dll"/>
-\t\t<file name="NvGpuUtilization.exe"/>
-\t\t<file name="nvImage.dll"/>
-\t\t<file name="EULA.txt"/>
-\t</manifest>
-\t<phases>
-\t\t<standard phase="createInstallDir">
-\t\t\t<createDirectory target="${InstallLocation}"/>
-\t\t</standard>
-\t\t<exe phase="deployControlPanelFiles" name="install_helper.exe" when="installClose" progress="120" autoTick="200">
-\t\t\t<success value="0"/>
-\t\t</exe>
-\t\t<standard phase="RegisterAppPaths">
-\t\t\t<addRegistry keyName="${AppPathsKey}" type="REG_SZ" valueName="" value="${InstallLocation}\\nvcplui.exe"/>
-\t\t\t<addRegistry keyName="${AppPathsKey}" valueName="Path" type="REG_SZ" value="${InstallLocation}"/>
-\t\t</standard>
-\t\t<standard phase="RegisterContextMenu">
-\t\t\t<addRegistry keyName="${ContextMenuKey}" type="REG_SZ" valueName="" value="${MenuTitle}"/>
-\t\t\t<addRegistry keyName="${ContextMenuKey}" valueName="Icon" type="REG_SZ" value="${InstallLocation}\\nvcplui.exe,0"/>
-\t\t\t<addRegistry keyName="${ContextMenuKey}\\command" type="REG_SZ" valueName="" value="&quot;${InstallLocation}\\nvcplui.exe&quot;"/>
-\t\t\t<addRegistry keyName="HKLM\\SYSTEM\\CurrentControlSet\\Services\\nvlddmkm\\Parameters\\Global\\NVTweak" type="REG_DWORD" valueName="EnableNvcplUIOnDCH" value="1"/>
-\t\t\t<addRegistry keyName="HKLM\\SOFTWARE\\NVIDIA Corporation\\Global\\NVTweak" type="REG_DWORD" valueName="EnableNvcplUIOnDCH" value="1"/>
-\t\t</standard>
-\t\t<exe phase="removeControlPanelFiles" name="install_helper.exe" when="uninstall" progress="120" autoTick="200">
-\t\t\t<arg value="/uninstall"/>
-\t\t\t<success value="0"/>
-\t\t</exe>
-\t\t<standard phase="CleanupOnUninstall" when="uninstall">
-\t\t\t<deleteFile target="${InstallLocation}\\*.*"/>
-\t\t\t<deleteDirectory target="${InstallLocation}"/>
-\t\t\t<deleteRegistryKey keyName="${AppPathsKey}"/>
-\t\t\t<deleteRegistryKey keyName="${ContextMenuKey}"/>
-\t\t</standard>
-\t</phases>
-</nvi>
-"""
-    with open(os.path.join(nvcpl_pkg_dir, "NVCPL.nvi"), "w", encoding="utf-8") as f:
-        f.write(nvcpl_nvi_content)
-
-    # 5.3 setup.cfg bindings
     cfg_path = os.path.join(unpack_dir, "setup.cfg")
     with open(cfg_path, "r", encoding="utf-8") as f:
         cfg = f.read()
@@ -299,7 +196,7 @@ def main():
     cfg = cfg.replace('<sub-package name="NVPCF" />', '')
 
     if 'name="FrankenDriverCert"' not in cfg:
-        franken_subpkgs = '\t\t<sub-package name="FrankenDriverCert" disposition="critical" hidden="true" />\n\t\t<sub-package name="EACSupportCatalog" disposition="optional" hidden="false" />\n\t\t<sub-package name="Display.Driver"'
+        franken_subpkgs = '\t\t<sub-package name="FrankenDriverCert" disposition="default" hidden="true" />\n\t\t<sub-package name="EACSupportCatalog" disposition="optional" hidden="false" />\n\t\t<sub-package name="Display.Driver"'
         cfg = cfg.replace('\t\t<sub-package name="Display.Driver"', franken_subpkgs)
 
     target_disp = '<sub-package name="Display.Driver" disposition="critical">'
@@ -307,22 +204,9 @@ def main():
     if 'package="FrankenDriverCert" type="after"' not in cfg:
         cfg = cfg.replace(target_disp, dep_block)
 
-    if 'name="Display.NVCPL"' not in cfg:
-        target_split = '</sub-package>\n\t\t<sub-package name="Display.NvApp"'
-        nvcpl_entry = '''</sub-package>
-\t\t<sub-package name="Display.NVCPL" disposition="default" hidden="false">
-\t\t\t<dependencies>
-\t\t\t\t<package type="after" package="Display.Driver"/>
-\t\t\t\t<package type="after" package="Display.NvApp"/>
-\t\t\t</dependencies>
-\t\t</sub-package>
-\t\t<sub-package name="Display.NvApp"'''
-        cfg = cfg.replace(target_split, nvcpl_entry)
-
     with open(cfg_path, "w", encoding="utf-8") as f:
         f.write(cfg)
 
-    # Step 6: Monolithic Packaging
     print("\n[6/7] Building monolithic self-extracting archive...")
     with open(orig_exe, "rb") as f:
         orig_stub = f.read(1120292)
@@ -349,6 +233,7 @@ def main():
     ]
     subprocess.run(cmd_7z, check=True)
 
+    out_exe = args.output or os.path.join(os.path.dirname(repo_dir), "OpenFrankenDriver_621.14_WHQL.exe")
     temp_exe = os.path.join(work_dir, "unsigned.exe")
     with open(temp_exe, "wb") as f_out:
         f_out.write(clean_stub)
@@ -356,9 +241,8 @@ def main():
             while chunk := f_in.read(16 * 1024 * 1024):
                 f_out.write(chunk)
 
-    # Step 7: Digital Signature with Timestamp
-    print("\n[7/7] Signing installer with RFC3161 timestamp...")
-    sign_final = [
+    print("\n[7/7] Signing final monolithic installer...")
+    cmd_sign_exe = [
         signtool, "sign",
         "/f", pfx_path,
         "/p", args.pfx_pass,
@@ -367,22 +251,15 @@ def main():
         "/td", "SHA256",
         temp_exe
     ]
-    subprocess.run(sign_final, check=True)
+    subprocess.run(cmd_sign_exe, check=True)
 
-    for _ in range(10):
-        try:
-            if os.path.exists(final_exe):
-                os.remove(final_exe)
-            shutil.move(temp_exe, final_exe)
-            break
-        except Exception:
-            time.sleep(1)
-
+    if os.path.exists(out_exe):
+        os.remove(out_exe)
+    shutil.move(temp_exe, out_exe)
     shutil.rmtree(work_dir, ignore_errors=True)
 
-    print("\n" + "=" * 75)
-    print(f"[SUCCESS] OpenFrankenDriver successfully built at:\n--> {final_exe}")
-    print(f"File size: {os.path.getsize(final_exe) / (1024*1024):.1f} MB")
+    print("=" * 75)
+    print(f"[SUCCESS] Monolithic OpenFrankenDriver ready at:\n--> {out_exe}")
     print("=" * 75)
 
 if __name__ == "__main__":
