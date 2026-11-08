@@ -19,8 +19,8 @@
 
 ---
 
-### 📥 [Скачать готовый драйвер OpenFrankenDriver 621.14 (Google Drive)](https://drive.google.com/file/d/1uIS2bM4CIcCxQ9KAcM-kB_A9dio3UTHF/view?usp=sharing)
-*(Размер: ~1.07 ГБ • Стабильная ветка 621.14 WHQL • Встроена автономная классическая Панель управления)*
+### 📥 [Скачать готовый драйвер OpenFrankenDriver 621.14 (Google Drive)](https://drive.google.com/file/d/19S8CCdlnbFrJYeqBKCQSK9nPMyMB8aFr/view?usp=sharing)
+*(Размер: ~1.07 ГБ • Стабильная ветка 621.14 WHQL • Протестировано и работает из коробки на Windows 10 и Windows 11 24H2 • Встроена автономная классическая Панель управления)*
 
 ---
 
@@ -55,7 +55,7 @@
 
 ## 💾 Быстрая установка (Для пользователей)
 
-1. **Скачайте готовый установщик** по ссылке в шапке или с [Google Drive](https://drive.google.com/file/d/1uIS2bM4CIcCxQ9KAcM-kB_A9dio3UTHF/view?usp=sharing).
+1. **Скачайте готовый установщик** по ссылке в шапке или с [Google Drive](https://drive.google.com/file/d/19S8CCdlnbFrJYeqBKCQSK9nPMyMB8aFr/view?usp=sharing).
 2. *(Рекомендуется)* Если вы обновляетесь со старых версий или меняли видеокарту, удалите предыдущий драйвер через **DDU (Display Driver Uninstaller)** в безопасном режиме.
 3. Запустите скачанный `.exe` файл.
 4. Выберите **«Графический драйвер NVIDIA»** и нажмите **«Далее»**.
@@ -69,113 +69,80 @@
 
 ### Способ 1: Автоматическая сборка скриптом (Рекомендуется)
 
-1. **Установите необходимые компоненты**:
-   - Python 3.10+ (установите модуль `pefile`: `pip install pefile`)
-   - Архиватор 7-Zip (`C:\Program Files\7-Zip\7z.exe`)
-   - Windows 10/11 SDK (необходим для системных утилит `makecat.exe` и `signtool.exe`)
-2. **Скачайте официальный драйвер NVIDIA**:
-   - Перейдите на [официальный сайт NVIDIA](https://www.nvidia.com/Download/index.aspx) и скачайте стандартный DCH WHQL драйвер (например, `621.14-desktop-win10-win11-64bit-international-dch-whql.exe`).
-3. **Запустите сборку одной командой**:
+1. Установите Python 3.10+ и зависимости:
    ```cmd
-   python scripts/build.py --nvidia-exe "C:\путь\к\скачанному_файлу_nvidia.exe"
+   pip install pefile
    ```
-4. Скрипт в автоматическом режиме:
-   - Распакует официальный установщик;
-   - Внедрит идентификаторы 71 видеокарты-мутанта и параметр обхода Error 43 в `nv_dispi.inf`;
-   - Сформирует полный каталог безопасности `nv_disp.cat` (271 файл) и подпишет его доверенным сертификатом со штампом времени DigiCert;
-   - Интегрирует классическую автономную панель управления NVIDIA (`nvcplui.exe`);
-   - Упакует монолитный самораспаковывающийся `.exe` установщик без ошибки `0xc0000005`.
+2. Скачайте официальный драйвер NVIDIA (ветки 621.xx WHQL или новее) с сайта NVIDIA.
+3. Запустите автоматический мастер сборки:
+   ```cmd
+   python scripts/build.py --nvidia-exe "путь\к\официальному_инсталлятору.exe"
+   ```
+   Скрипт автоматически:
+   - Распакует инсталлятор;
+   - Внедрит 71 конфигурацию видеокарт-мутантов в секции `17134` (Win10) и `26200` (Win11 24H2);
+   - Устранит блокировку драйвера и снимет код ошибки 43 (`RM1457588`);
+   - Пересоберёт и подпишет сертификатом безопасности каталог `nv_disp.cat` с официальной меткой времени DigiCert;
+   - Интегрирует автономную классическую Панель управления (`nvcplui.exe`);
+   - Запакует готовый монолитный SFX-инсталлятор.
 
 ---
 
-### Способ 2: Ручная пошаговая модификация
+### Способ 2: Ручная модификация
 
-Если вы хотите выполнить модификацию вручную без автоматического скрипта:
+Если вы хотите внести изменения вручную:
 
-1. **Распаковка**:
-   - Распакуйте официальный установщик NVIDIA через 7-Zip в отдельную папку (например, `Driver_Unpacked`).
-   - Удалите папку `NVPCF` (драйвер батареи ноутбука, не нужен на десктопе).
-   - Если в папке `Display.Driver\ngx-builtins\` файл `nvngx_dlssd.dl_` сжат, распакуйте его командой:  
-     `expand nvngx_dlssd.dl_ nvngx_dlssd.dll`.
+1. **Распаковка инсталлятора**:
+   Распакуйте официальный файл инсталлятора NVIDIA через 7-Zip в любую папку.
 
-2. **Модификация INF-файла (`Display.Driver\nv_dispi.inf`)**:
-   - Откройте `Display.Driver\nv_dispi.inf` в текстовом редакторе.
-   - Найдите секции:
-     - `[NVIDIA_Devices.NTamd64.10.0...17134]` — добавьте строки поддерживаемых устройств для Windows 10/11 (список доступен в `data/devices.json`).
-     - `[NVIDIA_Devices.NTamd64.10.0...26200]` — добавьте строки поддерживаемых устройств для Windows 11 24H2 (список доступен в `data/devices.json`).
-   - В секциях параметров реестра `[nv_miscBase_addreg__01]`, `[nv_miscBase_addreg__05]`, `[nv_miscBase_addreg__09]`, `[nv_miscBase_addreg__10]`, `[nv_miscBase_addreg__16]` добавьте строку обхода Ошибки 43:
+2. **Модификация INF-файла**:
+   - Откройте `Display.Driver\nv_dispi.inf`;
+   - Найдите секции `[NVIDIA_Devices.NTamd64.10.0...17134]` и `[NVIDIA_Devices.NTamd64.10.0...26200]`;
+   - Добавьте строки идентификаторов ваших видеокарт из справочника [`data/devices.json`](data/devices.json);
+   - Убедитесь, что в блоке параметров указан флаг отключения аппаратной блокировки (снятие Code 43):
      ```ini
      HKR,,RM1457588,%REG_DWORD%,1
      ```
-   - В конец секции `[Strings]` добавьте названия моделей видеокарт (из `data/devices.json`).
 
-3. **Создание и подписание каталога безопасности (`nv_disp.cat`)**:
-   - Создайте CDF-файл со списком всех 271 файлов папки `Display.Driver`:
-     `makecat -v nv_disp.cdf`
-   - Подпишите созданный `nv_disp.cat` через `signtool.exe`:
-     `signtool sign /f your_cert.pfx /p 1234 /fd SHA256 /tr http://timestamp.digicert.com /td SHA256 nv_disp.cat`
-   - Скопируйте готовый `nv_disp.cat` также в папку `EACSupport\nv_disp.cat`.
+3. **Создание и подпись каталога безопасности (`nv_disp.cat`)**:
+   - Сгенерируйте файл списка файлов (`nv_disp.cdf`) для папки `Display.Driver`;
+   - Скомпилируйте каталог через утилиту Windows SDK:
+     ```cmd
+     makecat -v nv_disp.cdf
+     ```
+   - Подпишите созданный каталог через `signtool.exe` с добавлением RFC3161 метки времени (DigiCert):
+     ```cmd
+     signtool sign /f certs/OpenFrankenDriver.pfx /p 1234 /fd SHA256 /tr http://timestamp.digicert.com /td SHA256 nv_disp.cat
+     ```
+   - Скопируйте готовый `nv_disp.cat` в подпапку `EACSupport\` (для совместимости с Easy Anti-Cheat).
 
-4. **Интеграция сертификата**:
-   - Поместите открытый сертификат `FrankenDriver.cer` и файл `src/FrankenDriver.nvi` в папку `FrankenDriver\`.
-   - В `setup.cfg` подключите субпакет `FrankenDriverCert` как зависимость перед `Display.Driver`.
+4. **Интеграция Панели управления**:
+   - Создайте подпапку `Display.NVCPL`;
+   - Извлеките исполняемые файлы (`nvcplui.exe`, `nvcpluir.dll`, `NvGpuUtilization.exe`, `nvImage.dll`) из архива `Display.Driver\NVCPL\*.appx`;
+   - Добавьте файл конфигурации пакета `NVCPL.nvi` и нативный помощник развёртывания `install_helper.exe`.
 
-5. **Запуск установки**:
-   - Запустите `setup.exe` из папки `Driver_Unpacked` — установка пройдёт в штатном режиме.
-
-Подробное описание параметров и архитектуры см. в [**docs/HOW_TO_BUILD.md**](docs/HOW_TO_BUILD.md).
-
----
-
-## 🛡️ Безопасность: не сгорит ли видеокарта? Не забанят ли в играх?
-
-1. **Видеокарта и ПК в полной безопасности**:
-   - Драйвер не меняет напряжение (вольтаж), алгоритмы питания или прошивку (VBIOS) видеокарты.
-   - Драйвер лишь сообщает Windows: *«Разреши этому кристаллу запуститься на шине PCIe x16 и не выбрасывай ошибку 43»*.
-   - Все системы температурного троттлинга, управления кулерами и лимитов TDP продолжают управляться штатным контроллером самой видеокарты.
-2. **Античиты и онлайн-игры (EAC, BattlEye, VAC, FaceIT)**:
-   - Файлы ядра (`nvlddmkm.sys`, компоненты DirectX, Vulkan, CUDA) **не патчатся и не взламываются**.
-   - На них сохранена официальная цифровая подпись Microsoft WHQL.
-   - Тестовый режим Windows (`testsigning`) остаётся **выключенным**. Античиты видят подлинные системные бинарники и не выдают блокировок.
+5. **Сборка монолитного установщика**:
+   - Запакуйте все папки через 7-Zip в архив `payload.7z` с ультра-сжатием LZMA2;
+   - Присоедините официальный запускающий стаб `PackageLauncher.exe` к полученному архиву;
+   - Подпишите финальный `.exe` файл цифровой подписью проекта.
 
 ---
 
-## 🧩 Поддерживаемые видеокарты (71 модель / конфигурация)
+## 🔒 Безопасность и проверка целостности
 
-Драйвер поддерживает все десктопные видеокарты-мутанты на базе мобильных чипов NVIDIA серии GeForce RTX 40, RTX 30, RTX 20, GTX 16 и профессиональных мобильных карт RTX / Quadro.
-
-**Популярные поддерживаемые карты:**
-- **NVIDIA GeForce RTX 4070 Laptop GPU / RTX 4070m** (`DEV_2820`, `DEV_2860`)
-- **NVIDIA GeForce RTX 4060 Laptop GPU / RTX 4060m** (`DEV_28A0`)
-- **NVIDIA GeForce RTX 4050 Laptop GPU / RTX 4050m** (`DEV_28A1`)
-- **NVIDIA GeForce RTX 3070 Laptop GPU / RTX 3070m** (`DEV_249D`, `DEV_249C`)
-- **NVIDIA GeForce RTX 3060 Laptop GPU / RTX 3060m (6GB & 12GB)** (`DEV_2520`, `DEV_2521`, `DEV_2560`)
-- **NVIDIA RTX A3000 Laptop GPU / RTX A3000m** (`DEV_24B8`)
-- **NVIDIA RTX A4000 Laptop GPU / RTX A4000m** (`DEV_24B7`)
-- **NVIDIA RTX A5000 Laptop GPU / RTX A5000m** (`DEV_24B6`)
-- **NVIDIA GeForce RTX 3080 Laptop GPU / RTX 3080m** (`DEV_2484`, `DEV_249C`)
-- **NVIDIA GeForce RTX 3050 Laptop GPU / RTX 3050m** (`DEV_25A2`, `DEV_25E2`)
-- **NVIDIA GeForce RTX 2060 Laptop GPU / RTX 2060m** (`DEV_1F11`, `DEV_1F15`, `DEV_1F51`)
-- **NVIDIA GeForce RTX 2070 Laptop GPU / RTX 2070m** (`DEV_1F10`, `DEV_1F14`, `DEV_1F50`)
-- **NVIDIA GeForce RTX 2080 Laptop GPU / RTX 2080m** (`DEV_1E90`, `DEV_1ED0`)
-- **NVIDIA GeForce GTX 1660 Ti Laptop GPU / GTX 1660m** (`DEV_2191`)
-- **NVIDIA GeForce GTX 1650 Laptop GPU / GTX 1650m** (`DEV_1F99`, `DEV_1F9D`)
-
-👉 [**Ознакомиться с полным списком всех 71 конфигураций и их аппаратными ID**](docs/SUPPORTED_DEVICES.md)
+OpenFrankenDriver принципиально отличается от закрытых сборок:
+- В пакете **нет сторонних или модифицированных dll/sys файлов драйвера** — все бинарники (`nvlddmkm.sys`, библиотеки DirectX/Vulkan/CUDA) взяты напрямую из официального пакета NVIDIA WHQL;
+- Драйвер не требует включения небезопасного тестового режима Windows (`bcdedit /set testsigning on`);
+- Античиты **Easy Anti-Cheat (Apex Legends, Fortnite)**, **BattlEye (R6 Siege)**, **VAC (CS2)** и **Vanguard (Valorant)** работают в штатном режиме, так как модуль ядра NVIDIA полностью аутентичен и подписан.
 
 ---
 
-## 📚 Дополнительная документация
+## 🤝 Содействие проекту и обратная связь
 
-- [**docs/HOW_TO_BUILD.md**](docs/HOW_TO_BUILD.md) — Исчерпывающее пошаговое руководство по сборке и модификации.
-- [**docs/SUPPORTED_DEVICES.md**](docs/SUPPORTED_DEVICES.md) — Полная таблица со всеми 71 устройствами и их PCI Hardware ID.
-- [**docs/ARCHITECTURE.md**](docs/ARCHITECTURE.md) — Глубокий технический разбор: NVI2, Win32 Control Panel, PE-структура и хэши каталогов.
-- [**docs/TROUBLESHOOTING.md**](docs/TROUBLESHOOTING.md) — Решение возможных проблем, правильная очистка через DDU и проверка параметров через `nvidia-smi`.
+Если вашей видеокарты ещё нет в списке поддерживаемых, создайте [Issue](https://github.com/lnp/OpenFrankenDriver/issues) с указанием Hardware ID (из Диспетчера устройств) и скриншотом GPU-Z. Мы оперативно добавим поддержку в базу.
 
 ---
 
-## 📜 Лицензия и отказ от ответственности
+## 📄 Лицензия
 
-- Проект распространяется под открытой лицензией [MIT](LICENSE).
-- Торговые марки NVIDIA, GeForce, RTX, GTX являются собственностью корпорации NVIDIA.
-- Данный проект не аффилирован с корпорацией NVIDIA и создан сообществом энтузиастов исключительно для обеспечения совместимости и продления срока службы оборудования.
+Исходные скрипты сборки, база данных устройств и конфигурации распространяются под свободной лицензией **MIT**. Исполняемые файлы и драйверы NVIDIA являются собственностью компании NVIDIA Corporation.

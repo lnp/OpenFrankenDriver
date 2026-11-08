@@ -1,15 +1,15 @@
 <div align="center">
 
-[![English](https://img.shields.io/badge/Language-English-1f883d?style=for-the-badge)](#)
-[![Русский](https://img.shields.io/badge/Язык-Русский-0969da?style=for-the-badge)](README.md)
+[![Русский](https://img.shields.io/badge/Язык-Русский-1f883d?style=for-the-badge)](README.md)
+[![English](https://img.shields.io/badge/Language-English-0969da?style=for-the-badge)](#)
 
 <br>
 
 <a href="https://github.com/lnp/OpenFrankenDriver"><img src="assets/header.png" alt="OpenFrankenDriver" width="840"></a>
 <br>
 
-**Fully open-source, free, and secure NVIDIA driver patcher & installer for desktop mutant GPUs**  
-*(RTX 4070m, RTX 4060m, RTX 3070m, RTX 3060m, RTX 2060m, GTX 1660m, and 65 more models based on AD106/GA104/GA106/TU106 mobile silicon)*
+**Completely open-source, free, and secure NVIDIA driver for Chinese mutant GPUs**  
+*(RTX 4070m, RTX 4060m, RTX 3070m, RTX 3060m, RTX 2060m, GTX 1660m and 65+ other models powered by AD106/GA104/GA106/TU106 mobile silicon)*
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![NVIDIA Driver Version](https://img.shields.io/badge/NVIDIA-621.14%20WHQL-76B900?logo=nvidia)](https://www.nvidia.com)
@@ -19,8 +19,8 @@
 
 ---
 
-### 📥 [Download Pre-built OpenFrankenDriver 621.14 (Google Drive)](https://drive.google.com/file/d/1uIS2bM4CIcCxQ9KAcM-kB_A9dio3UTHF/view?usp=sharing)
-*(Size: ~1.07 GB • Stable 621.14 WHQL • Bundled with standalone classic Control Panel)*
+### 📥 [Download Pre-built OpenFrankenDriver 621.14 (Google Drive)](https://drive.google.com/file/d/19S8CCdlnbFrJYeqBKCQSK9nPMyMB8aFr/view?usp=sharing)
+*(Size: ~1.07 GB • Stable 621.14 WHQL • Tested & verified out-of-the-box on Windows 10 & Windows 11 24H2 • Bundled with standalone classic Control Panel)*
 
 ---
 
@@ -55,7 +55,7 @@ The original closed-source **FrankenDriver** (`arutar/FrankenDriver`) was a popu
 
 ## 💾 Quick Install (For Gamers & End Users)
 
-1. **Download the pre-built installer** via the link above or directly from [Google Drive](https://drive.google.com/file/d/1uIS2bM4CIcCxQ9KAcM-kB_A9dio3UTHF/view?usp=sharing).
+1. **Download the pre-built installer** via the link above or directly from [Google Drive](https://drive.google.com/file/d/19S8CCdlnbFrJYeqBKCQSK9nPMyMB8aFr/view?usp=sharing).
 2. *(Recommended)* If updating from old modded drivers, run **DDU (Display Driver Uninstaller)** in Windows Safe Mode to clean legacy driver files.
 3. Run the downloaded installer `.exe`.
 4. Select **NVIDIA Graphics Driver** and click **Next**.
@@ -69,113 +69,80 @@ You can easily patch any official clean NVIDIA driver installer directly from NV
 
 ### Method 1: Automated Script Build (Recommended)
 
-1. **Prerequisites**:
-   - Python 3.10+ (install `pefile`: `pip install pefile`)
-   - 7-Zip archiver (`C:\Program Files\7-Zip\7z.exe`)
-   - Windows 10/11 SDK (required for `makecat.exe` and `signtool.exe`)
-2. **Download official clean NVIDIA driver**:
-   - Visit [nvidia.com](https://www.nvidia.com/Download/index.aspx) and download the standard DCH WHQL installer (e.g. `621.14-desktop-win10-win11-64bit-international-dch-whql.exe`).
-3. **Run the automated builder in one command**:
+1. Install Python 3.10+ and requirements:
    ```cmd
-   python scripts/build.py --nvidia-exe "C:\path\to\official_nvidia_driver.exe"
+   pip install pefile
    ```
-4. The builder executes all steps automatically:
-   - Unpacks the official driver package;
-   - Injects all 71 mutant GPU identifiers and the Error 43 bypass into `nv_dispi.inf`;
-   - Generates and signs the recursive security catalog `nv_disp.cat` (271 files) with a DigiCert RFC3161 timestamp;
-   - Integrates the classic standalone Win32 Control Panel (`nvcplui.exe`);
-   - Compiles and signs the monolithic self-extracting `.exe` installer without `0xc0000005` errors.
+2. Download official clean NVIDIA driver package (621.xx WHQL or newer) from nvidia.com.
+3. Run the automated builder:
+   ```cmd
+   python scripts/build.py --nvidia-exe "path\to\official_installer.exe"
+   ```
+   The script automatically:
+   - Extracts payload;
+   - Injects 71 mutant GPU configurations into sections `17134` (Win10) and `26200` (Win11 24H2);
+   - Removes vendor hardware locks and fixes Code 43 (`RM1457588`);
+   - Compiles and signs catalog `nv_disp.cat` with official RFC3161 DigiCert timestamp;
+   - Integrates the offline Win32 Control Panel (`nvcplui.exe`);
+   - Packages a monolithic SFX installer.
 
 ---
 
-### Method 2: Manual Step-by-Step Modification
+### Method 2: Manual Modification
 
-If you want to perform the patch manually without automated scripts:
+If you prefer step-by-step customization:
 
 1. **Extraction**:
-   - Extract the official NVIDIA installer using 7-Zip into a separate directory (e.g. `Driver_Unpacked`).
-   - Delete the `NVPCF` folder (laptop battery driver, not needed on desktop).
-   - If `nvngx_dlssd.dl_` in `Display.Driver\ngx-builtins\` is compressed, extract it with:  
-     `expand nvngx_dlssd.dl_ nvngx_dlssd.dll`.
+   Unpack the official NVIDIA installer `.exe` with 7-Zip.
 
-2. **Modify the INF file (`Display.Driver\nv_dispi.inf`)**:
-   - Open `Display.Driver\nv_dispi.inf` in a text editor.
-   - Find the device sections:
-     - `[NVIDIA_Devices.NTamd64.10.0...17134]` — add device strings for Windows 10/11 (see `data/devices.json`).
-     - `[NVIDIA_Devices.NTamd64.10.0...26200]` — add device strings for Windows 11 24H2 (see `data/devices.json`).
-   - In registry sections `[nv_miscBase_addreg__01]`, `[nv_miscBase_addreg__05]`, `[nv_miscBase_addreg__09]`, `[nv_miscBase_addreg__10]`, `[nv_miscBase_addreg__16]`, add the Error 43 bypass directive:
+2. **Patching INF**:
+   - Open `Display.Driver\nv_dispi.inf`;
+   - Locate `[NVIDIA_Devices.NTamd64.10.0...17134]` and `[NVIDIA_Devices.NTamd64.10.0...26200]`;
+   - Append IDs from [`data/devices.json`](data/devices.json);
+   - Ensure the Code 43 fix flag is present:
      ```ini
      HKR,,RM1457588,%REG_DWORD%,1
      ```
-   - At the bottom of `[Strings]`, add the model display names (from `data/devices.json`).
 
-3. **Rebuild & Sign Security Catalog (`nv_disp.cat`)**:
-   - Create a CDF manifest covering all 271 files in `Display.Driver`:
-     `makecat -v nv_disp.cdf`
-   - Sign `nv_disp.cat` using `signtool.exe`:
-     `signtool sign /f your_cert.pfx /p 1234 /fd SHA256 /tr http://timestamp.digicert.com /td SHA256 nv_disp.cat`
-   - Copy the signed `nv_disp.cat` into `EACSupport\nv_disp.cat`.
+3. **Catalog Creation & Signing (`nv_disp.cat`)**:
+   - Generate CDF file for `Display.Driver`;
+   - Compile catalog using Windows SDK `makecat`:
+     ```cmd
+     makecat -v nv_disp.cdf
+     ```
+   - Sign catalog via `signtool.exe` with RFC3161 DigiCert timestamp:
+     ```cmd
+     signtool sign /f certs/OpenFrankenDriver.pfx /p 1234 /fd SHA256 /tr http://timestamp.digicert.com /td SHA256 nv_disp.cat
+     ```
+   - Copy signed `nv_disp.cat` into `EACSupport\` folder.
 
-4. **Certificate Integration**:
-   - Place public certificate `FrankenDriver.cer` and `src/FrankenDriver.nvi` into `FrankenDriver\`.
-   - In `setup.cfg`, attach `FrankenDriverCert` as a pre-requisite dependency before `Display.Driver`.
+4. **Control Panel Integration**:
+   - Create subfolder `Display.NVCPL`;
+   - Extract `nvcplui.exe`, `nvcpluir.dll`, `NvGpuUtilization.exe`, `nvImage.dll` from `Display.Driver\NVCPL\*.appx`;
+   - Provide `NVCPL.nvi` configuration and native `install_helper.exe`.
 
-5. **Run Setup**:
-   - Launch `setup.exe` from `Driver_Unpacked` — installation proceeds smoothly.
-
-See [**docs/HOW_TO_BUILD.md**](docs/HOW_TO_BUILD.md) for full architectural details.
-
----
-
-## 🛡️ Safety FAQ: Will it harm my GPU? Can I get banned?
-
-1. **Hardware Safety**:
-   - The driver does not touch voltages, power curves, or VBIOS firmware.
-   - It only instructs Windows: *"Allow this GPU to initialize on the desktop PCIe bus and bypass Error 43"*.
-   - All factory thermal protections, fan profiles, and TDP power limiters remain handled by the graphics card hardware.
-2. **Anti-Cheats & Online Multiplayer (EAC, BattlEye, CS2 VAC, FaceIT)**:
-   - Kernel binaries (`nvlddmkm.sys`, DirectX, Vulkan, CUDA) **are strictly untouched**.
-   - Original Microsoft WHQL digital signatures are fully preserved.
-   - Windows Test Mode (`testsigning`) remains **OFF**. Kernel-level anti-cheats verify genuine signed binaries and do not trigger flags or bans.
+5. **Packaging**:
+   - Compress with 7-Zip into `payload.7z` (LZMA2 ultra);
+   - Prepend `PackageLauncher.exe` SFX stub;
+   - Sign final `.exe` with project certificate.
 
 ---
 
-## 🧩 Supported GPUs (71 Models / Configurations)
+## 🔒 Security & WHQL Integrity
 
-Supports all Chinese desktop mutant graphics cards utilizing mobile GeForce RTX 40, RTX 30, RTX 20, GTX 16, and professional mobile RTX / Quadro silicon.
-
-**Common models include:**
-- **NVIDIA GeForce RTX 4070 Laptop GPU / RTX 4070m** (`DEV_2820`, `DEV_2860`)
-- **NVIDIA GeForce RTX 4060 Laptop GPU / RTX 4060m** (`DEV_28A0`)
-- **NVIDIA GeForce RTX 4050 Laptop GPU / RTX 4050m** (`DEV_28A1`)
-- **NVIDIA GeForce RTX 3070 Laptop GPU / RTX 3070m** (`DEV_249D`, `DEV_249C`)
-- **NVIDIA GeForce RTX 3060 Laptop GPU / RTX 3060m (6GB & 12GB)** (`DEV_2520`, `DEV_2521`, `DEV_2560`)
-- **NVIDIA RTX A3000 Laptop GPU / RTX A3000m** (`DEV_24B8`)
-- **NVIDIA RTX A4000 Laptop GPU / RTX A4000m** (`DEV_24B7`)
-- **NVIDIA RTX A5000 Laptop GPU / RTX A5000m** (`DEV_24B6`)
-- **NVIDIA GeForce RTX 3080 Laptop GPU / RTX 3080m** (`DEV_2484`, `DEV_249C`)
-- **NVIDIA GeForce RTX 3050 Laptop GPU / RTX 3050m** (`DEV_25A2`, `DEV_25E2`)
-- **NVIDIA GeForce RTX 2060 Laptop GPU / RTX 2060m** (`DEV_1F11`, `DEV_1F15`, `DEV_1F51`)
-- **NVIDIA GeForce RTX 2070 Laptop GPU / RTX 2070m** (`DEV_1F10`, `DEV_1F14`, `DEV_1F50`)
-- **NVIDIA GeForce RTX 2080 Laptop GPU / RTX 2080m** (`DEV_1E90`, `DEV_1ED0`)
-- **NVIDIA GeForce GTX 1660 Ti Laptop GPU / GTX 1660m** (`DEV_2191`)
-- **NVIDIA GeForce GTX 1650 Laptop GPU / GTX 1650m** (`DEV_1F99`, `DEV_1F9D`)
-
-👉 [**View full hardware compatibility table (all 71 models and IDs)**](docs/SUPPORTED_DEVICES.md)
+OpenFrankenDriver is strictly non-invasive:
+- **No patched kernel drivers**: All core binaries (`nvlddmkm.sys`, DirectX, Vulkan, CUDA) remain byte-for-byte identical to official NVIDIA WHQL release;
+- Does **not** require dangerous `testsigning on` modes;
+- Anti-cheats **Easy Anti-Cheat (Apex Legends, Fortnite)**, **BattlEye (R6 Siege)**, **VAC (CS2)**, and **Vanguard (Valorant)** work without restrictions because kernel drivers are genuine and uncompromised.
 
 ---
 
-## 📚 Additional Documentation
+## 🤝 Contributing & Hardware Submissions
 
-- [**docs/HOW_TO_BUILD.md**](docs/HOW_TO_BUILD.md) — Comprehensive build and modification guide.
-- [**docs/SUPPORTED_DEVICES.md**](docs/SUPPORTED_DEVICES.md) — Complete database of all 71 devices and PCI Hardware IDs.
-- [**docs/ARCHITECTURE.md**](docs/ARCHITECTURE.md) — Technical deep-dive: NVI2, Win32 Control Panel, PE-structure, and catalog hashes.
-- [**docs/TROUBLESHOOTING.md**](docs/TROUBLESHOOTING.md) — DDU clean install instructions, verification via `nvidia-smi`.
+If your mutant card is not listed yet, please open an [Issue](https://github.com/lnp/OpenFrankenDriver/issues) with your Hardware ID (from Device Manager) and GPU-Z screenshot. We will gladly add support.
 
 ---
 
-## 📜 License & Legal Disclaimer
+## 📄 License
 
-- Distributed under the open-source [MIT License](LICENSE).
-- NVIDIA, GeForce, RTX, and GTX are trademarks of NVIDIA Corporation.
-- This project is an independent community project and is not affiliated with or endorsed by NVIDIA Corporation.
+Build scripts, device mappings, and tools are licensed under the **MIT License**. NVIDIA binaries and drivers are proprietary property of NVIDIA Corporation.
