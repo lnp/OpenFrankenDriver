@@ -7,13 +7,19 @@ and monolithic self-extracting installer creation.
 """
 
 import os
+import argparse
+import re
+import shutil
+import struct
+import subprocess
 import sys
 import time
-import shutil
 import zipfile
-import subprocess
-import argparse
-import pefile
+
+try:
+    import pefile
+except ImportError:
+    pefile = None
 
 def find_tool(name, default_candidates):
     for candidate in default_candidates:
@@ -189,6 +195,10 @@ def main():
     helper_exe = os.path.join(repo_dir, "src", "install_helper.exe")
     shutil.copy2(helper_exe, os.path.join(nvcpl_pkg_dir, "install_helper.exe"))
 
+    nvcpl_nvi = os.path.join(repo_dir, "src", "NVCPL.nvi")
+    if os.path.exists(nvcpl_nvi):
+        shutil.copy2(nvcpl_nvi, os.path.join(nvcpl_pkg_dir, "NVCPL.nvi"))
+
     cfg_path = os.path.join(unpack_dir, "setup.cfg")
     with open(cfg_path, "r", encoding="utf-8") as f:
         cfg = f.read()
@@ -196,7 +206,7 @@ def main():
     cfg = cfg.replace('<sub-package name="NVPCF" />', '')
 
     if 'name="FrankenDriverCert"' not in cfg:
-        franken_subpkgs = '\t\t<sub-package name="FrankenDriverCert" disposition="default" hidden="true" />\n\t\t<sub-package name="EACSupportCatalog" disposition="optional" hidden="false" />\n\t\t<sub-package name="Display.Driver"'
+        franken_subpkgs = '\t\t<sub-package name="FrankenDriverCert" disposition="default" hidden="true" />\n\t\t<sub-package name="EACSupportCatalog" disposition="optional" hidden="false" />\n\t\t<sub-package name="Display.NVCPL" disposition="default" hidden="false" />\n\t\t<sub-package name="Display.Driver"'
         cfg = cfg.replace('\t\t<sub-package name="Display.Driver"', franken_subpkgs)
 
     target_disp = '<sub-package name="Display.Driver" disposition="critical">'
@@ -211,12 +221,20 @@ def main():
     with open(orig_exe, "rb") as f:
         orig_stub = f.read(1120292)
 
-    pe_part = orig_stub[:1118720]
-    pe = pefile.PE(data=pe_part)
-    sec_idx = pefile.DIRECTORY_ENTRY['IMAGE_DIRECTORY_ENTRY_SECURITY']
-    pe.OPTIONAL_HEADER.DATA_DIRECTORY[sec_idx].VirtualAddress = 0
-    pe.OPTIONAL_HEADER.DATA_DIRECTORY[sec_idx].Size = 0
-    clean_pe = pe.write()
+    pe_part = bytearray(orig_stub[:1118720])
+    if pefile:
+        pe = pefile.PE(data=bytes(pe_part))
+        sec_idx = pefile.DIRECTORY_ENTRY['IMAGE_DIRECTORY_ENTRY_SECURITY']
+        pe.OPTIONAL_HEADER.DATA_DIRECTORY[sec_idx].VirtualAddress = 0
+        pe.OPTIONAL_HEADER.DATA_DIRECTORY[sec_idx].Size = 0
+        clean_pe = pe.write()
+    else:
+        e_lfanew = struct.unpack_from('<I', pe_part, 0x3C)[0]
+        magic = struct.unpack_from('<H', pe_part, e_lfanew + 24)[0]
+        is_pe32 = (magic == 0x10b)
+        sec_dir_offset = e_lfanew + 24 + (96 if is_pe32 else 112) + 4 * 8
+        struct.pack_into('<II', pe_part, sec_dir_offset, 0, 0)
+        clean_pe = bytes(pe_part)
 
     config_part = orig_stub[1118720:1120292]
     clean_stub = clean_pe + config_part
@@ -233,7 +251,9 @@ def main():
     ]
     subprocess.run(cmd_7z, check=True)
 
-    out_exe = args.output or os.path.join(os.path.dirname(repo_dir), "OpenFrankenDriver_621.14_WHQL.exe")
+    ver_match = re.search(r"(\d{3}\.\d{2})", os.path.basename(orig_exe))
+    ver_str = ver_match.group(1) if ver_match else "621.xx"
+    out_exe = args.output or os.path.join(os.path.dirname(repo_dir), f"OpenFrankenDriver_{ver_str}_WHQL.exe")
     temp_exe = os.path.join(work_dir, "unsigned.exe")
     with open(temp_exe, "wb") as f_out:
         f_out.write(clean_stub)

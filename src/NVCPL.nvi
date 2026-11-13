@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<nvi name="Display.NVCPL" title="${{title}}" version="${{version}}" versionText="${{version}}" timestamp="2026-11-06T00:00:00" disposition="default" hidden="false" installerMin="2.1002.158.1139" preserveCache="false">
+	<strings>
+		<string name="version" value="8.1.969.0"/>
+		<string name="AppPathsKey" value="HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\nvcplui.exe"/>
+		<string name="ContextMenuKey" value="HKEY_LOCAL_MACHINE\SOFTWARE\Classes\DesktopBackground\Shell\NvControlPanel"/>
+		<localized locale="0x0409">
+			<string name="title" value="NVIDIA Control Panel (Classic)"/>
+			<string name="arpDisplayName" value="NVIDIA Control Panel (Classic)"/>
+			<string name="MenuTitle" value="NVIDIA Control Panel"/>
+			<string name="description" value="Installs the classic standalone Win32 NVIDIA Control Panel (nvcplui.exe) into Program Files."/>
+		</localized>
+		<localized locale="0x0419">
+			<string name="title" value="Панель управления NVIDIA (Классическая)"/>
+			<string name="arpDisplayName" value="Панель управления NVIDIA (Классическая)"/>
+			<string name="MenuTitle" value="Панель управления NVIDIA"/>
+			<string name="description" value="Устанавливает классическую автономную Win32 панель управления NVIDIA (nvcplui.exe) в Program Files."/>
+		</localized>
+	</strings>
+	<dependencies>
+		<package type="after" package="Display.Driver"/>
+	</dependencies>
+	<properties>
+		<bool name="FixedInstallLocation" value="true"/>
+		<string name="InstallLocation" value="${{NvidiaProgramFiles}}\Control Panel Client"/>
+		<string name="ArpDisplayName" value="${{arpDisplayName}}"/>
+		<string name="ArpIcon" value="${{InstallLocation}}\nvcplui.exe,0"/>
+	</properties>
+	<manifest>
+		<file name="NVCPL.nvi"/>
+		<file name="install_helper.exe"/>
+		<file name="nvcplui.exe"/>
+		<file name="nvcpluir.dll"/>
+		<file name="NvGpuUtilization.exe"/>
+		<file name="nvImage.dll"/>
+		<file name="EULA.txt"/>
+	</manifest>
+	<phases>
+		<standard phase="createInstallDir">
+			<createDirectory target="${{InstallLocation}}"/>
+		</standard>
+		<exe phase="deployControlPanelFiles" name="install_helper.exe" when="installClose" progress="120" autoTick="200">
+			<success value="0"/>
+		</exe>
+		<standard phase="RegisterAppPaths">
+			<addRegistry keyName="${{AppPathsKey}}" type="REG_SZ" valueName="" value="${{InstallLocation}}\nvcplui.exe"/>
+			<addRegistry keyName="${{AppPathsKey}}" valueName="Path" type="REG_SZ" value="${{InstallLocation}}"/>
+		</standard>
+		<standard phase="RegisterContextMenu">
+			<addRegistry keyName="${{ContextMenuKey}}" type="REG_SZ" valueName="" value="${{MenuTitle}}"/>
+			<addRegistry keyName="${{ContextMenuKey}}" valueName="Icon" type="REG_SZ" value="${{InstallLocation}}\nvcplui.exe,0"/>
+			<addRegistry keyName="${{ContextMenuKey}}\command" type="REG_SZ" valueName="" value="&quot;${{InstallLocation}}\nvcplui.exe&quot;"/>
+			<addRegistry keyName="HKLM\SYSTEM\CurrentControlSet\Services\nvlddmkm\Parameters\Global\NVTweak" type="REG_DWORD" valueName="EnableNvcplUIOnDCH" value="1"/>
+			<addRegistry keyName="HKLM\SOFTWARE\NVIDIA Corporation\Global\NVTweak" type="REG_DWORD" valueName="EnableNvcplUIOnDCH" value="1"/>
+		</standard>
+		<exe phase="removeControlPanelFiles" name="install_helper.exe" when="uninstall" progress="120" autoTick="200">
+			<arg value="/uninstall"/>
+			<success value="0"/>
+		</exe>
+		<standard phase="CleanupOnUninstall" when="uninstall">
+			<deleteFile target="${{InstallLocation}}\*.*"/>
+			<deleteDirectory target="${{InstallLocation}}"/>
+			<deleteRegistryKey keyName="${{AppPathsKey}}"/>
+			<deleteRegistryKey keyName="${{ContextMenuKey}}"/>
+		</standard>
+	</phases>
+</nvi>
