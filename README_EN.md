@@ -12,15 +12,15 @@
 *(RTX 4070m, RTX 4060m, RTX 3070m, RTX 3060m, RTX 2060m, GTX 1660m and 65+ other models powered by AD106/GA104/GA106/TU106 mobile silicon)*
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![NVIDIA Driver Version](https://img.shields.io/badge/NVIDIA-621.14%20WHQL-76B900?logo=nvidia)](https://www.nvidia.com)
+[![NVIDIA Driver Version](https://img.shields.io/badge/NVIDIA-621.24%20WHQL-76B900?logo=nvidia)](https://www.nvidia.com)
 [![Anti-Cheat Ready](https://img.shields.io/badge/Anti--Cheat-EAC%20%7C%20BattlEye%20%7C%20VAC%20Passed-success)](docs/ARCHITECTURE.md)
 [![Platform](https://img.shields.io/badge/Windows-10%20%7C%2011%20(26H2%2B)-0078D6?logo=windows)](docs/SUPPORTED_DEVICES.md)
 [![Boosty](https://img.shields.io/badge/Boosty-Support%20Project-F15F2C?logo=boosty)](https://boosty.to/defrag)
 
 ---
 
-### 📥 [Download Pre-built OpenFrankenDriver 621.14 (Google Drive)](https://drive.google.com/file/d/19S8CCdlnbFrJYeqBKCQSK9nPMyMB8aFr/view?usp=sharing)
-*(Size: ~1.07 GB • Stable 621.14 WHQL • Tested & verified out-of-the-box on Windows 10 & Windows 11 26H2 • Bundled with standalone classic Control Panel)*
+### 📥 [Download Pre-built OpenFrankenDriver 621.24 (Google Drive)](https://drive.google.com/file/d/1NJH2h7rCA6Jwv--GlCsumb4cmJamNFWN/view?usp=sharing)
+*(Size: ~1.03 GB • Stable 621.24 WHQL • Tested & verified out-of-the-box on Windows 10 & Windows 11 26H2 • Bundled with standalone classic Control Panel)*
 
 ---
 
@@ -46,7 +46,7 @@ The original closed-source **FrankenDriver** (`arutar/FrankenDriver`) was a popu
 | Feature / Issue | Original FrankenDriver | <img src="assets/badge.png" alt="OpenFrankenDriver" width="180"> |
 |---|---|---|
 | **Open Source & Transparency** | ❌ Closed-source binary. Repository has no code or build scripts. | ✅ **100% Open-Source**. Complete Python build pipeline is public and auditable. |
-| **Availability** | ❌ Modern driver branches are paywalled. | ✅ **Always free**. Includes the latest stable **621.14 WHQL** branch. |
+| **Availability** | ❌ Modern driver branches are paywalled. | ✅ **Always free**. Includes the latest stable **621.24 WHQL** branch. |
 | **Zero-Touch Installation** | ❌ Annoying red Windows Security popup ("Publisher cannot be verified"). Required manual cert import. | ✅ **Silent automated trust**. Certificates are seamlessly imported into `Root` and `TrustedPublisher`. Zero popups. |
 | **Standalone Control Panel** | ❌ Missing on clean Windows or stripped editions (required MS Store and internet). | ✅ **Standalone Win32 Control Panel** (`nvcplui.exe`) bundled natively. Works out of the box on Windows LTSC / Compact without Store or internet. |
 | **Safety & Anti-Cheat** | ❓ Closed binaries raised security concerns. | ✅ **Genuine Untouched NVIDIA Kernel Binaries**. 100% WHQL integrity, `signtool` verified, `testsigning No`, full EAC / BattlEye / VAC support. |
@@ -55,7 +55,7 @@ The original closed-source **FrankenDriver** (`arutar/FrankenDriver`) was a popu
 
 ## 💾 Quick Install (For Gamers & End Users)
 
-1. **Download the pre-built installer** via the link above or directly from [Google Drive](https://drive.google.com/file/d/19S8CCdlnbFrJYeqBKCQSK9nPMyMB8aFr/view?usp=sharing).
+1. **Download the pre-built installer** via the link above or directly from [Google Drive](https://drive.google.com/file/d/1NJH2h7rCA6Jwv--GlCsumb4cmJamNFWN/view?usp=sharing).
 2. *(Recommended)* If updating from old modded drivers, run **DDU (Display Driver Uninstaller)** in Windows Safe Mode to clean legacy driver files.
 3. Run the downloaded installer `.exe`.
 4. Select **NVIDIA Graphics Driver** and click **Next**.

@@ -12,15 +12,15 @@
 *(RTX 4070m, RTX 4060m, RTX 3070m, RTX 3060m, RTX 2060m, GTX 1660m и ещё 65 моделей на базе мобильных чипов AD106/GA104/GA106/TU106)*
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![NVIDIA Driver Version](https://img.shields.io/badge/NVIDIA-621.14%20WHQL-76B900?logo=nvidia)](https://www.nvidia.com)
+[![NVIDIA Driver Version](https://img.shields.io/badge/NVIDIA-621.24%20WHQL-76B900?logo=nvidia)](https://www.nvidia.com)
 [![Anti-Cheat Ready](https://img.shields.io/badge/Anti--Cheat-EAC%20%7C%20BattlEye%20%7C%20VAC%20Passed-success)](docs/ARCHITECTURE.md)
 [![Platform](https://img.shields.io/badge/Windows-10%20%7C%2011%20(26H2%2B)-0078D6?logo=windows)](docs/SUPPORTED_DEVICES.md)
 [![Boosty](https://img.shields.io/badge/Boosty-Поддержать%20проект-F15F2C?logo=boosty)](https://boosty.to/defrag)
 
 ---
 
-### 📥 [Скачать готовый драйвер OpenFrankenDriver 621.14 (Google Drive)](https://drive.google.com/file/d/19S8CCdlnbFrJYeqBKCQSK9nPMyMB8aFr/view?usp=sharing)
-*(Размер: ~1.07 ГБ • Стабильная ветка 621.14 WHQL • Протестировано и работает из коробки на Windows 10 и Windows 11 26H2 • Встроена автономная классическая Панель управления)*
+### 📥 [Скачать готовый драйвер OpenFrankenDriver 621.24 (Google Drive)](https://drive.google.com/file/d/1NJH2h7rCA6Jwv--GlCsumb4cmJamNFWN/view?usp=sharing)
+*(Размер: ~1.03 ГБ • Стабильная ветка 621.24 WHQL • Протестировано и работает из коробки на Windows 10 и Windows 11 26H2 • Встроена автономная классическая Панель управления)*
 
 ---
 
@@ -46,7 +46,7 @@
 | Возможность / Параметр | Оригинальный FrankenDriver | <img src="assets/badge.png" alt="OpenFrankenDriver" width="180"> |
 |---|---|---|
 | **Открытость и прозрачность** | ❌ Закрытый бинарник. Репозиторий пуст, исходного кода нет. | ✅ **100% Open-Source**. Весь пайплайн сборки и исходники открыты. |
-| **Доступность версий** | ❌ Свежие версии закрыты за платным пейволлом. | ✅ **Всегда бесплатно**. Актуальная стабильная ветка **621.14 WHQL**. |
+| **Доступность версий** | ❌ Свежие версии закрыты за платным пейволлом. | ✅ **Всегда бесплатно**. Актуальная стабильная ветка **621.24 WHQL**. |
 | **Установка в 1 клик (Zero-Touch)** | ❌ Красное окно Windows Security («Издатель не проверен»). Требовалась ручная установка сертификата. | ✅ **Тихая автоматическая регистрация**. Сертификат сам импортируется в `Root` и `TrustedPublisher`. Никаких красных окон. |
 | **Классическая Панель управления** | ❌ На чистой Windows или лёгких сборках панель отсутствует (требовался Microsoft Store и интернет). | ✅ **Встроена автономная Win32-панель** (`nvcplui.exe`). Работает из коробки на Windows LTSC и Compact без Store и без сети. |
 | **Безопасность и античиты** | ❓ Закрытые бинарники вызывали вопросы у пользователей. | ✅ **Оригинальные нетронутые ядра NVIDIA**. 100% WHQL-целостность, чистый тест `signtool`, `testsigning No`, полная работа EAC / BattlEye / CS2. |
@@ -55,7 +55,7 @@
 
 ## 💾 Быстрая установка (Для пользователей)
 
-1. **Скачайте готовый установщик** по ссылке в шапке или с [Google Drive](https://drive.google.com/file/d/19S8CCdlnbFrJYeqBKCQSK9nPMyMB8aFr/view?usp=sharing).
+1. **Скачайте готовый установщик** по ссылке в шапке или с [Google Drive](https://drive.google.com/file/d/1NJH2h7rCA6Jwv--GlCsumb4cmJamNFWN/view?usp=sharing).
 2. *(Рекомендуется)* Если вы обновляетесь со старых версий или меняли видеокарту, удалите предыдущий драйвер через **DDU (Display Driver Uninstaller)** в безопасном режиме.
 3. Запустите скачанный `.exe` файл.
 4. Выберите **«Графический драйвер NVIDIA»** и нажмите **«Далее»**.
