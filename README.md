@@ -19,16 +19,40 @@
 
 ---
 
-| <img src="assets/icon.png" width="18" height="18" align="absmiddle">&nbsp;OpenFrankenDriver&nbsp;621.24.1 | 📋 Что нового в версии 621.24.1 |
-| :--- | :--- |
-| <br>[**Скачать с Яндекс Диска (~1.03 ГБ)**](https://disk.yandex.ru/d/f-hHqWvWwNOZQw)<br><br><nobr>• **Версия:** 621.24.1 WHQL (защита SSD)</nobr><br><nobr>• **ОС:** Windows 10 & 11 (26H2+)</nobr><br><nobr>• **Zero-Touch:** автоустановка сертификата</nobr><br><nobr>• Встроена автономная Панель управления Win32</nobr><br><br> | ❗ **Устранён официальный баг NVIDIA с износом SSD**:<br>В официальных драйверах 621.14 / 621.24 фоновая служба контейнера (`NVDisplay.Container.exe`) непрерывно перезаписывает лог `nvlog.nvlgstg` со скоростью ~10 МБ/с (~7 ГБ/час даже в простое ПК).<br><br>Это подтверждённый официальный баг драйверов NVIDIA (см. [обсуждения на Reddit](https://www.reddit.com/r/nvidia/search/?q=nvlog.nvlgstg) и [разборы на YouTube](https://www.youtube.com/results?search_query=nvidia+container+ssd+write+bug)). В инсталлятор OpenFrankenDriver встроен нативный фикс, полностью устраняющий эту проблему из коробки. |
-
----
-
-### Поддержка проекта
-Проект развивается на чистом энтузиазме. Драйверы и скрипты сборки всегда будут полностью открытыми и бесплатными. 
-
-Если сборка сэкономила вам время, оживила вашу видеокарту и избавила от танцев с бубном — вы можете добровольно поддержать разработку на [Boosty](https://boosty.to/defrag).
+<table>
+  <thead>
+    <tr>
+      <th width="38%"><img src="assets/icon.png" width="18" height="18" align="absmiddle">&nbsp;OpenFrankenDriver&nbsp;621.24.1</th>
+      <th width="62%">📋 Что нового в версии 621.24.1</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td valign="top">
+        <br><a href="https://disk.yandex.ru/d/f-hHqWvWwNOZQw"><b>Скачать с Яндекс Диска (~1.03 ГБ)</b></a><br><br>
+        • <b>Версия:</b> 621.24.1 WHQL (защита SSD)<br>
+        • <b>ОС:</b> Windows 10 &amp; 11 (26H2+)<br>
+        • <b>Zero-Touch:</b> автоустановка сертификата<br>
+        • Встроена автономная Панель управления Win32<br><br>
+      </td>
+      <td valign="top">
+        ❗ <b>Устранён официальный баг NVIDIA с износом SSD</b>:<br>
+        В официальных драйверах 621.14 / 621.24 фоновая служба контейнера (<code>NVDisplay.Container.exe</code>) непрерывно перезаписывает лог <code>nvlog.nvlgstg</code> со скоростью ~10 МБ/с (~7 ГБ/час даже в простое ПК).<br><br>
+        Это подтверждённый официальный баг драйверов NVIDIA (см. <a href="https://www.reddit.com/r/nvidia/search/?q=nvlog.nvlgstg">обсуждения на Reddit</a> и <a href="https://www.youtube.com/results?search_query=nvidia+container+ssd+write+bug">разборы на YouTube</a>). В инсталлятор OpenFrankenDriver встроен нативный фикс, полностью устраняющий эту проблему из коробки.
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2" align="center">
+        <br>
+        <a href="https://boosty.to/defrag"><img src="assets/support_boosty.png" alt="Поддержать проект на Boosty" width="460"></a>
+        <br><br>
+        <sub>Проект развивается на чистом энтузиазме. Драйверы и скрипты сборки всегда будут полностью открытыми и бесплатными.<br>
+        Если сборка сэкономила вам время, оживила вашу видеокарту и избавила от танцев с бубном — вы можете <a href="https://boosty.to/defrag"><b>добровольно поддержать разработку на Boosty</b></a>.</sub>
+        <br><br>
+      </td>
+    </tr>
+  </tbody>
+</table>
 
 ---
 

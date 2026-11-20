@@ -19,16 +19,40 @@
 
 ---
 
-| <img src="assets/icon.png" width="18" height="18" align="absmiddle">&nbsp;OpenFrankenDriver&nbsp;621.24.1 | 📋 What's New in 621.24.1 |
-| :--- | :--- |
-| <br>[**Download from Yandex Disk (~1.03 GB)**](https://disk.yandex.ru/d/f-hHqWvWwNOZQw)<br><br><nobr>• **Version:** 621.24.1 WHQL (SSD Protection)</nobr><br><nobr>• **OS:** Windows 10 & 11 (26H2+)</nobr><br><nobr>• **Zero-Touch:** automatic certificate install</nobr><br><nobr>• Standalone Classic Control Panel (Win32)</nobr><br><br> | ❗ **Eliminated Official NVIDIA SSD Thrashing Bug**:<br>In official drivers 621.14 / 621.24, NVIDIA's background container service (`NVDisplay.Container.exe`) endlessly rewrites the telemetry log `nvlog.nvlgstg` at ~10 MB/s (~7 GB/hour even when idle).<br><br>This is a recognized official NVIDIA driver bug (see [Reddit discussions](https://www.reddit.com/r/nvidia/search/?q=nvlog.nvlgstg) and [YouTube coverage](https://www.youtube.com/results?search_query=nvidia+container+ssd+write+bug)). OpenFrankenDriver natively embeds a triple-redundant fix eliminating this wear loop out of the box. |
-
----
-
-### Project Support
-The project is developed out of pure enthusiasm. All drivers and build automation scripts will forever remain completely open-source and free.
-
-If this build saved you time, revived your graphics card, and eliminated tedious troubleshooting — you are welcome to voluntarily support development on [Boosty](https://boosty.to/defrag).
+<table>
+  <thead>
+    <tr>
+      <th width="38%"><img src="assets/icon.png" width="18" height="18" align="absmiddle">&nbsp;OpenFrankenDriver&nbsp;621.24.1</th>
+      <th width="62%">📋 What's New in 621.24.1</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td valign="top">
+        <br><a href="https://disk.yandex.ru/d/f-hHqWvWwNOZQw"><b>Download from Yandex Disk (~1.03 GB)</b></a><br><br>
+        • <b>Version:</b> 621.24.1 WHQL (SSD Protection)<br>
+        • <b>OS:</b> Windows 10 &amp; 11 (26H2+)<br>
+        • <b>Zero-Touch:</b> automatic certificate install<br>
+        • Standalone Classic Control Panel (Win32)<br><br>
+      </td>
+      <td valign="top">
+        ❗ <b>Eliminated Official NVIDIA SSD Thrashing Bug</b>:<br>
+        In official drivers 621.14 / 621.24, NVIDIA's background container service (<code>NVDisplay.Container.exe</code>) endlessly rewrites the telemetry log <code>nvlog.nvlgstg</code> at ~10 MB/s (~7 GB/hour even when idle).<br><br>
+        This is a recognized official NVIDIA driver bug (see <a href="https://www.reddit.com/r/nvidia/search/?q=nvlog.nvlgstg">Reddit discussions</a> and <a href="https://www.youtube.com/results?search_query=nvidia+container+ssd+write+bug">YouTube coverage</a>). OpenFrankenDriver natively embeds a triple-redundant fix eliminating this wear loop out of the box.
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2" align="center">
+        <br>
+        <a href="https://boosty.to/defrag"><img src="assets/support_boosty_en.png" alt="Support the Project on Boosty" width="460"></a>
+        <br><br>
+        <sub>The project is developed out of pure enthusiasm. All drivers and build automation scripts will forever remain completely open-source and free.<br>
+        If this build saved you time, revived your graphics card, and eliminated tedious troubleshooting — you are welcome to <a href="https://boosty.to/defrag"><b>voluntarily support development on Boosty</b></a>.</sub>
+        <br><br>
+      </td>
+    </tr>
+  </tbody>
+</table>
 
 ---
 
