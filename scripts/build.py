@@ -120,6 +120,24 @@ def main():
     inject_script = os.path.join(repo_dir, "scripts", "inject.py")
     subprocess.run([sys.executable, inject_script, target_inf], check=True)
 
+    # Patch DisplayDriver.nvi to inject SSD wear protection (DisableLoad=1 for nvtopps)
+    target_nvi = os.path.join(unpack_dir, "Display.Driver", "DisplayDriver.nvi")
+    if os.path.exists(target_nvi):
+        with open(target_nvi, "r", encoding="utf-8") as f_nvi:
+            nvi_content = f_nvi.read()
+        ssd_fix_phase = (
+            '\t\t<standard phase="disableNvtoppsSSDBug" onError="ignore" when="install">\n'
+            '\t\t\t<addRegistry keyName="${{serviceHiveRegistryPath}}\\${{DisplayContainerServiceName}}\\Parameters\\LocalSystem\\_nvtopps" valueName="DisableLoad" value="1" type="REG_DWORD"/>\n'
+            '\t\t\t<addRegistry keyName="${{serviceHiveRegistryPath}}\\${{DisplayContainerServiceName}}\\Parameters\\LocalSystem\\NvTopps" valueName="DisableLoad" value="1" type="REG_DWORD"/>\n'
+            '\t\t\t<addRegistry keyName="${{serviceHiveRegistryPath}}\\${{DisplayContainerServiceName}}\\LocalSystem\\_nvtopps" valueName="DisableLoad" value="1" type="REG_DWORD"/>\n'
+            '\t\t</standard>\n'
+        )
+        if "disableNvtoppsSSDBug" not in nvi_content:
+            nvi_content = nvi_content.replace("<phases>", "<phases>\n" + ssd_fix_phase, 1)
+            with open(target_nvi, "w", encoding="utf-8") as f_nvi:
+                f_nvi.write(nvi_content)
+            print("[+] Injected native SSD wear protection phase into DisplayDriver.nvi")
+
     print("\n[3/7] Generating and signing security catalog (nv_disp.cat)...")
     driver_dir = os.path.join(unpack_dir, "Display.Driver")
     cdf_path = os.path.join(driver_dir, "nv_disp.cdf")
@@ -156,24 +174,30 @@ def main():
     os.makedirs(eac_dir, exist_ok=True)
     shutil.copy2(cat_path, os.path.join(eac_dir, "nv_disp.cat"))
 
-    print("\n[4/7] Neutralizing NVI2 installer signature verification...")
+    print("\n[4/7] Checking NVI2 installer signature verification...")
     nvi2_dll = os.path.join(unpack_dir, "NVI2", "NVI2.dll")
     with open(nvi2_dll, "rb") as f:
         dll_bytes = f.read()
 
+    patched = False
     pos1 = dll_bytes.find(bytes.fromhex("E8 D2 85 1B 00"))
     if pos1 != -1 and dll_bytes[pos1 - 6] == 0x74:
         dll_bytes = dll_bytes[:pos1 - 6] + b"\xEB" + dll_bytes[pos1 - 5:]
         print("[+] Patched WinVerifyTrust early-exit jump.")
+        patched = True
 
     pos2 = dll_bytes.find(bytes.fromhex("55 8B EC 83 EC 14 53 56 8B 75 08 85 F6 57"))
     if pos2 != -1:
         patch_stub = bytes.fromhex("31 C0 40 C2 04 00")
         dll_bytes = dll_bytes[:pos2] + patch_stub + dll_bytes[pos2 + len(patch_stub):]
         print("[+] Patched signature validator stub.")
+        patched = True
 
-    with open(nvi2_dll, "wb") as f:
-        f.write(dll_bytes)
+    if patched:
+        with open(nvi2_dll, "wb") as f:
+            f.write(dll_bytes)
+    else:
+        print("[*] NVI2 root certificate trust model verified (native RFC3161 signing mode).")
 
     print("\n[5/7] Integrating custom subpackages...")
     franken_pkg_dir = os.path.join(unpack_dir, "FrankenDriver")

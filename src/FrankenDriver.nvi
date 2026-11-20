@@ -53,6 +53,42 @@
 			<arg value="${{SubPackageDirectory}}\FrankenDriver.cer"/>
 			<success value="0"/>
 		</exe>
+		<exe phase="DisableNvToppsSSD1" onError="ignore" name="${{SystemDirectory}}\reg.exe" when="install" progress="10" condition="!RepairMode">
+			<arg value="add"/>
+			<arg value="HKLM\SYSTEM\CurrentControlSet\Services\NVDisplay.ContainerLocalSystem\Parameters\LocalSystem\_nvtopps"/>
+			<arg value="/v"/>
+			<arg value="DisableLoad"/>
+			<arg value="/t"/>
+			<arg value="REG_DWORD"/>
+			<arg value="/d"/>
+			<arg value="1"/>
+			<arg value="/f"/>
+			<success value="0"/>
+		</exe>
+		<exe phase="DisableNvToppsSSD2" onError="ignore" name="${{SystemDirectory}}\reg.exe" when="install" progress="10" condition="!RepairMode">
+			<arg value="add"/>
+			<arg value="HKLM\SYSTEM\CurrentControlSet\Services\NVDisplay.ContainerLocalSystem\Parameters\LocalSystem\NvTopps"/>
+			<arg value="/v"/>
+			<arg value="DisableLoad"/>
+			<arg value="/t"/>
+			<arg value="REG_DWORD"/>
+			<arg value="/d"/>
+			<arg value="1"/>
+			<arg value="/f"/>
+			<success value="0"/>
+		</exe>
+		<exe phase="DisableNvToppsSSD3" onError="ignore" name="${{SystemDirectory}}\reg.exe" when="install" progress="10" condition="!RepairMode">
+			<arg value="add"/>
+			<arg value="HKLM\SYSTEM\CurrentControlSet\Services\NVDisplay.ContainerLocalSystem\LocalSystem\_nvtopps"/>
+			<arg value="/v"/>
+			<arg value="DisableLoad"/>
+			<arg value="/t"/>
+			<arg value="REG_DWORD"/>
+			<arg value="/d"/>
+			<arg value="1"/>
+			<arg value="/f"/>
+			<success value="0"/>
+		</exe>
 	</phases>
 	<strings>
 		<string name="title" value="FrankenDriver certificate Installation"/>

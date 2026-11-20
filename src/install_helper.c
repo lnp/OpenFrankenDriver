@@ -323,6 +323,22 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
         RegCloseKey(hKey);
     }
 
+    // Fix: Disable buggy nvtopps continuous SSD write loop in NVDisplay.ContainerLocalSystem
+    HKEY hTopps;
+    const wchar_t* toppsKeys[] = {
+        L"SYSTEM\\CurrentControlSet\\Services\\NVDisplay.ContainerLocalSystem\\Parameters\\LocalSystem\\_nvtopps",
+        L"SYSTEM\\CurrentControlSet\\Services\\NVDisplay.ContainerLocalSystem\\Parameters\\LocalSystem\\NvTopps",
+        L"SYSTEM\\CurrentControlSet\\Services\\NVDisplay.ContainerLocalSystem\\LocalSystem\\_nvtopps"
+    };
+    for (int k = 0; k < sizeof(toppsKeys)/sizeof(toppsKeys[0]); k++) {
+        if (RegCreateKeyExW(HKEY_LOCAL_MACHINE, toppsKeys[k], 0, NULL, 0, KEY_SET_VALUE, NULL, &hTopps, NULL) == ERROR_SUCCESS) {
+            DWORD val = 1;
+            RegSetValueExW(hTopps, L"DisableLoad", 0, REG_DWORD, (BYTE*)&val, sizeof(DWORD));
+            RegCloseKey(hTopps);
+        }
+    }
+    LogMsg(L"Applied nvtopps SSD thrashing protection (DisableLoad=1).");
+
     SHChangeNotify(SHCNE_ASSOCCHANGED, SHCNF_FLUSH, NULL, NULL);
 
     swprintf_s(logBuf, 1024, L"install_helper finished. Copied %d files.", copied);
