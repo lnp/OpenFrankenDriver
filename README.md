@@ -19,8 +19,9 @@
 
 ---
 
-### 📥 [Скачать готовый драйвер OpenFrankenDriver 621.24 (Google Drive)](https://drive.google.com/file/d/1NJH2h7rCA6Jwv--GlCsumb4cmJamNFWN/view?usp=sharing)
-*(Размер: ~1.03 ГБ • Стабильная ветка 621.24 WHQL • Протестировано и работает из коробки на Windows 10 и Windows 11 26H2 • Встроена автономная классическая Панель управления)*
+| 📥 Скачать OpenFrankenDriver 621.24 | 📋 Что нового в версии 621.24 |
+| :--- | :--- |
+| <br>[**Скачать с Яндекс Диска (~1.03 ГБ)**](https://disk.yandex.ru/d/f-hHqWvWwNOZQw)<br><br>• **Версия:** 621.24 WHQL<br>• **ОС:** Windows 10 & 11 (26H2+)<br>• **Zero-Touch:** автоустановка сертификата<br>• Встроена автономная Панель управления Win32<br><br> | ❗ **Устранён официальный баг NVIDIA с износом SSD**:<br>В официальных драйверах 621.14 / 621.24 фоновая служба контейнера (`NVDisplay.Container.exe`) непрерывно перезаписывает лог `nvlog.nvlgstg` со скоростью ~10 МБ/с (~7 ГБ/час даже в простое ПК).<br><br>Это подтверждённый официальный баг драйверов NVIDIA (см. [обсуждения на Reddit](https://www.reddit.com/r/nvidia/search/?q=nvlog.nvlgstg) и [разборы на YouTube](https://www.youtube.com/results?search_query=nvidia+container+ssd+write+bug)). В инсталлятор OpenFrankenDriver встроен нативный фикс, полностью устраняющий эту проблему из коробки. |
 
 ---
 
@@ -55,7 +56,7 @@
 
 ## 💾 Быстрая установка (Для пользователей)
 
-1. **Скачайте готовый установщик** по ссылке в шапке или с [Google Drive](https://drive.google.com/file/d/1NJH2h7rCA6Jwv--GlCsumb4cmJamNFWN/view?usp=sharing).
+1. **Скачайте готовый установщик** по ссылке в таблице выше или с [Яндекс Диска](https://disk.yandex.ru/d/f-hHqWvWwNOZQw).
 2. *(Рекомендуется)* Если вы обновляетесь со старых версий или меняли видеокарту, удалите предыдущий драйвер через **DDU (Display Driver Uninstaller)** в безопасном режиме.
 3. Запустите скачанный `.exe` файл.
 4. Выберите **«Графический драйвер NVIDIA»** и нажмите **«Далее»**.

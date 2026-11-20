@@ -19,8 +19,9 @@
 
 ---
 
-### 📥 [Download Pre-built OpenFrankenDriver 621.24 (Google Drive)](https://drive.google.com/file/d/1NJH2h7rCA6Jwv--GlCsumb4cmJamNFWN/view?usp=sharing)
-*(Size: ~1.03 GB • Stable 621.24 WHQL • Tested & verified out-of-the-box on Windows 10 & Windows 11 26H2 • Bundled with standalone classic Control Panel)*
+| 📥 Download OpenFrankenDriver 621.24 | 📋 What's New in 621.24 |
+| :--- | :--- |
+| <br>[**Download from Yandex Disk (~1.03 GB)**](https://disk.yandex.ru/d/f-hHqWvWwNOZQw)<br><br>• **Version:** 621.24 WHQL<br>• **OS:** Windows 10 & 11 (26H2+)<br>• **Zero-Touch:** automatic certificate install<br>• Standalone Classic Control Panel (Win32)<br><br> | ❗ **Eliminated Official NVIDIA SSD Thrashing Bug**:<br>In official drivers 621.14 / 621.24, NVIDIA's background container service (`NVDisplay.Container.exe`) endlessly rewrites the telemetry log `nvlog.nvlgstg` at ~10 MB/s (~7 GB/hour even when idle).<br><br>This is a recognized official NVIDIA driver bug (see [Reddit discussions](https://www.reddit.com/r/nvidia/search/?q=nvlog.nvlgstg) and [YouTube coverage](https://www.youtube.com/results?search_query=nvidia+container+ssd+write+bug)). OpenFrankenDriver natively embeds a triple-redundant fix eliminating this wear loop out of the box. |
 
 ---
 
@@ -55,7 +56,7 @@ The original closed-source **FrankenDriver** (`arutar/FrankenDriver`) was a popu
 
 ## 💾 Quick Install (For Gamers & End Users)
 
-1. **Download the pre-built installer** via the link above or directly from [Google Drive](https://drive.google.com/file/d/1NJH2h7rCA6Jwv--GlCsumb4cmJamNFWN/view?usp=sharing).
+1. **Download the pre-built installer** via the table above or directly from [Yandex Disk](https://disk.yandex.ru/d/f-hHqWvWwNOZQw).
 2. *(Recommended)* If updating from old modded drivers, run **DDU (Display Driver Uninstaller)** in Windows Safe Mode to clean legacy driver files.
 3. Run the downloaded installer `.exe`.
 4. Select **NVIDIA Graphics Driver** and click **Next**.
