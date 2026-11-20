@@ -5,7 +5,7 @@
 
 <br>
 
-<a href="https://github.com/lnp/OpenFrankenDriver"><img src="assets/header_v2.png" alt="OpenFrankenDriver" width="100%"></a>
+<a href="https://github.com/lnp/OpenFrankenDriver"><img src="assets/header_v3.png" alt="OpenFrankenDriver" width="100%"></a>
 <br>
 
 **Полностью открытый, бесплатный и безопасный драйвер NVIDIA для китайских видеокарт-мутантов**  
@@ -19,9 +19,9 @@
 
 ---
 
-| <img src="assets/icon.png" width="18" height="18" valign="middle">&nbsp; OpenFrankenDriver 621.24.1 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | 📋 Что нового в версии 621.24.1 |
+| <nobr><img src="assets/icon.png" width="18" height="18" valign="middle">&nbsp;OpenFrankenDriver 621.24.1</nobr> | 📋 Что нового в версии 621.24.1 |
 | :--- | :--- |
-| <br>[**Скачать с Яндекс Диска (~1.03 ГБ)**](https://disk.yandex.ru/d/f-hHqWvWwNOZQw)<br><br><nobr>• **Версия:** 621.24.1 WHQL (защита SSD)</nobr><br>• **ОС:** Windows 10 & 11 (26H2+)<br>• **Zero-Touch:** автоустановка сертификата<br>• Встроена автономная Панель управления Win32<br><br> | ❗ **Устранён официальный баг NVIDIA с износом SSD**:<br>В официальных драйверах 621.14 / 621.24 фоновая служба контейнера (`NVDisplay.Container.exe`) непрерывно перезаписывает лог `nvlog.nvlgstg` со скоростью ~10 МБ/с (~7 ГБ/час даже в простое ПК).<br><br>Это подтверждённый официальный баг драйверов NVIDIA (см. [обсуждения на Reddit](https://www.reddit.com/r/nvidia/search/?q=nvlog.nvlgstg) и [разборы на YouTube](https://www.youtube.com/results?search_query=nvidia+container+ssd+write+bug)). В инсталлятор OpenFrankenDriver встроен нативный фикс, полностью устраняющий эту проблему из коробки. |
+| <br>[**Скачать с Яндекс Диска (~1.03 ГБ)**](https://disk.yandex.ru/d/f-hHqWvWwNOZQw)<br><br><nobr>• **Версия:** 621.24.1 WHQL (защита SSD)</nobr><br><nobr>• **ОС:** Windows 10 & 11 (26H2+)</nobr><br><nobr>• **Zero-Touch:** автоустановка сертификата</nobr><br><nobr>• Встроена автономная Панель управления Win32</nobr><br><br> | ❗ **Устранён официальный баг NVIDIA с износом SSD**:<br>В официальных драйверах 621.14 / 621.24 фоновая служба контейнера (`NVDisplay.Container.exe`) непрерывно перезаписывает лог `nvlog.nvlgstg` со скоростью ~10 МБ/с (~7 ГБ/час даже в простое ПК).<br><br>Это подтверждённый официальный баг драйверов NVIDIA (см. [обсуждения на Reddit](https://www.reddit.com/r/nvidia/search/?q=nvlog.nvlgstg) и [разборы на YouTube](https://www.youtube.com/results?search_query=nvidia+container+ssd+write+bug)). В инсталлятор OpenFrankenDriver встроен нативный фикс, полностью устраняющий эту проблему из коробки. |
 
 ---
 
