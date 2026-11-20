@@ -19,7 +19,7 @@
 
 ---
 
-| <nobr><img src="assets/icon.png" width="18" height="18" valign="middle">&nbsp;OpenFrankenDriver 621.24.1</nobr> | 📋 What's New in 621.24.1 |
+| <img src="assets/icon.png" width="18" height="18" align="absmiddle">&nbsp;OpenFrankenDriver&nbsp;621.24.1 | 📋 What's New in 621.24.1 |
 | :--- | :--- |
 | <br>[**Download from Yandex Disk (~1.03 GB)**](https://disk.yandex.ru/d/f-hHqWvWwNOZQw)<br><br><nobr>• **Version:** 621.24.1 WHQL (SSD Protection)</nobr><br><nobr>• **OS:** Windows 10 & 11 (26H2+)</nobr><br><nobr>• **Zero-Touch:** automatic certificate install</nobr><br><nobr>• Standalone Classic Control Panel (Win32)</nobr><br><br> | ❗ **Eliminated Official NVIDIA SSD Thrashing Bug**:<br>In official drivers 621.14 / 621.24, NVIDIA's background container service (`NVDisplay.Container.exe`) endlessly rewrites the telemetry log `nvlog.nvlgstg` at ~10 MB/s (~7 GB/hour even when idle).<br><br>This is a recognized official NVIDIA driver bug (see [Reddit discussions](https://www.reddit.com/r/nvidia/search/?q=nvlog.nvlgstg) and [YouTube coverage](https://www.youtube.com/results?search_query=nvidia+container+ssd+write+bug)). OpenFrankenDriver natively embeds a triple-redundant fix eliminating this wear loop out of the box. |
 
