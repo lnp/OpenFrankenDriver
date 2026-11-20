@@ -5,7 +5,7 @@
 
 <br>
 
-<a href="https://github.com/lnp/OpenFrankenDriver"><img src="assets/header.png" alt="OpenFrankenDriver" width="840"></a>
+<a href="https://github.com/lnp/OpenFrankenDriver"><img src="assets/header.png" alt="OpenFrankenDriver" width="100%"></a>
 <br>
 
 **Completely open-source, free, and secure NVIDIA driver for Chinese mutant GPUs**  
@@ -19,9 +19,9 @@
 
 ---
 
-| <img src="assets/icon.png" width="18" height="18" valign="middle"> OpenFrankenDriver 621.24 | 📋 What's New in 621.24 |
+| <img src="assets/icon.png" width="18" height="18" valign="middle">&nbsp; OpenFrankenDriver 621.24.1 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | 📋 What's New in 621.24.1 |
 | :--- | :--- |
-| <br>[**Download from Yandex Disk (~1.03 GB)**](https://disk.yandex.ru/d/f-hHqWvWwNOZQw)<br><br>• **Version:** 621.24 WHQL (release v621.24.1 with SSD protection)<br>• **OS:** Windows 10 & 11 (26H2+)<br>• **Zero-Touch:** automatic certificate install<br>• Standalone Classic Control Panel (Win32)<br><br> | ❗ **Eliminated Official NVIDIA SSD Thrashing Bug**:<br>In official drivers 621.14 / 621.24, NVIDIA's background container service (`NVDisplay.Container.exe`) endlessly rewrites the telemetry log `nvlog.nvlgstg` at ~10 MB/s (~7 GB/hour even when idle).<br><br>This is a recognized official NVIDIA driver bug (see [Reddit discussions](https://www.reddit.com/r/nvidia/search/?q=nvlog.nvlgstg) and [YouTube coverage](https://www.youtube.com/results?search_query=nvidia+container+ssd+write+bug)). OpenFrankenDriver natively embeds a triple-redundant fix eliminating this wear loop out of the box. |
+| <br>[**Download from Yandex Disk (~1.03 GB)**](https://disk.yandex.ru/d/f-hHqWvWwNOZQw)<br><br><nobr>• **Version:** 621.24.1 WHQL (SSD Protection)</nobr><br>• **OS:** Windows 10 & 11 (26H2+)<br>• **Zero-Touch:** automatic certificate install<br>• Standalone Classic Control Panel (Win32)<br><br> | ❗ **Eliminated Official NVIDIA SSD Thrashing Bug**:<br>In official drivers 621.14 / 621.24, NVIDIA's background container service (`NVDisplay.Container.exe`) endlessly rewrites the telemetry log `nvlog.nvlgstg` at ~10 MB/s (~7 GB/hour even when idle).<br><br>This is a recognized official NVIDIA driver bug (see [Reddit discussions](https://www.reddit.com/r/nvidia/search/?q=nvlog.nvlgstg) and [YouTube coverage](https://www.youtube.com/results?search_query=nvidia+container+ssd+write+bug)). OpenFrankenDriver natively embeds a triple-redundant fix eliminating this wear loop out of the box. |
 
 ---
 
