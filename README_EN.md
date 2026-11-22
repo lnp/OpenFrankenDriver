@@ -29,7 +29,7 @@
   <tbody>
     <tr>
       <td valign="top">
-        <br><a href="https://disk.yandex.ru/d/f-hHqWvWwNOZQw"><b>Download from Yandex Disk (~1.03 GB)</b></a><br><br>
+        <br><a href="https://disk.yandex.ru/d/Qr8Z-BdUQEUn1w"><b>Download from Yandex Disk (~1.02 GB)</b></a><br><br>
         • <b>Version:</b> 621.35.1 Hotfix (SSD Protection &amp; Debloat)<br>
         • <b>OS:</b> Windows 10 &amp; 11 (26H2+)<br>
         • <b>Zero-Touch:</b> automatic certificate install<br>
@@ -80,7 +80,7 @@ The original closed-source **FrankenDriver** (`arutar/FrankenDriver`) was a popu
 
 ## 💾 Quick Install (For Gamers & End Users)
 
-1. **Download the pre-built installer** via the table above or directly from [Yandex Disk](https://disk.yandex.ru/d/f-hHqWvWwNOZQw).
+1. **Download the pre-built installer** via the table above or directly from [Yandex Disk](https://disk.yandex.ru/d/Qr8Z-BdUQEUn1w).
 2. *(Recommended)* If updating from old modded drivers, run **DDU (Display Driver Uninstaller)** in Windows Safe Mode to clean legacy driver files.
 3. Run the downloaded installer `.exe`.
 4. Select **NVIDIA Graphics Driver** and click **Next**.
