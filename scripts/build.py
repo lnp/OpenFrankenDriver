@@ -104,6 +104,17 @@ def main():
     if not pfx_path or not os.path.isfile(pfx_path):
         sys.exit("[-] Error: Code signing .pfx certificate not found. Pass --pfx.")
 
+    if not cer_path or not os.path.isfile(cer_path):
+        cand = os.path.splitext(pfx_path)[0] + ".cer"
+        if os.path.isfile(cand):
+            cer_path = cand
+        elif os.path.isfile(os.path.join(repo_dir, "certs", "OpenFrankenDriver.cer")):
+            cer_path = os.path.join(repo_dir, "certs", "OpenFrankenDriver.cer")
+        elif os.path.isfile(os.path.join(os.path.dirname(repo_dir), "FrankenDriver_Local.cer")):
+            cer_path = os.path.join(os.path.dirname(repo_dir), "FrankenDriver_Local.cer")
+        else:
+            sys.exit("[-] Error: Matching .cer certificate not found.")
+
     work_dir = args.work_dir or os.path.join(repo_dir, "build_temp")
     os.makedirs(work_dir, exist_ok=True)
     unpack_dir = os.path.join(work_dir, "driver_unpacked")
