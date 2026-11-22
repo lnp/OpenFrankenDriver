@@ -42,13 +42,17 @@
       </td>
     </tr>
     <tr>
-      <td colspan="2" align="center">
+      <td align="center" valign="middle">
         <br>
-        <a href="https://boosty.to/defrag"><img src="assets/support_boosty_en.png" alt="Support the Project on Boosty" width="460"></a>
+        <a href="https://boosty.to/defrag"><img src="assets/support_badge.png" width="96" height="96" alt="Support Project on Boosty"></a>
         <br><br>
-        <sub>The project is developed out of pure enthusiasm. All drivers and build automation scripts will forever remain completely open-source and free.<br>
-        If this build saved you time, revived your graphics card, and eliminated tedious troubleshooting — you are welcome to <a href="https://boosty.to/defrag"><b>voluntarily support development on Boosty</b></a>.</sub>
+        <a href="https://boosty.to/defrag"><b>Support on Boosty →</b></a>
         <br><br>
+      </td>
+      <td valign="middle">
+        <b>🧡 OpenFrankenDriver Project Support:</b><br><br>
+        The project is developed out of pure enthusiasm. All drivers and build automation scripts will forever remain completely open-source and free.<br><br>
+        If this build saved you time, revived your graphics card, and eliminated tedious troubleshooting — you are welcome to <a href="https://boosty.to/defrag"><b>voluntarily support development on Boosty</b></a>.
       </td>
     </tr>
   </tbody>

@@ -42,13 +42,17 @@
       </td>
     </tr>
     <tr>
-      <td colspan="2" align="center">
+      <td align="center" valign="middle">
         <br>
-        <a href="https://boosty.to/defrag"><img src="assets/support_boosty.png" alt="Поддержать проект на Boosty" width="460"></a>
+        <a href="https://boosty.to/defrag"><img src="assets/support_badge.png" width="96" height="96" alt="Поддержать проект на Boosty"></a>
         <br><br>
-        <sub>Проект развивается на чистом энтузиазме. Драйверы и скрипты сборки всегда будут полностью открытыми и бесплатными.<br>
-        Если сборка сэкономила вам время, оживила вашу видеокарту и избавила от танцев с бубном — вы можете <a href="https://boosty.to/defrag"><b>добровольно поддержать разработку на Boosty</b></a>.</sub>
+        <a href="https://boosty.to/defrag"><b>Поддержать на Boosty →</b></a>
         <br><br>
+      </td>
+      <td valign="middle">
+        <b>🧡 Поддержка проекта OpenFrankenDriver:</b><br><br>
+        Проект развивается на чистом энтузиазме. Драйверы и скрипты сборки всегда будут полностью открытыми и бесплатными.<br><br>
+        Если сборка сэкономила вам время, оживила вашу видеокарту и избавила от танцев с бубном — вы можете <a href="https://boosty.to/defrag"><b>добровольно поддержать разработку на Boosty</b></a>.
       </td>
     </tr>
   </tbody>
