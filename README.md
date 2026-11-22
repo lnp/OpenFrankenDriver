@@ -30,7 +30,7 @@
     <tr>
       <td valign="top" align="center">
         <br>
-        <a href="https://disk.yandex.ru/d/Qr8Z-BdUQEUn1w"><img src="assets/download_chest.png" width="80" height="80" alt="Скачать OpenFrankenDriver с Яндекс Диска"></a>
+        <a href="https://disk.yandex.ru/d/Qr8Z-BdUQEUn1w"><img src="assets/download_chest_v2.png" width="96" height="96" alt="Скачать OpenFrankenDriver с Яндекс Диска"></a>
         <br><br>
         <a href="https://disk.yandex.ru/d/Qr8Z-BdUQEUn1w"><b>Скачать с Яндекс Диска (~1.02 ГБ) →</b></a>
         <br><br>
