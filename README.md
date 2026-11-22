@@ -28,12 +28,19 @@
   </thead>
   <tbody>
     <tr>
-      <td valign="top">
-        <br><a href="https://disk.yandex.ru/d/Qr8Z-BdUQEUn1w"><b>Скачать с Яндекс Диска (~1.02 ГБ)</b></a><br><br>
+      <td valign="top" align="center">
+        <br>
+        <a href="https://disk.yandex.ru/d/Qr8Z-BdUQEUn1w"><img src="assets/download_chest.png" width="80" height="80" alt="Скачать OpenFrankenDriver с Яндекс Диска"></a>
+        <br><br>
+        <a href="https://disk.yandex.ru/d/Qr8Z-BdUQEUn1w"><b>Скачать с Яндекс Диска (~1.02 ГБ) →</b></a>
+        <br><br>
+        <div align="left">
         • <b>Версия:</b> 621.35.1 Hotfix (защита SSD &amp; деблоат)<br>
         • <b>ОС:</b> Windows 10 &amp; 11 (64-bit, все версии)<br>
         • <b>Zero-Touch:</b> автоустановка сертификата<br>
-        • Встроена автономная Панель управления Win32<br><br>
+        • Встроена автономная Панель управления Win32<br>
+        </div>
+        <br>
       </td>
       <td valign="top">
         ✨ <b>Переход на базу 621.35 Hotfix &amp; защита накопителя</b>:<br>

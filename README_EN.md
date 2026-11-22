@@ -28,12 +28,19 @@
   </thead>
   <tbody>
     <tr>
-      <td valign="top">
-        <br><a href="https://disk.yandex.ru/d/Qr8Z-BdUQEUn1w"><b>Download from Yandex Disk (~1.02 GB)</b></a><br><br>
+      <td valign="top" align="center">
+        <br>
+        <a href="https://disk.yandex.ru/d/Qr8Z-BdUQEUn1w"><img src="assets/download_chest.png" width="80" height="80" alt="Download OpenFrankenDriver from Yandex Disk"></a>
+        <br><br>
+        <a href="https://disk.yandex.ru/d/Qr8Z-BdUQEUn1w"><b>Download from Yandex Disk (~1.02 GB) →</b></a>
+        <br><br>
+        <div align="left">
         • <b>Version:</b> 621.35.1 Hotfix (SSD Protection &amp; Debloat)<br>
         • <b>OS:</b> Windows 10 &amp; 11 (64-bit, all editions)<br>
         • <b>Zero-Touch:</b> automatic certificate install<br>
-        • Standalone Classic Control Panel (Win32)<br><br>
+        • Standalone Classic Control Panel (Win32)<br>
+        </div>
+        <br>
       </td>
       <td valign="top">
         ✨ <b>Upgraded to 621.35 Hotfix Base &amp; Full Storage Protection</b>:<br>
