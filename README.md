@@ -41,15 +41,20 @@
         В инсталлятор OpenFrankenDriver 621.35.1 дополнительно сохранена превентивная нативная защита (DisableLoad=1 для фоновой службы телеметрии <code>_nvtopps</code>), которая полностью устраняет паразитный I/O-износ SSD и освобождает ресурсы процессора.
       </td>
     </tr>
+  </tbody>
+</table>
+
+<table>
+  <tbody>
     <tr>
-      <td align="center" valign="middle">
+      <td width="38%" align="center" valign="middle">
         <br>
         <a href="https://boosty.to/defrag"><img src="assets/support_creeper.png" width="96" height="96" alt="Поддержать проект на Boosty"></a>
         <br><br>
         <a href="https://boosty.to/defrag"><b>Поддержать на Boosty →</b></a>
         <br><br>
       </td>
-      <td valign="middle">
+      <td width="62%" valign="middle">
         <b>🧡 Поддержка проекта OpenFrankenDriver:</b><br><br>
         Проект развивается на чистом энтузиазме. Драйверы и скрипты сборки всегда будут полностью открытыми и бесплатными.<br><br>
         Если сборка сэкономила вам время, оживила вашу видеокарту и избавила от танцев с бубном — вы можете <a href="https://boosty.to/defrag"><b>добровольно поддержать разработку на Boosty</b></a>.

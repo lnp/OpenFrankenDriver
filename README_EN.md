@@ -41,15 +41,20 @@
         OpenFrankenDriver 621.35.1 additionally retains native preventative protection (DisableLoad=1 for the background <code>_nvtopps</code> telemetry plugin), completely eliminating redundant background I/O wear on SSDs and freeing CPU cycles for gaming.
       </td>
     </tr>
+  </tbody>
+</table>
+
+<table>
+  <tbody>
     <tr>
-      <td align="center" valign="middle">
+      <td width="38%" align="center" valign="middle">
         <br>
         <a href="https://boosty.to/defrag"><img src="assets/support_creeper.png" width="96" height="96" alt="Support Project on Boosty"></a>
         <br><br>
         <a href="https://boosty.to/defrag"><b>Support on Boosty →</b></a>
         <br><br>
       </td>
-      <td valign="middle">
+      <td width="62%" valign="middle">
         <b>🧡 OpenFrankenDriver Project Support:</b><br><br>
         The project is developed out of pure enthusiasm. All drivers and build automation scripts will forever remain completely open-source and free.<br><br>
         If this build saved you time, revived your graphics card, and eliminated tedious troubleshooting — you are welcome to <a href="https://boosty.to/defrag"><b>voluntarily support development on Boosty</b></a>.
