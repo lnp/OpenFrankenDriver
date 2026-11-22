@@ -56,7 +56,7 @@
     <tr>
       <td width="38%" align="center" valign="middle">
         <br>
-        <a href="https://boosty.to/defrag"><img src="assets/support_creeper.png" width="96" height="96" alt="Поддержать проект на Boosty"></a>
+        <a href="https://boosty.to/defrag"><img src="assets/support_cat.png" width="96" height="96" alt="Поддержать проект на Boosty"></a>
         <br><br>
         <a href="https://boosty.to/defrag"><b>Поддержать на Boosty →</b></a>
         <br><br>
