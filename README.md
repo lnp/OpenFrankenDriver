@@ -14,7 +14,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![NVIDIA Driver Version](https://img.shields.io/badge/NVIDIA-621.35%20Hotfix-76B900?logo=nvidia)](https://www.nvidia.com)
 [![Anti-Cheat Ready](https://img.shields.io/badge/Anti--Cheat-EAC%20%7C%20BattlEye%20%7C%20VAC%20Passed-success)](docs/ARCHITECTURE.md)
-[![Platform](https://img.shields.io/badge/Windows-10%20%7C%2011%20(26H2%2B)-0078D6?logo=windows)](docs/SUPPORTED_DEVICES.md)
+[![Platform](https://img.shields.io/badge/Windows-10%20%7C%2011%20(64--bit)-0078D6?logo=windows)](docs/SUPPORTED_DEVICES.md)
 [![Boosty](https://img.shields.io/badge/Boosty-Поддержать%20проект-F15F2C?logo=boosty)](https://boosty.to/defrag)
 
 ---
@@ -31,7 +31,7 @@
       <td valign="top">
         <br><a href="https://disk.yandex.ru/d/Qr8Z-BdUQEUn1w"><b>Скачать с Яндекс Диска (~1.02 ГБ)</b></a><br><br>
         • <b>Версия:</b> 621.35.1 Hotfix (защита SSD &amp; деблоат)<br>
-        • <b>ОС:</b> Windows 10 &amp; 11 (26H2+)<br>
+        • <b>ОС:</b> Windows 10 &amp; 11 (64-bit, все версии)<br>
         • <b>Zero-Touch:</b> автоустановка сертификата<br>
         • Встроена автономная Панель управления Win32<br><br>
       </td>
@@ -105,7 +105,7 @@
    ```
    Скрипт автоматически:
    - Распакует инсталлятор;
-   - Внедрит 71 конфигурацию видеокарт-мутантов в секции `17134` (Win10) и `26200` (Win11 26H2);
+   - Внедрит 71 конфигурацию видеокарт-мутантов в секции `17134` (Windows 10/11) и `26200` (актуальные сборки Windows 11);
    - Устранит блокировку драйвера и снимет код ошибки 43 (`RM1457588`);
    - Пересоберёт и подпишет сертификатом безопасности каталог `nv_disp.cat` с официальной меткой времени DigiCert;
    - Интегрирует автономную классическую Панель управления (`nvcplui.exe`);

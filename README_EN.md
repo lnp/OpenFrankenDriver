@@ -14,7 +14,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![NVIDIA Driver Version](https://img.shields.io/badge/NVIDIA-621.35%20Hotfix-76B900?logo=nvidia)](https://www.nvidia.com)
 [![Anti-Cheat Ready](https://img.shields.io/badge/Anti--Cheat-EAC%20%7C%20BattlEye%20%7C%20VAC%20Passed-success)](docs/ARCHITECTURE.md)
-[![Platform](https://img.shields.io/badge/Windows-10%20%7C%2011%20(26H2%2B)-0078D6?logo=windows)](docs/SUPPORTED_DEVICES.md)
+[![Platform](https://img.shields.io/badge/Windows-10%20%7C%2011%20(64--bit)-0078D6?logo=windows)](docs/SUPPORTED_DEVICES.md)
 [![Boosty](https://img.shields.io/badge/Boosty-Support%20Project-F15F2C?logo=boosty)](https://boosty.to/defrag)
 
 ---
@@ -31,7 +31,7 @@
       <td valign="top">
         <br><a href="https://disk.yandex.ru/d/Qr8Z-BdUQEUn1w"><b>Download from Yandex Disk (~1.02 GB)</b></a><br><br>
         • <b>Version:</b> 621.35.1 Hotfix (SSD Protection &amp; Debloat)<br>
-        • <b>OS:</b> Windows 10 &amp; 11 (26H2+)<br>
+        • <b>OS:</b> Windows 10 &amp; 11 (64-bit, all editions)<br>
         • <b>Zero-Touch:</b> automatic certificate install<br>
         • Standalone Classic Control Panel (Win32)<br><br>
       </td>
@@ -105,7 +105,7 @@ You can easily patch any official clean NVIDIA driver installer directly from NV
    ```
    The script automatically:
    - Extracts payload;
-   - Injects 71 mutant GPU configurations into sections `17134` (Win10) and `26200` (Win11 26H2);
+   - Injects 71 mutant GPU configurations into sections `17134` (Windows 10/11) and `26200` (modern Windows 11 builds);
    - Removes vendor hardware locks and fixes Code 43 (`RM1457588`);
    - Compiles and signs catalog `nv_disp.cat` with official RFC3161 DigiCert timestamp;
    - Integrates the offline Win32 Control Panel (`nvcplui.exe`);
