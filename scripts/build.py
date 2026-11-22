@@ -40,6 +40,7 @@ def main():
     parser.add_argument("--seven-zip", help="Path to 7z.exe")
     parser.add_argument("--signtool", help="Path to signtool.exe")
     parser.add_argument("--makecat", help="Path to makecat.exe")
+    parser.add_argument("--keep-telemetry", action="store_true", help="Keep NVIDIA nvtopps telemetry plugin enabled (do not set DisableLoad=1)")
     args = parser.parse_args()
 
     repo_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -120,23 +121,26 @@ def main():
     inject_script = os.path.join(repo_dir, "scripts", "inject.py")
     subprocess.run([sys.executable, inject_script, target_inf], check=True)
 
-    # Patch DisplayDriver.nvi to inject SSD wear protection (DisableLoad=1 for nvtopps)
-    target_nvi = os.path.join(unpack_dir, "Display.Driver", "DisplayDriver.nvi")
-    if os.path.exists(target_nvi):
-        with open(target_nvi, "r", encoding="utf-8") as f_nvi:
-            nvi_content = f_nvi.read()
-        ssd_fix_phase = (
-            '\t\t<standard phase="disableNvtoppsSSDBug" onError="ignore" when="install">\n'
-            '\t\t\t<addRegistry keyName="${{serviceHiveRegistryPath}}\\${{DisplayContainerServiceName}}\\Parameters\\LocalSystem\\_nvtopps" valueName="DisableLoad" value="1" type="REG_DWORD"/>\n'
-            '\t\t\t<addRegistry keyName="${{serviceHiveRegistryPath}}\\${{DisplayContainerServiceName}}\\Parameters\\LocalSystem\\NvTopps" valueName="DisableLoad" value="1" type="REG_DWORD"/>\n'
-            '\t\t\t<addRegistry keyName="${{serviceHiveRegistryPath}}\\${{DisplayContainerServiceName}}\\LocalSystem\\_nvtopps" valueName="DisableLoad" value="1" type="REG_DWORD"/>\n'
-            '\t\t</standard>\n'
-        )
-        if "disableNvtoppsSSDBug" not in nvi_content:
-            nvi_content = nvi_content.replace("<phases>", "<phases>\n" + ssd_fix_phase, 1)
-            with open(target_nvi, "w", encoding="utf-8") as f_nvi:
-                f_nvi.write(nvi_content)
-            print("[+] Injected native SSD wear protection phase into DisplayDriver.nvi")
+    # Patch DisplayDriver.nvi to inject SSD wear protection & telemetry debloat (DisableLoad=1 for nvtopps)
+    if not args.keep_telemetry:
+        target_nvi = os.path.join(unpack_dir, "Display.Driver", "DisplayDriver.nvi")
+        if os.path.exists(target_nvi):
+            with open(target_nvi, "r", encoding="utf-8") as f_nvi:
+                nvi_content = f_nvi.read()
+            ssd_fix_phase = (
+                '\t\t<standard phase="disableNvtoppsSSDBug" onError="ignore" when="install">\n'
+                '\t\t\t<addRegistry keyName="${{serviceHiveRegistryPath}}\\${{DisplayContainerServiceName}}\\Parameters\\LocalSystem\\_nvtopps" valueName="DisableLoad" value="1" type="REG_DWORD"/>\n'
+                '\t\t\t<addRegistry keyName="${{serviceHiveRegistryPath}}\\${{DisplayContainerServiceName}}\\Parameters\\LocalSystem\\NvTopps" valueName="DisableLoad" value="1" type="REG_DWORD"/>\n'
+                '\t\t\t<addRegistry keyName="${{serviceHiveRegistryPath}}\\${{DisplayContainerServiceName}}\\LocalSystem\\_nvtopps" valueName="DisableLoad" value="1" type="REG_DWORD"/>\n'
+                '\t\t</standard>\n'
+            )
+            if "disableNvtoppsSSDBug" not in nvi_content:
+                nvi_content = nvi_content.replace("<phases>", "<phases>\n" + ssd_fix_phase, 1)
+                with open(target_nvi, "w", encoding="utf-8") as f_nvi:
+                    f_nvi.write(nvi_content)
+                print("[+] Injected native telemetry debloat & SSD wear protection into DisplayDriver.nvi")
+    else:
+        print("[*] Skipping telemetry debloat (--keep-telemetry specified).")
 
     print("\n[3/7] Generating and signing security catalog (nv_disp.cat)...")
     driver_dir = os.path.join(unpack_dir, "Display.Driver")

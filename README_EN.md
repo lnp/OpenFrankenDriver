@@ -12,7 +12,7 @@
 *(RTX 4070m, RTX 4060m, RTX 3070m, RTX 3060m, RTX 2060m, GTX 1660m and 65+ other models powered by AD106/GA104/GA106/TU106 mobile silicon)*
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![NVIDIA Driver Version](https://img.shields.io/badge/NVIDIA-621.24%20WHQL-76B900?logo=nvidia)](https://www.nvidia.com)
+[![NVIDIA Driver Version](https://img.shields.io/badge/NVIDIA-621.35%20Hotfix-76B900?logo=nvidia)](https://www.nvidia.com)
 [![Anti-Cheat Ready](https://img.shields.io/badge/Anti--Cheat-EAC%20%7C%20BattlEye%20%7C%20VAC%20Passed-success)](docs/ARCHITECTURE.md)
 [![Platform](https://img.shields.io/badge/Windows-10%20%7C%2011%20(26H2%2B)-0078D6?logo=windows)](docs/SUPPORTED_DEVICES.md)
 [![Boosty](https://img.shields.io/badge/Boosty-Support%20Project-F15F2C?logo=boosty)](https://boosty.to/defrag)
@@ -22,23 +22,23 @@
 <table>
   <thead>
     <tr>
-      <th width="38%"><img src="assets/icon.png" width="18" height="18" align="absmiddle">&nbsp;OpenFrankenDriver&nbsp;621.24.1</th>
-      <th width="62%">📋 What's New in 621.24.1</th>
+      <th width="38%"><img src="assets/icon.png" width="18" height="18" align="absmiddle">&nbsp;OpenFrankenDriver&nbsp;621.35.1</th>
+      <th width="62%">📋 What's New in 621.35.1</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td valign="top">
         <br><a href="https://disk.yandex.ru/d/f-hHqWvWwNOZQw"><b>Download from Yandex Disk (~1.03 GB)</b></a><br><br>
-        • <b>Version:</b> 621.24.1 WHQL (SSD Protection)<br>
+        • <b>Version:</b> 621.35.1 Hotfix (SSD Protection &amp; Debloat)<br>
         • <b>OS:</b> Windows 10 &amp; 11 (26H2+)<br>
         • <b>Zero-Touch:</b> automatic certificate install<br>
         • Standalone Classic Control Panel (Win32)<br><br>
       </td>
       <td valign="top">
-        ❗ <b>Eliminated Official NVIDIA SSD Thrashing Bug</b>:<br>
-        In official drivers 621.14 / 621.24, NVIDIA's background container service (<code>NVDisplay.Container.exe</code>) endlessly rewrites the telemetry log <code>nvlog.nvlgstg</code> at ~10 MB/s (~7 GB/hour even when idle).<br><br>
-        This is a recognized official NVIDIA driver bug (see <a href="https://www.reddit.com/r/nvidia/search/?q=nvlog.nvlgstg">Reddit discussions</a> and <a href="https://www.youtube.com/results?search_query=nvidia+container+ssd+write+bug">YouTube coverage</a>). OpenFrankenDriver natively embeds a triple-redundant fix eliminating this wear loop out of the box.
+        ✨ <b>Upgraded to 621.35 Hotfix Base &amp; Full Storage Protection</b>:<br>
+        In official NVIDIA Hotfix 621.35, critical bug #7116722 (incessant <code>nvlog.nvlgstg</code> writes by <code>NVDisplay.Container.exe</code>) has been officially resolved.<br><br>
+        OpenFrankenDriver 621.35.1 additionally retains native preventative protection (DisableLoad=1 for the background <code>_nvtopps</code> telemetry plugin), completely eliminating redundant background I/O wear on SSDs and freeing CPU cycles for gaming.
       </td>
     </tr>
     <tr>
@@ -71,7 +71,7 @@ The original closed-source **FrankenDriver** (`arutar/FrankenDriver`) was a popu
 | Feature / Issue | Original FrankenDriver | <img src="assets/badge.png" alt="OpenFrankenDriver" width="180"> |
 |---|---|---|
 | **Open Source & Transparency** | ❌ Closed-source binary. Repository has no code or build scripts. | ✅ **100% Open-Source**. Complete Python build pipeline is public and auditable. |
-| **Availability** | ❌ Modern driver branches are paywalled. | ✅ **Always free**. Includes the latest stable **621.24 WHQL** branch. |
+| **Availability** | ❌ Modern driver branches are paywalled. | ✅ **Always free**. Includes the latest stable **621.35 Hotfix** branch. |
 | **Zero-Touch Installation** | ❌ Annoying red Windows Security popup ("Publisher cannot be verified"). Required manual cert import. | ✅ **Silent automated trust**. Certificates are seamlessly imported into `Root` and `TrustedPublisher`. Zero popups. |
 | **Standalone Control Panel** | ❌ Missing on clean Windows or stripped editions (required MS Store and internet). | ✅ **Standalone Win32 Control Panel** (`nvcplui.exe`) bundled natively. Works out of the box on Windows LTSC / Compact without Store or internet. |
 | **Safety & Anti-Cheat** | ❓ Closed binaries raised security concerns. | ✅ **Genuine Untouched NVIDIA Kernel Binaries**. 100% WHQL integrity, `signtool` verified, `testsigning No`, full EAC / BattlEye / VAC support. |

@@ -12,7 +12,7 @@
 *(RTX 4070m, RTX 4060m, RTX 3070m, RTX 3060m, RTX 2060m, GTX 1660m и ещё 65 моделей на базе мобильных чипов AD106/GA104/GA106/TU106)*
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![NVIDIA Driver Version](https://img.shields.io/badge/NVIDIA-621.24%20WHQL-76B900?logo=nvidia)](https://www.nvidia.com)
+[![NVIDIA Driver Version](https://img.shields.io/badge/NVIDIA-621.35%20Hotfix-76B900?logo=nvidia)](https://www.nvidia.com)
 [![Anti-Cheat Ready](https://img.shields.io/badge/Anti--Cheat-EAC%20%7C%20BattlEye%20%7C%20VAC%20Passed-success)](docs/ARCHITECTURE.md)
 [![Platform](https://img.shields.io/badge/Windows-10%20%7C%2011%20(26H2%2B)-0078D6?logo=windows)](docs/SUPPORTED_DEVICES.md)
 [![Boosty](https://img.shields.io/badge/Boosty-Поддержать%20проект-F15F2C?logo=boosty)](https://boosty.to/defrag)
@@ -22,23 +22,23 @@
 <table>
   <thead>
     <tr>
-      <th width="38%"><img src="assets/icon.png" width="18" height="18" align="absmiddle">&nbsp;OpenFrankenDriver&nbsp;621.24.1</th>
-      <th width="62%">📋 Что нового в версии 621.24.1</th>
+      <th width="38%"><img src="assets/icon.png" width="18" height="18" align="absmiddle">&nbsp;OpenFrankenDriver&nbsp;621.35.1</th>
+      <th width="62%">📋 Что нового в версии 621.35.1</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td valign="top">
         <br><a href="https://disk.yandex.ru/d/f-hHqWvWwNOZQw"><b>Скачать с Яндекс Диска (~1.03 ГБ)</b></a><br><br>
-        • <b>Версия:</b> 621.24.1 WHQL (защита SSD)<br>
+        • <b>Версия:</b> 621.35.1 Hotfix (защита SSD &amp; деблоат)<br>
         • <b>ОС:</b> Windows 10 &amp; 11 (26H2+)<br>
         • <b>Zero-Touch:</b> автоустановка сертификата<br>
         • Встроена автономная Панель управления Win32<br><br>
       </td>
       <td valign="top">
-        ❗ <b>Устранён официальный баг NVIDIA с износом SSD</b>:<br>
-        В официальных драйверах 621.14 / 621.24 фоновая служба контейнера (<code>NVDisplay.Container.exe</code>) непрерывно перезаписывает лог <code>nvlog.nvlgstg</code> со скоростью ~10 МБ/с (~7 ГБ/час даже в простое ПК).<br><br>
-        Это подтверждённый официальный баг драйверов NVIDIA (см. <a href="https://www.reddit.com/r/nvidia/search/?q=nvlog.nvlgstg">обсуждения на Reddit</a> и <a href="https://www.youtube.com/results?search_query=nvidia+container+ssd+write+bug">разборы на YouTube</a>). В инсталлятор OpenFrankenDriver встроен нативный фикс, полностью устраняющий эту проблему из коробки.
+        ✨ <b>Переход на базу 621.35 Hotfix &amp; защита накопителя</b>:<br>
+        В официальном хотфиксе NVIDIA 621.35 устранён критический баг #7116722 с непрерывной перезаписью файла лога <code>nvlog.nvlgstg</code> процессом контейнера (<code>NVDisplay.Container.exe</code>).<br><br>
+        В инсталлятор OpenFrankenDriver 621.35.1 дополнительно сохранена превентивная нативная защита (DisableLoad=1 для фоновой службы телеметрии <code>_nvtopps</code>), которая полностью устраняет паразитный I/O-износ SSD и освобождает ресурсы процессора.
       </td>
     </tr>
     <tr>
@@ -71,7 +71,7 @@
 | Возможность / Параметр | Оригинальный FrankenDriver | <img src="assets/badge.png" alt="OpenFrankenDriver" width="180"> |
 |---|---|---|
 | **Открытость и прозрачность** | ❌ Закрытый бинарник. Репозиторий пуст, исходного кода нет. | ✅ **100% Open-Source**. Весь пайплайн сборки и исходники открыты. |
-| **Доступность версий** | ❌ Свежие версии закрыты за платным пейволлом. | ✅ **Всегда бесплатно**. Актуальная стабильная ветка **621.24 WHQL**. |
+| **Доступность версий** | ❌ Свежие версии закрыты за платным пейволлом. | ✅ **Всегда бесплатно**. Актуальная стабильная ветка **621.35 Hotfix**. |
 | **Установка в 1 клик (Zero-Touch)** | ❌ Красное окно Windows Security («Издатель не проверен»). Требовалась ручная установка сертификата. | ✅ **Тихая автоматическая регистрация**. Сертификат сам импортируется в `Root` и `TrustedPublisher`. Никаких красных окон. |
 | **Классическая Панель управления** | ❌ На чистой Windows или лёгких сборках панель отсутствует (требовался Microsoft Store и интернет). | ✅ **Встроена автономная Win32-панель** (`nvcplui.exe`). Работает из коробки на Windows LTSC и Compact без Store и без сети. |
 | **Безопасность и античиты** | ❓ Закрытые бинарники вызывали вопросы у пользователей. | ✅ **Оригинальные нетронутые ядра NVIDIA**. 100% WHQL-целостность, чистый тест `signtool`, `testsigning No`, полная работа EAC / BattlEye / CS2. |
