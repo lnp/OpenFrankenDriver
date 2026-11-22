@@ -5,7 +5,7 @@
 
 <br>
 
-<a href="https://github.com/lnp/OpenFrankenDriver"><img src="assets/header_v5.png" alt="OpenFrankenDriver" width="100%"></a>
+<a href="https://github.com/lnp/OpenFrankenDriver"><img src="assets/header_v6.png" alt="OpenFrankenDriver" width="100%"></a>
 <br>
 
 **Полностью открытый, бесплатный и безопасный драйвер NVIDIA для китайских видеокарт-мутантов**  
