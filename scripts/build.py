@@ -158,6 +158,19 @@ def main():
     cdf_path = os.path.join(driver_dir, "nv_disp.cdf")
     cat_path = os.path.join(driver_dir, "nv_disp.cat")
 
+    # Expand any compressed driver files (e.g., ngx-builtins/nvngx_dlssd.dl_) so that
+    # the uncompressed destination files exist on disk and are correctly cataloged and hashed by makecat.
+    for root, dirs, files in os.walk(driver_dir):
+        for f in files:
+            if f.lower().endswith((".dl_", ".ex_", ".sy_")):
+                comp_path = os.path.join(root, f)
+                decomp_ext = ".dll" if f.lower().endswith(".dl_") else (".exe" if f.lower().endswith(".ex_") else ".sys")
+                decomp_name = os.path.splitext(f)[0] + decomp_ext
+                decomp_path = os.path.join(root, decomp_name)
+                print(f"[*] Expanding compressed file: {f} -> {decomp_name}")
+                subprocess.run(["expand", comp_path, decomp_path], check=True)
+                os.remove(comp_path)
+
     all_files = []
     for root, dirs, files in os.walk(driver_dir):
         for f in files:
