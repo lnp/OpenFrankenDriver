@@ -12,7 +12,7 @@
 *(RTX 4070m, RTX 4060m, RTX 3070m, RTX 3060m, RTX 2060m, GTX 1660m and 65+ other models powered by AD106/GA104/GA106/TU106 mobile silicon)*
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![NVIDIA Driver Version](https://img.shields.io/badge/NVIDIA-621.35%20Hotfix-76B900?logo=nvidia)](https://www.nvidia.com)
+[![NVIDIA Driver Version](https://img.shields.io/badge/NVIDIA-621.40%20WHQL-76B900?logo=nvidia)](https://www.nvidia.com)
 [![Anti-Cheat Ready](https://img.shields.io/badge/Anti--Cheat-EAC%20%7C%20BattlEye%20%7C%20VAC%20Passed-success)](docs/ARCHITECTURE.md)
 [![Platform](https://img.shields.io/badge/Windows-10%20%7C%2011%20(64--bit)-0078D6?logo=windows)](docs/SUPPORTED_DEVICES.md)
 [![Boosty](https://img.shields.io/badge/Boosty-Support%20Project-F15F2C?logo=boosty)](https://boosty.to/defrag)
@@ -22,20 +22,20 @@
 <table>
   <thead>
     <tr>
-      <th width="38%"><img src="assets/icon.png" width="18" height="18" align="absmiddle">&nbsp;OpenFrankenDriver&nbsp;621.35.1</th>
-      <th width="62%">📋 What's New in 621.35.1</th>
+      <th width="38%"><img src="assets/icon.png" width="18" height="18" align="absmiddle">&nbsp;OpenFrankenDriver&nbsp;621.40</th>
+      <th width="62%">📋 What's New in 621.40 WHQL</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td valign="top" align="center">
         <br>
-        <a href="https://disk.yandex.ru/d/Qr8Z-BdUQEUn1w"><img src="assets/download_chest_v2.png" width="96" height="96" alt="Download OpenFrankenDriver from Yandex Disk"></a>
+        <a href="https://disk.yandex.ru/d/Xkq_-4ITPLCbvQ"><img src="assets/download_chest_v2.png" width="96" height="96" alt="Download OpenFrankenDriver from Yandex Disk"></a>
         <br><br>
-        <a href="https://disk.yandex.ru/d/Qr8Z-BdUQEUn1w"><b>Download from Yandex Disk (~1.02 GB) →</b></a>
+        <a href="https://disk.yandex.ru/d/Xkq_-4ITPLCbvQ"><b>Download from Yandex Disk (~1.15 GB) →</b></a>
         <br><br>
         <div align="left">
-        • <b>Version:</b> 621.35.1 Hotfix (SSD Protection &amp; Debloat)<br>
+        • <b>Version:</b> 621.40 WHQL (SSD Protection &amp; Debloat)<br>
         • <b>OS:</b> Windows 10 &amp; 11 (64-bit, all editions)<br>
         • <b>Zero-Touch:</b> automatic certificate install<br>
         • Standalone Classic Control Panel (Win32)<br>
@@ -43,9 +43,10 @@
         <br>
       </td>
       <td valign="top">
-        ✨ <b>Upgraded to 621.35 Hotfix Base &amp; Full Storage Protection</b>:<br>
-        In official NVIDIA Hotfix 621.35, critical bug #7116722 (incessant <code>nvlog.nvlgstg</code> writes by <code>NVDisplay.Container.exe</code>) has been officially resolved.<br><br>
-        OpenFrankenDriver 621.35.1 additionally retains native preventative protection (DisableLoad=1 for the background <code>_nvtopps</code> telemetry plugin), completely eliminating redundant background I/O wear on SSDs and freeing CPU cycles for gaming.
+        ✨ <b>Upgraded to 621.40 WHQL Base &amp; Faster Unpacking</b>:<br>
+        • Rebased on official <b>NVIDIA 621.40 WHQL</b> with the definitive fix for excessive <code>nvlog.nvlgstg</code> SSD writes and latest game optimizations.<br>
+        • Fixed <code>NV_DISP.CAT</code> catalog hashing for compressed DLSS libraries (<code>nvngx_dlssd.dll</code>) — clean Windows 10/11 installations proceed with zero security prompts.<br>
+        • Optimized compression (<code>-mx=4</code>, 16 MB dict) for noticeably faster installer unpacking, while retaining native telemetry protection (<code>_nvtopps DisableLoad=1</code>).
       </td>
     </tr>
   </tbody>
@@ -87,7 +88,7 @@ The original closed-source **FrankenDriver** (`arutar/FrankenDriver`) was a popu
 | Feature / Issue | Original FrankenDriver | <img src="assets/badge.png" alt="OpenFrankenDriver" width="180"> |
 |---|---|---|
 | **Open Source & Transparency** | ❌ Closed-source binary. Repository has no code or build scripts. | ✅ **100% Open-Source**. Complete Python build pipeline is public and auditable. |
-| **Availability** | ❌ Modern driver branches are paywalled. | ✅ **Always free**. Includes the latest stable **621.35 Hotfix** branch. |
+| **Availability** | ❌ Modern driver branches are paywalled. | ✅ **Always free**. Includes the latest stable **621.40 WHQL** branch. |
 | **Zero-Touch Installation** | ❌ Annoying red Windows Security popup ("Publisher cannot be verified"). Required manual cert import. | ✅ **Silent automated trust**. Certificates are seamlessly imported into `Root` and `TrustedPublisher`. Zero popups. |
 | **Standalone Control Panel** | ❌ Missing on clean Windows or stripped editions (required MS Store and internet). | ✅ **Standalone Win32 Control Panel** (`nvcplui.exe`) bundled natively. Works out of the box on Windows LTSC / Compact without Store or internet. |
 | **Safety & Anti-Cheat** | ❓ Closed binaries raised security concerns. | ✅ **Genuine Untouched NVIDIA Kernel Binaries**. 100% WHQL integrity, `signtool` verified, `testsigning No`, full EAC / BattlEye / VAC support. |
@@ -96,7 +97,7 @@ The original closed-source **FrankenDriver** (`arutar/FrankenDriver`) was a popu
 
 ## 💾 Quick Install (For Gamers & End Users)
 
-1. **Download the pre-built installer** via the table above or directly from [Yandex Disk](https://disk.yandex.ru/d/Qr8Z-BdUQEUn1w).
+1. **Download the pre-built installer** via the table above or directly from [Yandex Disk](https://disk.yandex.ru/d/Xkq_-4ITPLCbvQ).
 2. *(Recommended)* If updating from old modded drivers, run **DDU (Display Driver Uninstaller)** in Windows Safe Mode to clean legacy driver files.
 3. Run the downloaded installer `.exe`.
 4. Select **NVIDIA Graphics Driver** and click **Next**.
