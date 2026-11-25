@@ -158,8 +158,10 @@ def main():
     cdf_path = os.path.join(driver_dir, "nv_disp.cdf")
     cat_path = os.path.join(driver_dir, "nv_disp.cat")
 
-    # Expand any compressed driver files (e.g., ngx-builtins/nvngx_dlssd.dl_) so that
-    # the uncompressed destination files exist on disk and are correctly cataloged and hashed by makecat.
+    # Expand any compressed driver files (e.g., ngx-builtins/nvngx_dlssd.dl_) temporarily so that
+    # makecat hashes the uncompressed destination files (nvngx_dlssd.dll), while keeping the original
+    # compressed .dl_ file intact for DisplayDriver.nvi's <manifest> check.
+    temp_expanded_files = []
     for root, dirs, files in os.walk(driver_dir):
         for f in files:
             if f.lower().endswith((".dl_", ".ex_", ".sy_")):
@@ -167,9 +169,10 @@ def main():
                 decomp_ext = ".dll" if f.lower().endswith(".dl_") else (".exe" if f.lower().endswith(".ex_") else ".sys")
                 decomp_name = os.path.splitext(f)[0] + decomp_ext
                 decomp_path = os.path.join(root, decomp_name)
-                print(f"[*] Expanding compressed file: {f} -> {decomp_name}")
-                subprocess.run(["expand", comp_path, decomp_path], check=True)
-                os.remove(comp_path)
+                if not os.path.exists(decomp_path):
+                    print(f"[*] Temporarily expanding compressed file for catalog hash: {f} -> {decomp_name}")
+                    subprocess.run(["expand", comp_path, decomp_path], check=True)
+                    temp_expanded_files.append(decomp_path)
 
     all_files = []
     for root, dirs, files in os.walk(driver_dir):
@@ -185,6 +188,10 @@ def main():
             f_cdf.write(f"<HASH>{fname}={relpath}\n")
 
     subprocess.run([makecat, "-v", "nv_disp.cdf"], cwd=driver_dir, check=True)
+
+    for tmp_f in temp_expanded_files:
+        if os.path.exists(tmp_f):
+            os.remove(tmp_f)
 
     print("[*] Signing nv_disp.cat with RFC3161 DigiCert timestamp...")
     cmd_sign_cat = [
