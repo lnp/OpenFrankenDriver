@@ -302,9 +302,9 @@ def main():
     cmd_7z = [
         seven_zip, "a", archive_7z,
         os.path.join(unpack_dir, "*"),
-        "-m0=LZMA2:d26",
+        "-m0=LZMA2:d24",
         "-mf=off",
-        "-mx=9",
+        "-mx=4",
         "-ms=on",
         "-mmt=16"
     ]
