@@ -29,10 +29,12 @@ python scripts/build.py --nvidia-exe "C:\Path\To\621.14-desktop-win10-win11-64bi
 
 ### Дополнительные флаги (при необходимости):
 - `--output "C:\Path\To\MyDriver.exe"` — путь и имя выходного готового `.exe`.
-- `--pfx "C:\Path\To\cert.pfx"` — путь к существующему сертификату подписи. Если флаг опущен, скрипт автоматически сгенерирует локальный доверенный сертификат через `scripts/create_cert.ps1`.
+- `--pfx "C:\Path\To\cert.pfx"` — путь к существующему сертификату подписи. Если флаг опущен и локальный ключ отсутствует, скрипт автоматически сгенерирует доверенный сертификат через `scripts/create_cert.ps1`.
 - `--pfx-pass "1234"` — пароль от PFX-сертификата (по умолчанию `1234`).
+- `--slim` — облегчённая сборка: вырезает NVIDIA App / Overlay / ShadowPlay / FrameViewSDK / телеметрию (~650 МБ в распакованном виде), сохраняя `Display.Driver`, Win32-панель управления, `PhysX`, `HDAudio`, `MSVCRuntime` и файлы лицензии.
+- `--keep-telemetry` — оставить фоновый плагин `_nvtopps` активным (не прописывать `DisableLoad=1`).
 
-Скрипт самостоятельно распакует архив, пропатчит INF, сгенерирует рекурсивный каталог `nv_disp.cat` (271 файл), подпишет его с официальным штампом времени DigiCert RFC3161, встроит Win32 Панель управления и упакует монолитный самораспаковывающийся инсталлятор.
+Скрипт самостоятельно распакует архив, динамически определит секции в `nv_dispi.inf`, сгенерирует рекурсивный каталог `nv_disp.cat`, подпишет его со штампом времени DigiCert RFC3161, при наличии MSVC/GCC пересоберёт `install_helper.c` (иначе использует готовый), интегрирует Win32 Панель управления, выполнит встроенный **Smoke Check** всех `.nvi` манифестов и упакует монолитный самораспаковывающийся инсталлятор (`-mx=4`).
 
 ---
 
@@ -90,17 +92,15 @@ python scripts/build.py --nvidia-exe "C:\Path\To\621.14-desktop-win10-win11-64bi
    ```cmd
    signtool sign /f "FrankenDriver.pfx" /p 1234 /fd SHA256 /tr http://timestamp.digicert.com /td SHA256 nv_disp.cat
    ```
-4. Скопируйте подписанный `nv_disp.cat` в папку `EACSupport\nv_disp.cat` в корне распакованного инсталлятора.
 
 ### Шаг 4: Подключение автоматической установки сертификата
 1. Создайте в корне инсталлятора папку `FrankenDriver`.
 2. Поместите туда публичный сертификат `FrankenDriver.cer` и файл `src/FrankenDriver.nvi`.
 3. В файле `setup.cfg` подключите зависимость:
    ```xml
-   <sub-package name="FrankenDriverCert" disposition="critical" hidden="true" />
-   <sub-package name="EACSupportCatalog" disposition="optional" hidden="false" />
+   <sub-package name="FrankenDriverCert" disposition="default" hidden="true" />
    ```
-   и укажите их в блоке `<dependencies>` субпакета `Display.Driver`.
+   и укажите `FrankenDriverCert` в блоке `<dependencies>` субпакета `Display.Driver` (`type="after"`).
 
 ### Шаг 5: Установка драйвера
 Запустите `setup.exe`. Установщик штатно установит драйвер на видеокарту.

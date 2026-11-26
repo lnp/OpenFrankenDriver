@@ -311,33 +311,26 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
     }
 
     // Registry: NVTweak EnableNvcplUIOnDCH = 1
-    HKEY hKey;
-    if (RegCreateKeyExW(HKEY_LOCAL_MACHINE, L"SYSTEM\\CurrentControlSet\\Services\\nvlddmkm\\Parameters\\Global\\NVTweak", 0, NULL, 0, KEY_SET_VALUE, NULL, &hKey, NULL) == ERROR_SUCCESS) {
-        DWORD val = 1;
-        RegSetValueExW(hKey, L"EnableNvcplUIOnDCH", 0, REG_DWORD, (BYTE*)&val, sizeof(DWORD));
-        RegCloseKey(hKey);
-    }
-    if (RegCreateKeyExW(HKEY_LOCAL_MACHINE, L"SOFTWARE\\NVIDIA Corporation\\Global\\NVTweak", 0, NULL, 0, KEY_SET_VALUE, NULL, &hKey, NULL) == ERROR_SUCCESS) {
-        DWORD val = 1;
-        RegSetValueExW(hKey, L"EnableNvcplUIOnDCH", 0, REG_DWORD, (BYTE*)&val, sizeof(DWORD));
-        RegCloseKey(hKey);
-    }
-
-    // Fix: Disable buggy nvtopps continuous SSD write loop in NVDisplay.ContainerLocalSystem
-    HKEY hTopps;
-    const wchar_t* toppsKeys[] = {
-        L"SYSTEM\\CurrentControlSet\\Services\\NVDisplay.ContainerLocalSystem\\Parameters\\LocalSystem\\_nvtopps",
-        L"SYSTEM\\CurrentControlSet\\Services\\NVDisplay.ContainerLocalSystem\\Parameters\\LocalSystem\\NvTopps",
-        L"SYSTEM\\CurrentControlSet\\Services\\NVDisplay.ContainerLocalSystem\\LocalSystem\\_nvtopps"
+    const wchar_t* nvtweakKeys[] = {
+        L"SYSTEM\\CurrentControlSet\\Services\\nvlddmkm\\Parameters\\Global\\NVTweak",
+        L"SOFTWARE\\NVIDIA Corporation\\Global\\NVTweak"
     };
-    for (int k = 0; k < sizeof(toppsKeys)/sizeof(toppsKeys[0]); k++) {
-        if (RegCreateKeyExW(HKEY_LOCAL_MACHINE, toppsKeys[k], 0, NULL, 0, KEY_SET_VALUE, NULL, &hTopps, NULL) == ERROR_SUCCESS) {
+    for (int k = 0; k < sizeof(nvtweakKeys) / sizeof(nvtweakKeys[0]); k++) {
+        HKEY hKey = NULL;
+        LSTATUS st = RegCreateKeyExW(HKEY_LOCAL_MACHINE, nvtweakKeys[k], 0, NULL, 0, KEY_SET_VALUE, NULL, &hKey, NULL);
+        if (st == ERROR_SUCCESS) {
             DWORD val = 1;
-            RegSetValueExW(hTopps, L"DisableLoad", 0, REG_DWORD, (BYTE*)&val, sizeof(DWORD));
-            RegCloseKey(hTopps);
+            LSTATUS stVal = RegSetValueExW(hKey, L"EnableNvcplUIOnDCH", 0, REG_DWORD, (BYTE*)&val, sizeof(DWORD));
+            RegCloseKey(hKey);
+            if (stVal != ERROR_SUCCESS) {
+                swprintf_s(logBuf, 1024, L"FAILED RegSetValueExW on %s (error %ld)", nvtweakKeys[k], stVal);
+                LogMsg(logBuf);
+            }
+        } else {
+            swprintf_s(logBuf, 1024, L"FAILED RegCreateKeyExW on %s (error %ld)", nvtweakKeys[k], st);
+            LogMsg(logBuf);
         }
     }
-    LogMsg(L"Applied nvtopps SSD thrashing protection (DisableLoad=1).");
 
     SHChangeNotify(SHCNE_ASSOCCHANGED, SHCNF_FLUSH, NULL, NULL);
 

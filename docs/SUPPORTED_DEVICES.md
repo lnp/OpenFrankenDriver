@@ -1,6 +1,6 @@
-# Поддерживаемые видеокарты (71 модель / конфигурация)
+# Поддерживаемые видеокарты (70 моделей / конфигураций)
 
-В данном документе перечислены все 71 конфигурацию видеокарт-мутантов (мобильные чипы NVIDIA на десктопных печатных платах с интерфейсом PCIe), поддерживаемых **OpenFrankenDriver**.
+В данном документе перечислены все 70 конфигураций видеокарт-мутантов (мобильные чипы NVIDIA на десктопных печатных платах с интерфейсом PCIe), поддерживаемых **OpenFrankenDriver**.
 
 Для всех перечисленных устройств драйвер автоматически применяет:
 - Привязку Hardware ID к WDDM-секциям (`17134` для Windows 10/11 и `26200` для Windows 11);
@@ -68,17 +68,16 @@
 | 57 | `PCI\VEN_10DE&DEV_2820&SUBSYS_000010DE` | **NVIDIA GeForce RTX 4070m** |
 | 58 | `PCI\VEN_10DE&DEV_2860&SUBSYS_000010DE` | **NVIDIA GeForce RTX 4070m** |
 | 59 | `PCI\VEN_10DE&DEV_2860&SUBSYS_17311025` | **NVIDIA GeForce RTX 4070m** |
-| 60 | `PCI\VEN_10DE&DEV_24B7&SUBSYS_000010DE` | **NVIDIA RTX A4000m** |
-| 61 | `PCI\VEN_10DE&DEV_27BA&SUBSYS_000010DE` | **NVIDIA RTX 4000 Ada Generation Laptop GPU** |
-| 62 | `PCI\VEN_10DE&DEV_27BB&SUBSYS_000010DE` | **NVIDIA RTX 3500 Ada Generation Laptop GPU** |
-| 63 | `PCI\VEN_10DE&DEV_28A1&SUBSYS_000010DE` | **NVIDIA GeForce RTX 4050m** |
-| 64 | `PCI\VEN_10DE&DEV_28A0&SUBSYS_000010DE` | **NVIDIA GeForce RTX 4060m** |
-| 65 | `PCI\VEN_10DE&DEV_28B8&SUBSYS_000010DE` | **NVIDIA RTX 2000 Ada Generation Laptop GPU** |
-| 66 | `PCI\VEN_10DE&DEV_2C18&SUBSYS_000010DE` | **NVIDIA GeForce RTX 5090m** |
-| 67 | `PCI\VEN_10DE&DEV_2C2C&SUBSYS_0CCC1028` | **NVIDIA GeForce RTX 5080m** |
-| 68 | `PCI\VEN_10DE&DEV_2D00&SUBSYS_00000000` | **NVIDIA GeForce RTX 5060m** |
+| 60 | `PCI\VEN_10DE&DEV_27BA&SUBSYS_000010DE` | **NVIDIA RTX 4000 Ada Generation Laptop GPU** |
+| 61 | `PCI\VEN_10DE&DEV_27BB&SUBSYS_000010DE` | **NVIDIA RTX 3500 Ada Generation Laptop GPU** |
+| 62 | `PCI\VEN_10DE&DEV_28A1&SUBSYS_000010DE` | **NVIDIA GeForce RTX 4050m** |
+| 63 | `PCI\VEN_10DE&DEV_28A0&SUBSYS_000010DE` | **NVIDIA GeForce RTX 4060m** |
+| 64 | `PCI\VEN_10DE&DEV_28B8&SUBSYS_000010DE` | **NVIDIA RTX 2000 Ada Generation Laptop GPU** |
+| 65 | `PCI\VEN_10DE&DEV_2C18&SUBSYS_000010DE` | **NVIDIA GeForce RTX 5090m** |
+| 66 | `PCI\VEN_10DE&DEV_2C2C&SUBSYS_0CCC1028` | **NVIDIA GeForce RTX 5080m** |
+| 67 | `PCI\VEN_10DE&DEV_2D00&SUBSYS_00000000` | **NVIDIA GeForce RTX 5060m** |
 
 > Если вашей редкой модели нет в списке, вы можете добавить её Hardware ID в `data/devices.json` и собрать драйвер заново скриптом `scripts/build.py`.
-| 69 | `PCI\VEN_10DE&DEV_24B8&SUBSYS_000010DE` | **NVIDIA RTX A3000 Laptop GPU** |
-| 70 | `PCI\VEN_10DE&DEV_24B8&SUBSYS_00000000` | **NVIDIA RTX A3000 Laptop GPU** |
-| 71 | `PCI\VEN_10DE&DEV_2521&SUBSYS_00000000` | **NVIDIA GeForce RTX 3060m (12GB)** |
+| 68 | `PCI\VEN_10DE&DEV_24B8&SUBSYS_000010DE` | **NVIDIA RTX A3000 Laptop GPU** |
+| 69 | `PCI\VEN_10DE&DEV_24B8&SUBSYS_00000000` | **NVIDIA RTX A3000 Laptop GPU** |
+| 70 | `PCI\VEN_10DE&DEV_2521&SUBSYS_00000000` | **NVIDIA GeForce RTX 3060m (12GB)** |

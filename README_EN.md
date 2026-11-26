@@ -122,11 +122,12 @@ You can easily patch any official clean NVIDIA driver installer directly from NV
    ```
    The script automatically:
    - Extracts payload;
-   - Injects 71 mutant GPU configurations into sections `17134` (Windows 10/11) and `26200` (modern Windows 11 builds);
+   - Injects 70 unique mutant GPU configurations with dynamic INF `SectionXXX` resolution (`17134` & `26200`);
    - Removes vendor hardware locks and fixes Code 43 (`RM1457588`);
-   - Compiles and signs catalog `nv_disp.cat` with official RFC3161 DigiCert timestamp;
-   - Integrates the offline Win32 Control Panel (`nvcplui.exe`);
-   - Packages a monolithic SFX installer.
+   - Compiles and signs catalog `nv_disp.cat` with official RFC3161 DigiCert timestamp (including temporary expansion of compressed DLSS payloads for accurate hashing);
+   - Auto-compiles `src/install_helper.c` when MSVC/GCC is available (with prebuilt fallback) and integrates the offline Win32 Control Panel (`nvcplui.exe`);
+   - Runs automated Smoke Checks on all `.nvi` manifests and signatures before packing;
+   - Packages a monolithic SFX installer (also supports `--slim` to strip NVIDIA App/telemetry bloat and `--keep-telemetry`).
 
 ---
 
@@ -156,15 +157,14 @@ If you prefer step-by-step customization:
      ```cmd
      signtool sign /f certs/OpenFrankenDriver.pfx /p 1234 /fd SHA256 /tr http://timestamp.digicert.com /td SHA256 nv_disp.cat
      ```
-   - Copy signed `nv_disp.cat` into `EACSupport\` folder.
 
 4. **Control Panel Integration**:
    - Create subfolder `Display.NVCPL`;
-   - Extract `nvcplui.exe`, `nvcpluir.dll`, `NvGpuUtilization.exe`, `nvImage.dll` from `Display.Driver\NVCPL\*.appx`;
+   - Extract `nvcplui.exe`, `nvcpluir.dll`, `NvGpuUtilization.exe`, `nvImage.dll`, `EULA.txt` from `Display.Driver\NVCPL\*.appx`;
    - Provide `NVCPL.nvi` configuration and native `install_helper.exe`.
 
 5. **Packaging**:
-   - Compress with 7-Zip into `payload.7z` (LZMA2 ultra);
+   - Compress with 7-Zip into `payload.7z` (`-mf=off -mx=4 -m0=LZMA2:d24` for fast unpacking);
    - Prepend `PackageLauncher.exe` SFX stub;
    - Sign final `.exe` with project certificate.
 
