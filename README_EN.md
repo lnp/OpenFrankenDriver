@@ -22,20 +22,20 @@
 <table>
   <thead>
     <tr>
-      <th width="38%"><img src="assets/icon.png" width="18" height="18" align="absmiddle">&nbsp;OpenFrankenDriver&nbsp;621.40</th>
-      <th width="62%">📋 What's New in 621.40 WHQL</th>
+      <th width="38%"><img src="assets/icon.png" width="18" height="18" align="absmiddle">&nbsp;OpenFrankenDriver&nbsp;621.40.1</th>
+      <th width="62%">What's New in 621.40.1 WHQL</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td valign="top" align="center">
         <br>
-        <a href="https://disk.yandex.ru/d/Xkq_-4ITPLCbvQ"><img src="assets/download_chest_v2.png" width="96" height="96" alt="Download OpenFrankenDriver from Yandex Disk"></a>
+        <a href="https://disk.yandex.ru/d/KW0jFK7Eas2xYg"><img src="assets/download_chest_v2.png" width="96" height="96" alt="Download OpenFrankenDriver from Yandex Disk"></a>
         <br><br>
-        <a href="https://disk.yandex.ru/d/Xkq_-4ITPLCbvQ"><b>Download from Yandex Disk (~1.15 GB) →</b></a>
+        <a href="https://disk.yandex.ru/d/KW0jFK7Eas2xYg"><b>Download from Yandex Disk (~1.15 GB) →</b></a>
         <br><br>
         <div align="left">
-        • <b>Version:</b> 621.40 WHQL (SSD Protection &amp; Debloat)<br>
+        • <b>Version:</b> 621.40 WHQL (rev 621.40.1)<br>
         • <b>OS:</b> Windows 10 &amp; 11 (64-bit, all editions)<br>
         • <b>Zero-Touch:</b> automatic certificate install<br>
         • Standalone Classic Control Panel (Win32)<br>
@@ -43,10 +43,11 @@
         <br>
       </td>
       <td valign="top">
-        ✨ <b>Upgraded to 621.40 WHQL Base &amp; Faster Unpacking</b>:<br>
-        • Rebased on official <b>NVIDIA 621.40 WHQL</b> with the definitive fix for excessive <code>nvlog.nvlgstg</code> SSD writes and latest game optimizations.<br>
-        • Fixed <code>NV_DISP.CAT</code> catalog hashing for compressed DLSS libraries (<code>nvngx_dlssd.dll</code>) — clean Windows 10/11 installations proceed with zero security prompts.<br>
-        • Optimized compression (<code>-mx=4</code>, 16 MB dict) for noticeably faster installer unpacking, while retaining native telemetry protection (<code>_nvtopps DisableLoad=1</code>).
+        <b>Build Pipeline &amp; Installer Fixes (v621.40.1):</b><br>
+        • Built on <b>NVIDIA 621.40 WHQL</b> with fast extraction (<code>-mx=4</code>, 16 MB dict) and native <code>_nvtopps</code> disable.<br>
+        • Disabled <code>removeCPLInstallData</code> phase in <code>DisplayDriver.nvi</code> so the classic <code>nvcplui.exe</code> Control Panel persists reliably.<br>
+        • Removed dead <code>EACSupportCatalog</code> subpackage, fixed filename collision handling in <code>nv_disp.cat</code>, and added pre-pack Smoke Checks.<br>
+        • Added dynamic <code>nv_dispi.inf</code> section resolution, auto-compilation of <code>install_helper.c</code>, and <code>--slim</code> mode in <code>scripts/build.py</code>.
       </td>
     </tr>
   </tbody>
@@ -97,7 +98,7 @@ The original closed-source **FrankenDriver** (`arutar/FrankenDriver`) was a popu
 
 ## 💾 Quick Install (For Gamers & End Users)
 
-1. **Download the pre-built installer** via the table above or directly from [Yandex Disk](https://disk.yandex.ru/d/Xkq_-4ITPLCbvQ).
+1. **Download the pre-built installer** via the table above or directly from [Yandex Disk](https://disk.yandex.ru/d/KW0jFK7Eas2xYg).
 2. *(Recommended)* If updating from old modded drivers, run **DDU (Display Driver Uninstaller)** in Windows Safe Mode to clean legacy driver files.
 3. Run the downloaded installer `.exe`.
 4. Select **NVIDIA Graphics Driver** and click **Next**.

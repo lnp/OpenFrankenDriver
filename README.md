@@ -22,20 +22,20 @@
 <table>
   <thead>
     <tr>
-      <th width="38%"><img src="assets/icon.png" width="18" height="18" align="absmiddle">&nbsp;OpenFrankenDriver&nbsp;621.40</th>
-      <th width="62%">📋 Что нового в версии 621.40 WHQL</th>
+      <th width="38%"><img src="assets/icon.png" width="18" height="18" align="absmiddle">&nbsp;OpenFrankenDriver&nbsp;621.40.1</th>
+      <th width="62%">Что нового в версии 621.40.1 WHQL</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td valign="top" align="center">
         <br>
-        <a href="https://disk.yandex.ru/d/Xkq_-4ITPLCbvQ"><img src="assets/download_chest_v2.png" width="96" height="96" alt="Скачать OpenFrankenDriver с Яндекс Диска"></a>
+        <a href="https://disk.yandex.ru/d/KW0jFK7Eas2xYg"><img src="assets/download_chest_v2.png" width="96" height="96" alt="Скачать OpenFrankenDriver с Яндекс Диска"></a>
         <br><br>
-        <a href="https://disk.yandex.ru/d/Xkq_-4ITPLCbvQ"><b>Скачать с Яндекс Диска (~1.15 ГБ) →</b></a>
+        <a href="https://disk.yandex.ru/d/KW0jFK7Eas2xYg"><b>Скачать с Яндекс Диска (~1.15 ГБ) →</b></a>
         <br><br>
         <div align="left">
-        • <b>Версия:</b> 621.40 WHQL (защита SSD &amp; деблоат)<br>
+        • <b>Версия:</b> 621.40 WHQL (ревизия 621.40.1)<br>
         • <b>ОС:</b> Windows 10 &amp; 11 (64-bit, все версии)<br>
         • <b>Zero-Touch:</b> автоустановка сертификата<br>
         • Встроена автономная Панель управления Win32<br>
@@ -43,10 +43,11 @@
         <br>
       </td>
       <td valign="top">
-        ✨ <b>Переход на официальную базу 621.40 WHQL &amp; ускорение распаковки</b>:<br>
-        • Обновлено до стабильного WHQL-выпуска <b>NVIDIA 621.40</b> с окончательным исправлением бага записи логов <code>nvlog.nvlgstg</code> (защита SSD) и игровыми оптимизациями.<br>
-        • Исправлена генерация каталога безопасности <code>NV_DISP.CAT</code> для сжатых библиотек DLSS (<code>nvngx_dlssd.dll</code>) — установка на чистую Windows 10/11 проходит без единого предупреждения.<br>
-        • Оптимизирована степень сжатия (<code>-mx=4</code>, словарь 16 МБ) для более быстрой распаковки инсталлятора, сохранена нативная защита телеметрии (<code>_nvtopps DisableLoad=1</code>).
+        <b>Обновление пайплайна сборки и установщика (v621.40.1):</b><br>
+        • База <b>NVIDIA 621.40 WHQL</b> с быстрой распаковкой (<code>-mx=4</code>, словарь 16 МБ) и отключением <code>_nvtopps</code>.<br>
+        • Отключена фаза <code>removeCPLInstallData</code> в <code>DisplayDriver.nvi</code> — классическая панель <code>nvcplui.exe</code> стабильно сохраняется при установке.<br>
+        • Убран мёртвый субпакет <code>EACSupportCatalog</code>, исправлена коллизия имён в <code>nv_disp.cat</code> и добавлен Smoke Check манифестов/подписей перед упаковкой.<br>
+        • Добавлено динамическое разрешение секций <code>nv_dispi.inf</code>, автокомпиляция <code>install_helper.c</code> и опция <code>--slim</code> в <code>scripts/build.py</code>.
       </td>
     </tr>
   </tbody>
@@ -97,7 +98,7 @@
 
 ## 💾 Быстрая установка (Для пользователей)
 
-1. **Скачайте готовый установщик** по ссылке в таблице выше или с [Яндекс Диска](https://disk.yandex.ru/d/Xkq_-4ITPLCbvQ).
+1. **Скачайте готовый установщик** по ссылке в таблице выше или с [Яндекс Диска](https://disk.yandex.ru/d/KW0jFK7Eas2xYg).
 2. *(Рекомендуется)* Если вы обновляетесь со старых версий или меняли видеокарту, удалите предыдущий драйвер через **DDU (Display Driver Uninstaller)** в безопасном режиме.
 3. Запустите скачанный `.exe` файл.
 4. Выберите **«Графический драйвер NVIDIA»** и нажмите **«Далее»**.
