@@ -46,7 +46,7 @@
         <b>Build Pipeline &amp; Installer Fixes (v621.40.1):</b><br>
         • Built on <b>NVIDIA 621.40 WHQL</b> with fast extraction (<code>-mx=4</code>, 16 MB dict) and native <code>_nvtopps</code> disable.<br>
         • Disabled <code>removeCPLInstallData</code> phase in <code>DisplayDriver.nvi</code> so the classic <code>nvcplui.exe</code> Control Panel persists reliably.<br>
-        • Removed dead <code>EACSupportCatalog</code> subpackage, fixed filename collision handling in <code>nv_disp.cat</code>, and added pre-pack Smoke Checks.<br>
+        • Removed the unused empty <code>EACSupportCatalog</code> stub without an <code>.nvi</code> manifest (<code>nv_disp.cat</code> is natively staged by <code>Display.Driver</code>), fixed filename collision handling in <code>nv_disp.cat</code>, and added pre-pack Smoke Checks.<br>
         • Added dynamic <code>nv_dispi.inf</code> section resolution, auto-compilation of <code>install_helper.c</code>, and <code>--slim</code> mode in <code>scripts/build.py</code>.
       </td>
     </tr>

@@ -46,7 +46,7 @@
         <b>Обновление пайплайна сборки и установщика (v621.40.1):</b><br>
         • База <b>NVIDIA 621.40 WHQL</b> с быстрой распаковкой (<code>-mx=4</code>, словарь 16 МБ) и отключением <code>_nvtopps</code>.<br>
         • Отключена фаза <code>removeCPLInstallData</code> в <code>DisplayDriver.nvi</code> — классическая панель <code>nvcplui.exe</code> стабильно сохраняется при установке.<br>
-        • Убран мёртвый субпакет <code>EACSupportCatalog</code>, исправлена коллизия имён в <code>nv_disp.cat</code> и добавлен Smoke Check манифестов/подписей перед упаковкой.<br>
+        • Удалена неиспользуемая пустая заглушка <code>EACSupportCatalog</code> без <code>.nvi</code>-манифеста (каталог безопасности <code>nv_disp.cat</code> ставится штатно через <code>Display.Driver</code>), исправлена коллизия имён в <code>nv_disp.cat</code> и добавлен Smoke Check манифестов/подписей перед упаковкой.<br>
         • Добавлено динамическое разрешение секций <code>nv_dispi.inf</code>, автокомпиляция <code>install_helper.c</code> и опция <code>--slim</code> в <code>scripts/build.py</code>.
       </td>
     </tr>
