@@ -196,7 +196,7 @@ def compile_install_helper(repo_dir, out_dir):
 
 
 def patch_display_driver_nvi(unpack_dir, keep_telemetry):
-    """Disable removeCPLInstallData cleanup race and optionally inject _nvtopps SSD protection."""
+    """Disable removeCPLInstallData / Store AppX DISM install and optionally inject _nvtopps SSD protection."""
     target_nvi = os.path.join(unpack_dir, "Display.Driver", "DisplayDriver.nvi")
     if not os.path.isfile(target_nvi):
         return
@@ -213,6 +213,18 @@ def patch_display_driver_nvi(unpack_dir, keep_telemetry):
     if nvi_updated != nvi:
         print("[+] Disabled removeCPLInstallData phase in DisplayDriver.nvi")
         nvi = nvi_updated
+
+    # Remove Store NVCPL AppX manifest entries and Dism.exe provisioning phase (classic Win32 Display.NVCPL replaces it)
+    nvi_no_appx = re.sub(r'<file\s+name="NVCPL\\[^"]+"\s*[^>]*/>', "", nvi)
+    nvi_no_appx = re.sub(
+        r'[ \t]*<exe\s+phase="cplAppxPackageInstall"[^>]*>.*?</exe>\r?\n?',
+        "",
+        nvi_no_appx,
+        flags=re.DOTALL,
+    )
+    if nvi_no_appx != nvi:
+        print("[+] Removed Store AppX manifest entries and Dism.exe cplAppxPackageInstall phase")
+        nvi = nvi_no_appx
 
     if not keep_telemetry:
         ssd_fix_phase = (
@@ -304,6 +316,12 @@ def integrate_custom_subpackages(unpack_dir, repo_dir, cer_path):
                 raise RuntimeError(f"Failed to extract {name} from {appx_candidates[0]}")
 
     compile_install_helper(repo_dir, nvcpl_pkg_dir)
+
+    # Delete redundant Store AppX payload now that Win32 NVCPL files are extracted
+    store_nvcpl_dir = os.path.join(unpack_dir, "Display.Driver", "NVCPL")
+    if os.path.isdir(store_nvcpl_dir):
+        shutil.rmtree(store_nvcpl_dir)
+        print("[+] Removed redundant Display.Driver/NVCPL Store AppX folder.")
 
     nvcpl_nvi = os.path.join(repo_dir, "src", "NVCPL.nvi")
     if not os.path.isfile(nvcpl_nvi):
@@ -608,11 +626,11 @@ def main():
     subprocess.run([sys.executable, inject_script, target_inf], check=True)
     patch_display_driver_nvi(unpack_dir, args.keep_telemetry)
 
-    print("\n[3/8] Generating and signing security catalog (nv_disp.cat)...")
-    generate_security_catalog(unpack_dir, makecat, signtool, pfx_path, args.pfx_pass)
-
-    print("\n[4/8] Integrating custom subpackages (FrankenDriverCert + Display.NVCPL)...")
+    print("\n[3/8] Integrating custom subpackages (FrankenDriverCert + Display.NVCPL)...")
     integrate_custom_subpackages(unpack_dir, repo_dir, cer_path)
+
+    print("\n[4/8] Generating and signing security catalog (nv_disp.cat)...")
+    generate_security_catalog(unpack_dir, makecat, signtool, pfx_path, args.pfx_pass)
 
     print("\n[5/8] Updating setup.cfg...")
     if args.slim:
