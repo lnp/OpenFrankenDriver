@@ -8,12 +8,13 @@
 
 Для сборки модифицированного пакета потребуются:
 - **Операционная система**: Windows 10 или Windows 11 (64-bit).
-- **Python**: версия 3.10 или выше. Установите библиотеку `pefile`:
+- **Python**: версия 3.10 или выше. Установите зависимости:
   ```cmd
-  pip install pefile
+  pip install pefile Pillow
   ```
 - **7-Zip**: архиватор, установленный по стандартному пути (`C:\Program Files\7-Zip\7z.exe`).
 - **Windows SDK**: необходим для системных утилит `makecat.exe` и `signtool.exe` (входит в состав Windows 10/11 SDK или Visual Studio).
+- **Rust toolchain (`rustc` / `cargo` MSVC и Windows SDK)**: необходим **только** при сборке нативного установщика 2.x с флагом `--beta-installer` (проверено на `rustc 1.99.1`).
 - **Исходный чистый драйвер NVIDIA**: официальный установщик DCH WHQL с [сайта NVIDIA](https://www.nvidia.com/Download/index.aspx).
 
 ---
@@ -24,17 +25,30 @@
 
 ### Команда запуска:
 ```cmd
-python scripts/build.py --nvidia-exe "C:\Path\To\621.14-desktop-win10-win11-64bit-international-dch-whql.exe"
+python scripts/build.py --nvidia-exe "C:\Path\To\621.40-desktop-win10-win11-64bit-international-dch-whql.exe"
 ```
 
 ### Дополнительные флаги (при необходимости):
+- `--beta-installer` — сборка **OpenFrankenDriver v2 Beta** (`OpenFrankenDriver_v2_Beta_<ver>.exe`): полностью заменяет проприетарный `PackageLauncher.exe` и `NVI2` открытыми нативными Rust-компонентами [`src/sfx_rust`](../src/sfx_rust) (`sfx_stub.exe`, Variant `03E` + `sevenz-turbo`) и [`src/setup_rust`](../src/setup_rust) (`setup.exe`), вырезает bloat-компоненты и добавляет опциональный `NVProfileInspector`.
+- `--ignore-phase-guard` — продолжить сборку `--beta-installer`, даже если **Phase Guard** обнаружил в новом драйвере NVIDIA неизвестную `.nvi`-фазу.
 - `--output "C:\Path\To\MyDriver.exe"` — путь и имя выходного готового `.exe`.
 - `--pfx "C:\Path\To\cert.pfx"` — путь к существующему сертификату подписи. Если флаг опущен и локальный ключ отсутствует, скрипт автоматически сгенерирует доверенный сертификат через `scripts/create_cert.ps1`.
 - `--pfx-pass "1234"` — пароль от PFX-сертификата (по умолчанию `1234`).
-- `--slim` — облегчённая сборка: вырезает NVIDIA App / Overlay / ShadowPlay / FrameViewSDK / телеметрию (~650 МБ в распакованном виде), сохраняя `Display.Driver`, Win32-панель управления, `PhysX`, `HDAudio`, `MSVCRuntime` и файлы лицензии.
+- `--slim` — облегчённая сборка ветки 1.x: вырезает NVIDIA App / Overlay / ShadowPlay / FrameViewSDK / телеметрию, сохраняя `Display.Driver`, Win32-панель управления, `PhysX`, `HDAudio`, `MSVCRuntime` и файлы лицензии.
 - `--keep-telemetry` — оставить фоновый плагин `_nvtopps` активным (не прописывать `DisableLoad=1`).
 
-Скрипт самостоятельно распакует архив, динамически определит секции в `nv_dispi.inf`, сгенерирует рекурсивный каталог `nv_disp.cat`, подпишет его со штампом времени DigiCert RFC3161, при наличии MSVC/GCC пересоберёт `install_helper.c` (иначе использует готовый), интегрирует Win32 Панель управления, выполнит встроенный **Smoke Check** всех `.nvi` манифестов и упакует монолитный самораспаковывающийся инсталлятор (`-mx=4`).
+Скрипт самостоятельно распакует архив, динамически определит секции в `nv_dispi.inf`, сгенерирует рекурсивный каталог `nv_disp.cat`, подпишет его со штампом времени DigiCert RFC3161, при наличии MSVC/GCC пересоберёт `install_helper.c` (иначе использует готовый), интегрирует Win32 Панель управления, выполнит встроенный **Smoke Check** (а в режиме `--beta-installer` — ещё и **Phase Guard** `.nvi` и сборку `setup.exe` / `sfx_stub.exe`) и упакует монолитный самораспаковывающийся инсталлятор (`-mx=4`).
+
+### Тестирование нативных компонентов (для `--beta-installer`):
+```powershell
+# Юнит-тесты установщика setup_rust и SFX-распаковщика sfx_rust
+cargo test --manifest-path "src\setup_rust\Cargo.toml"
+cargo test --manifest-path "src\sfx_rust\Cargo.toml"
+
+# Полная проверка потоковой распаковки собранного монолитного .exe и проверка подписи
+cargo test --release --manifest-path "src\sfx_rust\Cargo.toml" verify_real_monolithic_exe_extracts -- --ignored --nocapture
+signtool verify /pa "C:\drivers\OpenFrankenDriver_v2_Beta_621.40.exe"
+```
 
 ---
 

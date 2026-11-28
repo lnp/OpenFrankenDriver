@@ -1,0 +1,17 @@
+[package]
+name = "open_franken_sfx"
+version = "2.0.0"
+edition = "2021"
+
+[[bin]]
+name = "sfx_stub"
+path = "src/main.rs"
+
+[dependencies]
+sevenz-turbo = { version = "0.31.0", default-features = false, features = ["util"] }
+
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1
+strip = true

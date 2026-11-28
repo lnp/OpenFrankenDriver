@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta charset="utf-8" />
+<title>OpenFrankenDriver</title>
+<style type="text/css">
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background-color: #121212;
+    color: #e5e5e5;
+    font-family: "Segoe UI", Tahoma, Arial, sans-serif;
+    -ms-user-select: none;
+    user-select: none;
+}
+#root {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background: #141614;
+    border-bottom: 1px solid #262926;
+    box-sizing: border-box;
+}
+#topbar {
+    position: absolute;
+    top: 14px;
+    left: 24px;
+    right: 24px;
+    height: 22px;
+}
+#brand {
+    float: left;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    color: #76b900;
+}
+#counter {
+    float: right;
+    font-size: 11px;
+    color: #7a807a;
+}
+#stage {
+    position: absolute;
+    top: 44px;
+    bottom: 42px;
+    left: 24px;
+    right: 24px;
+}
+table.layout {
+    width: 100%;
+    height: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+td.coverCell {
+    width: 48%;
+    vertical-align: middle;
+    padding-right: 18px;
+}
+td.textCell {
+    width: 52%;
+    vertical-align: middle;
+    padding-left: 6px;
+}
+#coverFrame {
+    width: 100%;
+    height: 230px;
+    background-color: #0b0d0b;
+    border: 1px solid #2b302b;
+    text-align: center;
+    line-height: 230px;
+    overflow: hidden;
+}
+#coverImg {
+    max-width: 100%;
+    max-height: 226px;
+    vertical-align: middle;
+    border: 0;
+}
+#gameTitle {
+    font-size: 22px;
+    font-weight: 600;
+    color: #ffffff;
+    line-height: 1.25;
+    margin: 0 0 12px 0;
+}
+#accent {
+    width: 44px;
+    height: 3px;
+    background-color: #76b900;
+    margin: 0 0 16px 0;
+}
+#gameQuote {
+    font-size: 15px;
+    font-style: italic;
+    line-height: 1.5;
+    color: #d6dcd6;
+    margin: 0;
+}
+#gameAuthor {
+    font-size: 12px;
+    color: #8b948b;
+    margin-top: 12px;
+}
+#controls {
+    position: absolute;
+    bottom: 10px;
+    left: 24px;
+    right: 24px;
+    height: 26px;
+    text-align: center;
+}
+.navBtn {
+    display: inline-block;
+    width: 28px;
+    height: 22px;
+    line-height: 20px;
+    text-align: center;
+    background-color: #1d201d;
+    border: 1px solid #303530;
+    color: #b8bfb8;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    vertical-align: middle;
+    margin: 0 8px;
+}
+.navBtn:hover {
+    border-color: #76b900;
+    color: #ffffff;
+}
+#dots {
+    display: inline-block;
+    vertical-align: middle;
+}
+.dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    margin: 0 4px;
+    background-color: #343934;
+    cursor: pointer;
+    vertical-align: middle;
+}
+.dotActive {
+    width: 18px;
+    background-color: #76b900;
+}
+</style>
+<script type="text/javascript">
+var SLIDES = /*__SLIDES_JSON__*/[];
+var order = [];
+var curPos = 0;
+var timerId = null;
+
+function buildOrder() {
+    var classics = [];
+    var poe = [];
+    var i;
+    for (i = 0; i < SLIDES.length; i++) {
+        if (SLIDES[i].kind === "classic") {
+            classics.push(i);
+        } else {
+            poe.push(i);
+        }
+    }
+    for (i = classics.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var tmp = classics[i];
+        classics[i] = classics[j];
+        classics[j] = tmp;
+    }
+    order = [];
+    if (classics.length > 0) {
+        order.push(classics[0]);
+    }
+    var rest = classics.slice(1).concat(poe);
+    for (i = rest.length - 1; i > 0; i--) {
+        var k = Math.floor(Math.random() * (i + 1));
+        var t = rest[i];
+        rest[i] = rest[k];
+        rest[k] = t;
+    }
+    order = order.concat(rest);
+}
+
+function renderSlide() {
+    if (!order.length) {
+        return;
+    }
+    var idx = order[curPos];
+    var item = SLIDES[idx];
+    document.getElementById("gameTitle").innerText = item.title || "";
+    document.getElementById("gameQuote").innerText = "\u00ab" + (item.quote || "") + "\u00bb";
+    var authorEl = document.getElementById("gameAuthor");
+    if (item.author) {
+        authorEl.innerText = "\u2014 " + item.author;
+        authorEl.style.display = "block";
+    } else {
+        authorEl.innerText = "";
+        authorEl.style.display = "none";
+    }
+    document.getElementById("counter").innerText = (curPos + 1) + " / " + order.length;
+
+    var img = document.getElementById("coverImg");
+    img.onerror = function() {
+        if (item.cover_url && img.src !== item.cover_url) {
+            img.onerror = null;
+            img.src = item.cover_url;
+        }
+    };
+    img.src = item.slide_file || item.cover_url || "";
+
+    var dotsEl = document.getElementById("dots");
+    dotsEl.innerHTML = "";
+    var i;
+    for (i = 0; i < order.length; i++) {
+        var d = document.createElement("span");
+        d.className = (i === curPos) ? "dot dotActive" : "dot";
+        d.setAttribute("data-pos", String(i));
+        d.onclick = function() {
+            var p = parseInt(this.getAttribute("data-pos"), 10);
+            jumpTo(p);
+        };
+        dotsEl.appendChild(d);
+    }
+}
+
+function nextSlide() {
+    if (!order.length) {
+        return;
+    }
+    curPos = (curPos + 1) % order.length;
+    renderSlide();
+}
+
+function prevSlide() {
+    if (!order.length) {
+        return;
+    }
+    curPos = (curPos - 1 + order.length) % order.length;
+    renderSlide();
+}
+
+function jumpTo(p) {
+    curPos = p;
+    renderSlide();
+    resetTimer();
+}
+
+function resetTimer() {
+    if (timerId !== null) {
+        clearInterval(timerId);
+    }
+    timerId = setInterval(nextSlide, 9000);
+}
+
+function initShowcase() {
+    buildOrder();
+    renderSlide();
+    resetTimer();
+    try {
+        if (window.external && typeof window.external.ready !== "undefined") {
+            window.external.ready = true;
+        }
+    } catch (e) {}
+}
+</script>
+</head>
+<body onload="initShowcase()">
+<div id="root">
+    <div id="topbar">
+        <span id="brand">OpenFrankenDriver Showcase</span>
+        <span id="counter">1 / 6</span>
+    </div>
+    <div id="stage">
+        <table class="layout">
+            <tr>
+                <td class="coverCell">
+                    <div id="coverFrame">
+                        <img id="coverImg" alt="" src="" />
+                    </div>
+                </td>
+                <td class="textCell">
+                    <h1 id="gameTitle"></h1>
+                    <div id="accent"></div>
+                    <p id="gameQuote"></p>
+                    <div id="gameAuthor"></div>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div id="controls">
+        <span class="navBtn" onclick="prevSlide(); resetTimer();">&lt;</span>
+        <span id="dots"></span>
+        <span class="navBtn" onclick="nextSlide(); resetTimer();">&gt;</span>
+    </div>
+</div>
+</body>
+</html>

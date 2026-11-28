@@ -1,0 +1,184 @@
+[
+  {
+    "id": "homm3",
+    "title": "Heroes of Might and Magic III",
+    "quote": "Астрологи объявили неделю Золотого Дракона. Прирост Золотых Драконов увеличен на 5.",
+    "author": "",
+    "cover_url": "https://heroes3wog.net/wp-content/uploads/2023/10/new_postcard.jpg",
+    "crop_rect": [0.145, 0.19, 0.945, 0.725],
+    "slide_file": "slide_homm3.jpg",
+    "kind": "classic",
+    "beta": true
+  },
+  {
+    "id": "homm2",
+    "title": "Heroes of Might and Magic II",
+    "quote": "Lord Ironfist is dead, and his two sons now vie for the crown of Enroth.",
+    "author": "The Succession Wars",
+    "cover_url": "https://images.gog-statics.com/80940c3b71947fd3d83e7e53faf3c232089986188947b3f116f1f3069a534056.jpg",
+    "slide_file": "slide_homm2.jpg",
+    "kind": "classic",
+    "beta": true
+  },
+  {
+    "id": "fallout2",
+    "title": "Fallout 2",
+    "quote": "War. War never changes.",
+    "author": "",
+    "cover_url": "https://images.gog-statics.com/35d3d17c64d03d60395fe5e891a72e8d430e24190a8a187ac8aab31efe56b9ea.png",
+    "crop_rect": [0.0, 0.0, 0.72, 1.0],
+    "slide_file": "slide_fallout2.jpg",
+    "kind": "classic",
+    "beta": true
+  },
+  {
+    "id": "planescape",
+    "title": "Planescape: Torment",
+    "quote": "What can change the nature of a man?",
+    "author": "",
+    "cover_url": "https://images.gog-statics.com/fa204532133f3ded41330f4d07fcf4125518237cf867681e08853317f87cbf8e.png",
+    "slide_file": "slide_planescape.jpg",
+    "kind": "classic",
+    "beta": true
+  },
+  {
+    "id": "neverhood",
+    "title": "The Neverhood",
+    "quote": "It all starts with Hoborg, a being who had to create, because... he had to.",
+    "author": "Willie Trombone",
+    "cover_url": "https://www.old-games.ru/games/pc/neverhood__the/covers/largecover/1115_6978eb465d47b.png",
+    "crop_rect": [0.02, 0.12, 0.98, 0.85],
+    "slide_file": "slide_neverhood.jpg",
+    "kind": "classic",
+    "beta": true
+  },
+  {
+    "id": "nfs1_se",
+    "title": "The Need for Speed: Special Edition",
+    "quote": "Zero to sixty in 3.2 seconds. Just you, an open highway, and the police on your tail.",
+    "author": "",
+    "cover_url": "https://www.old-games.ru/games/pc/need_for_speed_special_edition__the/covers/largecover/500_69597ccdecdba.jpg",
+    "crop_rect": [0.04, 0.048, 0.96, 0.51],
+    "slide_file": "slide_nfs1_se.jpg",
+    "kind": "classic",
+    "beta": true
+  },
+  {
+    "id": "mm7",
+    "title": "Might and Magic VII: For Blood and Honor",
+    "quote": "Win the Scavenger Hunt on Emerald Island to claim Castle Harmondale.",
+    "author": "",
+    "cover_url": "https://images.gog-statics.com/2facf4324a1a31a413a0ff3ec541f1eb9eaf1c9da8dd340f11937f6378393e6e.jpg",
+    "slide_file": "slide_mm7.jpg",
+    "kind": "classic",
+    "beta": true
+  },
+  {
+    "id": "carmageddon_splat",
+    "title": "Carmageddon: Max Pack",
+    "quote": "3dfx Voodoo glide at full throttle. Extra tracks, extra carnage, zero brakes.",
+    "author": "",
+    "cover_url": "https://images.gog-statics.com/9598650c71ad5ad4f185dcdb881a5c864bacc422bda9d3eafaf011389052ebcc.png",
+    "crop_rect": [0.11, 0.0, 0.84, 1.0],
+    "slide_file": "slide_carmageddon_splat.jpg",
+    "kind": "classic",
+    "beta": true
+  },
+  {
+    "id": "halflife1",
+    "title": "Half-Life",
+    "quote": "The right man in the wrong place can make all the difference in the world.",
+    "author": "G-Man",
+    "cover_url": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/70/capsule_616x353.jpg",
+    "crop_rect": [0.08, 0.0, 1.0, 1.0],
+    "slide_file": "slide_halflife1.jpg",
+    "kind": "classic",
+    "beta": true
+  },
+  {
+    "id": "doom2",
+    "title": "DOOM II",
+    "quote": "To win the game you must kill me, John Romero.",
+    "author": "Icon of Sin",
+    "cover_url": "https://images.gog-statics.com/1d1474d31f50b8412796a88a0f0c8f0bc822811e42fa82e0fc0c79adfcb8d15a.png",
+    "crop_rect": [0.515, 0.03, 0.905, 0.87],
+    "slide_file": "slide_doom2.jpg",
+    "kind": "classic",
+    "beta": true
+  },
+  {
+    "id": "quake1",
+    "title": "Quake",
+    "quote": "Beware of Shub-Niggurath, the Black Goat of the Woods with a Thousand Young.",
+    "author": "id Software, 1996",
+    "cover_url": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2310/capsule_616x353.jpg",
+    "slide_file": "slide_quake1.jpg",
+    "kind": "classic",
+    "beta": true
+  },
+  {
+    "id": "sea_legends",
+    "title": "Морские легенды",
+    "quote": "Тридцать человек на сундук мертвеца, да пара залпов картечью с фрегата.",
+    "author": "Mir-Dialogue, 1996",
+    "cover_url": "https://piper.old-games.ru/uploads/scans/2022/05/2022-05-25-21-08-03-3111.jpg",
+    "crop_rect": [0.195, 0.025, 0.975, 0.975],
+    "slide_file": "slide_sea_legends.jpg",
+    "kind": "classic",
+    "beta": true
+  },
+  {
+    "id": "allods1",
+    "title": "Аллоды: Печать тайны",
+    "quote": "Аллод повис в бесконечном Астрале. Осталось разгадать тайну древней печати.",
+    "author": "Nival Interactive, 1998",
+    "cover_url": "https://piper.old-games.ru/uploads/scans/2015/08/2015-08-18-19-07-52-9499.jpg",
+    "crop_rect": [0.02, 0.02, 0.98, 0.98],
+    "slide_file": "slide_allods1.jpg",
+    "kind": "classic",
+    "beta": true
+  },
+  {
+    "id": "evil_islands",
+    "title": "Проклятые земли",
+    "quote": "Гипат. Здесь даже старые руины хранят память о Древних и чужой магии.",
+    "author": "Nival Interactive, 2000",
+    "cover_url": "https://piper.old-games.ru/uploads/scans/2017/06/2017-06-09-09-47-30-5284.jpg",
+    "crop_rect": [0.02, 0.02, 0.98, 0.96],
+    "slide_file": "slide_evil_islands.jpg",
+    "kind": "classic",
+    "beta": true
+  },
+  {
+    "id": "silent_storm",
+    "title": "Silent Storm",
+    "quote": "Полная разрушаемость, пошаговая тактика и секретные панцеркляйны в тылу врага.",
+    "author": "Nival Interactive, 2003",
+    "cover_url": "https://images.gog-statics.com/b463930a55e9b9799af0c636834f90562c56a49ddae51fbe37b36d06291b0720.png",
+    "slide_file": "slide_silent_storm.jpg",
+    "kind": "classic",
+    "beta": true
+  },
+  {
+    "id": "poe1",
+    "title": "Path of Exile",
+    "quote": "Still sane, Exile?",
+    "author": "Zana, Master Cartographer",
+    "cover_url": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/238960/2fee03a5f98b3b1f26e1655974ff7f29060b7368/capsule_616x353.jpg",
+    "crop_rect": [0.03, 0.0, 0.99, 1.0],
+    "slide_file": "slide_poe1.jpg",
+    "kind": "poe",
+    "beta": true
+  },
+  {
+    "id": "poe2",
+    "title": "Path of Exile 2",
+    "quote": "The Beast is on the move, twisting the desert as it goes, waking ancient dead and unknown horrors alike.",
+    "author": "The Hooded One",
+    "cover_url": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2694490/capsule_616x353.jpg",
+    "slide_file": "slide_poe2.jpg",
+    "kind": "poe",
+    "beta": true,
+    "pinned": true
+  }
+]

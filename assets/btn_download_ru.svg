@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 406 48" width="406" height="48" role="img" aria-label="Скачать 621.40 v2 Beta">
+  <rect width="406" height="48" fill="#0E1610" stroke="#2E4C34"/>
+  <rect width="5" height="48" fill="#76B900"/>
+  <g transform="translate(20,12)" fill="none" stroke="#A2FF38" stroke-width="2.2" stroke-linecap="square" stroke-linejoin="miter">
+    <path d="M12 3v12m0 0l-5-5m5 5l5-5"/><path d="M4 17v3h16v-3"/>
+  </g>
+  <text x="58" y="30" font-family="Consolas, 'Cascadia Mono', monospace" font-size="14" font-weight="700" fill="#E8F5E9">СКАЧАТЬ 621.40 v2 BETA</text>
+  <text x="386" y="30" text-anchor="end" font-family="Consolas, monospace" font-size="13" fill="#76B900">[969 МБ]</text>
+</svg>

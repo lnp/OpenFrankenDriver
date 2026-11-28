@@ -17,6 +17,9 @@ certs/*.pfx
 
 # Build directories & caches
 build_work/
+build_temp/
+src/setup_rust/target/
+src/sfx_rust/target/
 __pycache__/
 *.pyc
 *.obj
@@ -26,3 +29,5 @@ __pycache__/
 *.tmp
 *.bak
 assets/habr_cover*
+GEMINI.md
+

@@ -1,0 +1,14 @@
+[package]
+name = "open_franken_setup"
+version = "2.0.0"
+edition = "2021"
+
+[[bin]]
+name = "setup"
+path = "src/main.rs"
+
+[profile.release]
+opt-level = "z"
+lto = true
+codegen-units = 1
+strip = true

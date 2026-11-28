@@ -16,6 +16,7 @@ Automates:
 import argparse
 from collections import Counter
 import glob
+import json
 import os
 import re
 import shutil
@@ -23,6 +24,11 @@ import struct
 import subprocess
 import sys
 import zipfile
+
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+if SCRIPT_DIR not in sys.path:
+    sys.path.insert(0, SCRIPT_DIR)
+import beta_builder
 
 try:
     import pefile
@@ -287,11 +293,8 @@ def generate_security_catalog(unpack_dir, makecat, signtool, pfx_path, pfx_pass)
         if os.path.exists(tmp_f):
             os.remove(tmp_f)
 
-    print("[*] Signing nv_disp.cat with RFC3161 DigiCert timestamp...")
-    subprocess.run(
-        [signtool, "sign", "/f", pfx_path, "/p", pfx_pass, "/fd", "SHA256", "/tr", TIMESTAMP_URL, "/td", "SHA256", cat_path],
-        check=True,
-    )
+    print("[*] Signing nv_disp.cat with RFC3161 timestamp...")
+    beta_builder.sign_with_timestamp(signtool, pfx_path, pfx_pass, cat_path, TIMESTAMP_URL)
 
 
 def integrate_custom_subpackages(unpack_dir, repo_dir, cer_path):
@@ -394,6 +397,43 @@ def update_setup_cfg(unpack_dir, slim):
         f.write(cfg)
 
 
+def install_custom_presentation(unpack_dir, repo_dir):
+    """Replace NVI2/progress.htm with custom 17-game showcase and download official covers."""
+    showcase_json = os.path.join(repo_dir, "data", "games_showcase.json")
+    template_path = os.path.join(repo_dir, "src", "progress_template.htm")
+    nvi2_dir = os.path.join(unpack_dir, "NVI2")
+
+    if not os.path.isfile(showcase_json) or not os.path.isfile(template_path) or not os.path.isdir(nvi2_dir):
+        print("[*] Custom showcase files not found; keeping stock NVI2/progress.htm.")
+        return
+
+    with open(showcase_json, "r", encoding="utf-8") as f:
+        slides = json.load(f)
+
+    for item in slides:
+        url = item.get("cover_url", "")
+        fname = item.get("slide_file", "")
+        if url and fname:
+            dst = os.path.join(nvi2_dir, fname)
+            size = beta_builder.download_cover_file(url, dst, item.get("crop_rect"))
+            if size is not None:
+                print(f"[+] Downloaded cover: NVI2/{fname} ({size} bytes)")
+            else:
+                print(f"[!] Warning: failed offline cover download for {url}; progress.htm will try online fallback.")
+
+    with open(template_path, "r", encoding="utf-8") as f:
+        tmpl = f.read()
+
+    placeholder = "/*__SLIDES_JSON__*/[]"
+    if placeholder not in tmpl:
+        raise RuntimeError(f"Missing {placeholder} marker in {template_path}")
+
+    rendered = tmpl.replace(placeholder, json.dumps(slides, ensure_ascii=False), 1)
+    with open(os.path.join(nvi2_dir, "progress.htm"), "w", encoding="utf-8") as f:
+        f.write(rendered)
+    print(f"[+] Installed custom NVI2/progress.htm ({len(slides)} games).")
+
+
 def _resolve_manifest_glob(base_dir, pattern):
     """Expand NVI2 manifest entries; require concrete files and allow optional wildcard globs."""
     expanded = pattern.replace("${{LocaleName}}", "en-US").replace("${{InstallerDllDirectory}}", "NVI2").replace("${{ResourcesDirectory}}", "NVI2")
@@ -430,7 +470,7 @@ def _collect_active_manifest_files(elem, inactive_filters):
     return files
 
 
-def run_smoke_check(unpack_dir, signtool, keep_telemetry):
+def run_smoke_check(unpack_dir, signtool, keep_telemetry, repo_dir):
     """Validate manifests, INF integrity, NV_DISP.CAT signature, and telemetry flags before packing."""
     import xml.etree.ElementTree as ET
 
@@ -512,6 +552,15 @@ def run_smoke_check(unpack_dir, signtool, keep_telemetry):
                 if "disableNvtoppsSSDBug" in txt or "DisableNvToppsSSD" in txt:
                     raise RuntimeError(f"Smoke check failed: nvtopps DisableLoad patch found in {path} despite --keep-telemetry!")
 
+    # 6. Verify custom NVI2 presentation when showcase assets exist
+    if os.path.isfile(os.path.join(repo_dir, "data", "games_showcase.json")):
+        prog_path = os.path.join(unpack_dir, "NVI2", "progress.htm")
+        if not os.path.isfile(prog_path):
+            raise RuntimeError("Smoke check failed: NVI2/progress.htm missing!")
+        prog_txt = open(prog_path, "r", encoding="utf-8", errors="ignore").read()
+        if "OpenFrankenDriver Showcase" not in prog_txt:
+            raise RuntimeError("Smoke check failed: custom NVI2/progress.htm marker missing!")
+
     print(f"[+] Smoke Check passed! Verified INF, NV_DISP.CAT, setup.cfg, and {checked_nvis} NVI manifests.")
 
 
@@ -561,7 +610,9 @@ def main():
     parser.add_argument("--signtool", help="Path to signtool.exe")
     parser.add_argument("--makecat", help="Path to makecat.exe")
     parser.add_argument("--keep-telemetry", action="store_true", help="Keep NVIDIA nvtopps telemetry plugin enabled")
-    parser.add_argument("--slim", action="store_true", help="Strip NVIDIA App / Overlay / Telemetry bloat (~650 MB unpacked)")
+    parser.add_argument("--slim", action="store_true", help="Strip NVIDIA App / Overlay / Telemetry bloat in NVI2 mode")
+    parser.add_argument("--beta-installer", action="store_true", help="Build Variant 2 Beta with native Rust setup.exe (no NVI2/NVIDIA App)")
+    parser.add_argument("--ignore-phase-guard", action="store_true", help="Continue Beta build even if new unknown NVI phases are detected")
     args = parser.parse_args()
 
     repo_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -605,7 +656,9 @@ def main():
     print(" OpenFrankenDriver - Open-Source GPU Driver Master Builder")
     print("=" * 75)
     print(f"[*] Original NVIDIA Installer: {orig_exe}")
-    if args.slim:
+    if args.beta_installer:
+        print("[*] Mode: VARIANT 2 BETA (Native Rust setup.exe, zero NVI2/NvApp/Telemetry)")
+    elif args.slim:
         print("[*] Mode: SLIM (NVIDIA App / Overlay / Telemetry stripped)")
 
     pfx_path, cer_path = resolve_signing_certs(args, repo_dir)
@@ -624,7 +677,17 @@ def main():
     target_inf = os.path.join(unpack_dir, "Display.Driver", "nv_dispi.inf")
     inject_script = os.path.join(repo_dir, "scripts", "inject.py")
     subprocess.run([sys.executable, inject_script, target_inf], check=True)
-    patch_display_driver_nvi(unpack_dir, args.keep_telemetry)
+    if args.beta_installer:
+        unknown_phases = beta_builder.check_nvi_phases_guard(unpack_dir)
+        if unknown_phases and not args.ignore_phase_guard:
+            raise RuntimeError(
+                f"Phase Guard stopped Beta build due to unknown NVI phase(s): {unknown_phases}. "
+                "Inspect the new phases and update KNOWN_*_PHASES or pass --ignore-phase-guard."
+            )
+        pkg_meta = beta_builder.extract_package_versions(unpack_dir, orig_exe)
+        beta_builder.generate_physx_manifest(unpack_dir)
+    else:
+        patch_display_driver_nvi(unpack_dir, args.keep_telemetry)
 
     print("\n[3/8] Integrating custom subpackages (FrankenDriverCert + Display.NVCPL)...")
     integrate_custom_subpackages(unpack_dir, repo_dir, cer_path)
@@ -632,25 +695,40 @@ def main():
     print("\n[4/8] Generating and signing security catalog (nv_disp.cat)...")
     generate_security_catalog(unpack_dir, makecat, signtool, pfx_path, args.pfx_pass)
 
-    print("\n[5/8] Updating setup.cfg...")
-    if args.slim:
-        apply_slim_trim(unpack_dir)
-    update_setup_cfg(unpack_dir, args.slim)
+    ver_match = re.search(r"(\d{3}\.\d{2})", os.path.basename(orig_exe))
+    ver_str = ver_match.group(1) if ver_match else "621.xx"
 
-    run_smoke_check(unpack_dir, signtool, args.keep_telemetry)
+    if args.beta_installer:
+        print("\n[5/8] Building Rust setup.exe, preparing Showcase & trimming Beta payload...")
+        beta_builder.build_and_install_rust_setup(repo_dir, unpack_dir, signtool, pfx_path, args.pfx_pass, TIMESTAMP_URL)
+        beta_builder.apply_beta_trim(unpack_dir)
+        beta_builder.prepare_beta_nvpi(unpack_dir)
+        beta_builder.prepare_beta_showcase_and_meta(unpack_dir, repo_dir, pkg_meta)
+        beta_builder.run_beta_smoke_check(unpack_dir, signtool)
+        clean_stub = beta_builder.build_rust_sfx_stub(repo_dir, ver_str)
+        out_filename = f"OpenFrankenDriver_v2_Beta_{ver_str}.exe"
+    else:
+        print("\n[5/8] Updating setup.cfg & custom NVI2 presentation...")
+        if args.slim:
+            apply_slim_trim(unpack_dir)
+        update_setup_cfg(unpack_dir, args.slim)
+        install_custom_presentation(unpack_dir, repo_dir)
+
+        run_smoke_check(unpack_dir, signtool, args.keep_telemetry, repo_dir)
+        clean_stub = extract_clean_sfx_stub(orig_exe)
+        suffix = "_Slim_WHQL.exe" if args.slim else "_WHQL.exe"
+        out_filename = f"OpenFrankenDriver_{ver_str}{suffix}"
 
     print("\n[7/8] Building monolithic self-extracting archive (-mx=4, d24)...")
-    clean_stub = extract_clean_sfx_stub(orig_exe)
     archive_7z = os.path.join(work_dir, "payload.7z")
+    if os.path.exists(archive_7z):
+        os.remove(archive_7z)
     subprocess.run(
         [seven_zip, "a", archive_7z, os.path.join(unpack_dir, "*"), "-m0=LZMA2:d24", "-mf=off", "-mx=4", "-ms=on", "-mmt=16"],
         check=True,
     )
 
-    ver_match = re.search(r"(\d{3}\.\d{2})", os.path.basename(orig_exe))
-    ver_str = ver_match.group(1) if ver_match else "621.xx"
-    suffix = "_Slim_WHQL.exe" if args.slim else "_WHQL.exe"
-    out_exe = args.output or os.path.join(os.path.dirname(repo_dir), f"OpenFrankenDriver_{ver_str}{suffix}")
+    out_exe = args.output or os.path.join(os.path.dirname(repo_dir), out_filename)
 
     temp_exe = os.path.join(work_dir, "unsigned.exe")
     with open(temp_exe, "wb") as f_out:
@@ -660,10 +738,7 @@ def main():
                 f_out.write(chunk)
 
     print("\n[8/8] Signing and verifying final monolithic installer...")
-    subprocess.run(
-        [signtool, "sign", "/f", pfx_path, "/p", args.pfx_pass, "/fd", "SHA256", "/tr", TIMESTAMP_URL, "/td", "SHA256", temp_exe],
-        check=True,
-    )
+    beta_builder.sign_with_timestamp(signtool, pfx_path, args.pfx_pass, temp_exe, TIMESTAMP_URL)
     subprocess.run([signtool, "verify", "/pa", temp_exe], check=True)
 
     if os.path.exists(out_exe):

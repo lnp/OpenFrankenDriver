@@ -5,187 +5,142 @@
 
 <br>
 
-<a href="https://github.com/lnp/OpenFrankenDriver"><img src="assets/header_v6.png" alt="OpenFrankenDriver" width="100%"></a>
+<a href="https://github.com/lnp/OpenFrankenDriver"><img src="assets/header.svg" alt="OpenFrankenDriver" width="100%"></a>
 <br>
 
-**Completely open-source, free, and secure NVIDIA driver for Chinese mutant GPUs**  
-*(RTX 4070m, RTX 4060m, RTX 3070m, RTX 3060m, RTX 2060m, GTX 1660m and 65+ other models powered by AD106/GA104/GA106/TU106 mobile silicon)*
+**Open-source native NVIDIA driver & pure-Rust installer for mobile-on-desktop mutant GPUs**  
+*(RTX 4070m, RTX 4060m, RTX 3070m, RTX 3060m, RTX 2060m, GTX 1660m and 65+ other AD106/GA104/GA106/TU106 models)*
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![NVIDIA Driver Version](https://img.shields.io/badge/NVIDIA-621.40%20WHQL-76B900?logo=nvidia)](https://www.nvidia.com)
-[![Anti-Cheat Ready](https://img.shields.io/badge/Anti--Cheat-EAC%20%7C%20BattlEye%20%7C%20VAC%20Passed-success)](docs/ARCHITECTURE.md)
+[![Anti-Cheat Ready](https://img.shields.io/badge/Anti--Cheat-EAC%20%7C%20BattlEye%20%7C%20Vanguard%20%7C%20VAC-success)](docs/ARCHITECTURE.md)
 [![Platform](https://img.shields.io/badge/Windows-10%20%7C%2011%20(64--bit)-0078D6?logo=windows)](docs/SUPPORTED_DEVICES.md)
-[![Boosty](https://img.shields.io/badge/Boosty-Support%20Project-F15F2C?logo=boosty)](https://boosty.to/defrag)
 
----
+<br>
 
-<table>
-  <thead>
-    <tr>
-      <th width="38%"><img src="assets/icon.png" width="18" height="18" align="absmiddle">&nbsp;OpenFrankenDriver&nbsp;621.40.1</th>
-      <th width="62%">What's New in 621.40.1 WHQL</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td valign="top" align="center">
-        <br>
-        <a href="https://disk.yandex.ru/d/KW0jFK7Eas2xYg"><img src="assets/download_chest_v2.png" width="96" height="96" alt="Download OpenFrankenDriver from Yandex Disk"></a>
-        <br><br>
-        <a href="https://disk.yandex.ru/d/KW0jFK7Eas2xYg"><b>Download from Yandex Disk (~1.15 GB) →</b></a>
-        <br><br>
-        <div align="left">
-        • <b>Version:</b> 621.40 WHQL (rev 621.40.1)<br>
-        • <b>OS:</b> Windows 10 &amp; 11 (64-bit, all editions)<br>
-        • <b>Zero-Touch:</b> automatic certificate install<br>
-        • Standalone Classic Control Panel (Win32)<br>
-        </div>
-        <br>
-      </td>
-      <td valign="top">
-        <b>Build Pipeline &amp; Installer Fixes (v621.40.1):</b><br>
-        • Built on <b>NVIDIA 621.40 WHQL</b> with fast extraction (<code>-mx=4</code>, 16 MB dict) and native <code>_nvtopps</code> disable.<br>
-        • Disabled <code>removeCPLInstallData</code> phase in <code>DisplayDriver.nvi</code> so the classic <code>nvcplui.exe</code> Control Panel persists reliably.<br>
-        • Removed the unused empty <code>EACSupportCatalog</code> stub without an <code>.nvi</code> manifest (<code>nv_disp.cat</code> is natively staged by <code>Display.Driver</code>), fixed filename collision handling in <code>nv_disp.cat</code>, and added pre-pack Smoke Checks.<br>
-        • Added dynamic <code>nv_dispi.inf</code> section resolution, auto-compilation of <code>install_helper.c</code>, and <code>--slim</code> mode in <code>scripts/build.py</code>.
-      </td>
-    </tr>
-  </tbody>
-</table>
+<a href="https://disk.yandex.ru/d/Pcw3GemKN-cOfQ"><img src="assets/btn_download_en.svg" alt="Download OpenFrankenDriver 621.40 v2 Beta (Yandex Disk, ~969 MB)" height="48"></a>&nbsp;&nbsp;&nbsp;<a href="https://boosty.to/defrag"><img src="assets/btn_boosty.svg" alt="Support on Boosty" height="48"></a>
 
-<table>
-  <tbody>
-    <tr>
-      <td width="38%" align="center" valign="middle">
-        <br>
-        <a href="https://boosty.to/defrag"><img src="assets/support_cat.png" width="96" height="96" alt="Support Project on Boosty"></a>
-        <br><br>
-        <a href="https://boosty.to/defrag"><b>Support on Boosty →</b></a>
-        <br><br>
-      </td>
-      <td width="62%" valign="middle">
-        <b>🧡 OpenFrankenDriver Project Support:</b><br><br>
-        The project is developed out of pure enthusiasm. All drivers and build automation scripts will forever remain completely open-source and free.<br><br>
-        If this build saved you time, revived your graphics card, and eliminated tedious troubleshooting — you are welcome to <a href="https://boosty.to/defrag"><b>voluntarily support development on Boosty</b></a>.
-      </td>
-    </tr>
-  </tbody>
-</table>
+<br><br>
 
----
-
-[**Supported Hardware**](docs/SUPPORTED_DEVICES.md) • [**How to Build & Patch**](#-how-to-modify-official-nvidia-drivers) • [**Architecture**](docs/ARCHITECTURE.md) • [**Troubleshooting**](docs/TROUBLESHOOTING.md)
+[**Core v2 Advantages**](#-core-advantages-of-openfrankendriver-v2) • [**Quick Install**](#-quick-install) • [**Build From Source**](#️-how-to-build-from-official-nvidia-drivers) • [**Supported GPUs**](docs/SUPPORTED_DEVICES.md) • [**Architecture**](docs/ARCHITECTURE.md) • [**NVI2 Reversing**](docs/INSTALLER_REVERSE_ENGINEERING.md) • [**Troubleshooting**](docs/TROUBLESHOOTING.md)
 
 </div>
 
 ---
 
-## 🚀 Why OpenFrankenDriver? (Advantages over original FrankenDriver)
+## ⚡ Core Advantages of OpenFrankenDriver v2
 
-The original closed-source **FrankenDriver** (`arutar/FrankenDriver`) was a popular tool for running mobile-on-desktop mutant GPUs. However, the original repository **contains no build code or scripts**, its free releases are long outdated, and newer updates are locked behind paid subscriptions.
+Starting with **v2**, OpenFrankenDriver completely removes NVIDIA's proprietary installer wrappers (`PackageLauncher.exe`, `NVI2.dll`, `NVI2UI.dll`), `NVIDIA App`, and telemetry — replacing them with two open-source native Win32 binaries written in **Rust** (`src/sfx_rust` + `src/setup_rust`) with zero browser engines.
 
-**OpenFrankenDriver** is a fully open-source, free, and technically refined alternative to the original project:
+### Why NVIDIA's Official Installer (`NVI2`) Took 4–5 Minutes
+- **32-bit COM + Embedded Internet Explorer (`MSHTML`):** Binary inspection of `NVI2UI.DLL` shows the stock installer is still 32-bit `x86`, rendering its progress screen via `CAxHostWindow` (`AtlAxWin140`) hosting **Internet Explorer** (`CLSID_WebBrowser`, `urlmon.dll`) that tries to pull promotional HTML from `gfwsl.geforce.com` in an `<iframe>`. Full NVIDIA packages additionally push **NVIDIA App (`libcef.dll` / Chromium CEF)** and telemetry services.
+- **Parsing 43 Foreign `.inf` Files (> 50 MB) Before Staging:** Before actually installing the display driver, `DisplayDriverExt.dll` maintains an `Installer2` cache, runs trust checks, and single-threadedly parses tens of megabytes of unrelated laptop INF files (`nvlti.inf`, `nvdmi.inf`, `nvami.inf`, etc.) — stalling for **1.5–3 minutes before installation even begins**.
 
-| Feature / Issue | Original FrankenDriver | <img src="assets/badge.png" alt="OpenFrankenDriver" width="180"> |
+### What OpenFrankenDriver v2 Delivers
+| Metric | Stock `NVI2` + Full NVIDIA Package | **OpenFrankenDriver v2 Beta** |
 |---|---|---|
-| **Open Source & Transparency** | ❌ Closed-source binary. Repository has no code or build scripts. | ✅ **100% Open-Source**. Complete Python build pipeline is public and auditable. |
-| **Availability** | ❌ Modern driver branches are paywalled. | ✅ **Always free**. Includes the latest stable **621.40 WHQL** branch. |
-| **Zero-Touch Installation** | ❌ Annoying red Windows Security popup ("Publisher cannot be verified"). Required manual cert import. | ✅ **Silent automated trust**. Certificates are seamlessly imported into `Root` and `TrustedPublisher`. Zero popups. |
-| **Standalone Control Panel** | ❌ Missing on clean Windows or stripped editions (required MS Store and internet). | ✅ **Standalone Win32 Control Panel** (`nvcplui.exe`) bundled natively. Works out of the box on Windows LTSC / Compact without Store or internet. |
-| **Safety & Anti-Cheat** | ❓ Closed binaries raised security concerns. | ✅ **Genuine Untouched NVIDIA Kernel Binaries**. 100% WHQL integrity, `signtool` verified, `testsigning No`, full EAC / BattlEye / VAC support. |
+| **Install Duration** | ~4–5 minutes (1.5–3 min INF parsing freeze) | ✅ **~77–86 seconds** *(unpacks `3.24 GB` in `~4.7 s` via `sevenz-turbo`)* |
+| **Installer Size** | ~1.15 GB+ (including `NVI2` / `NvApp` bloat) | ✅ **`~969 MB` (`0.95 GB`)** with every required module kept |
+| **UI Engine** | 32-bit x86 COM + `IE/MSHTML` + `CEF` (`NVIDIA App`) | ✅ **Pure native Rust + Win32 GDI/GDI+**, zero browsers, zero network calls |
+| **Telemetry & Bloat** | `NvTelemetry`, `_nvtopps` (SSD wear bug), `NvApp` | ✅ **Stripped cleanly out of the box**, `_nvtopps DisableLoad=1` |
+| **Control Panel** | MS Store UWP (missing on Windows LTSC / Compact) | ✅ **Standalone Classic Win32 `nvcplui.exe`** — works offline everywhere |
+| **Mutant GPU Support** | Code 43 block on mobile silicon on desktop PCIe | ✅ **70+ GPUs + `RM1457588=1`** + optional `NVPI v3.0.2.1` |
+| **WHQL & Anti-Cheats** | Official WHQL | ✅ **100% untouched `nvlddmkm.sys` kernel**, `testsigning No`, **EAC / BattlEye / Vanguard / VAC / FaceIT** |
+
+<details>
+<summary><b>📸 Native Rust v2 Installer Screenshots (03E Unpacker & Setup GUI)</b></summary>
+<br>
+<div align="center">
+  <img src="assets/v2_unpacker.png" alt="Variant 03E SFX Unpacker (sevenz-turbo)" width="520">
+  <br><br>
+  <img src="assets/v2_installer.png" alt="Native Rust Setup GUI during driver installation" width="840">
+</div>
+</details>
 
 ---
 
-## 💾 Quick Install (For Gamers & End Users)
+## 💾 Quick Install
 
-1. **Download the pre-built installer** via the table above or directly from [Yandex Disk](https://disk.yandex.ru/d/KW0jFK7Eas2xYg).
-2. *(Recommended)* If updating from old modded drivers, run **DDU (Display Driver Uninstaller)** in Windows Safe Mode to clean legacy driver files.
-3. Run the downloaded installer `.exe`.
-4. Select **NVIDIA Graphics Driver** and click **Next**.
-5. Once installation finishes, your mutant GPU will be fully active without Error 43, and the classic **NVIDIA Control Panel** will appear on your desktop and context menu.
+1. **Download the installer** using the button above or directly via [Yandex Disk (~969 MB)](https://disk.yandex.ru/d/Pcw3GemKN-cOfQ).
+2. *(Recommended if switching from older/broken drivers)* Run **DDU (Display Driver Uninstaller)** in Windows Safe Mode first.
+3. Launch `OpenFrankenDriver_v2_Beta_621.40.exe` *(if Windows SmartScreen prompts, click **More info → Run anyway** — the package is signed with the project's local code-signing certificate)*.
+4. Unpacking finishes in **~5 seconds**, opening the setup GUI: select components (Driver + Win32 Control Panel, HD Audio, PhysX, VC++ Runtime, optional **Clean Install**, optional **NVIDIA Profile Inspector v3.0.2.1**) and click **Install**.
+5. In **~1.5 minutes**, your mutant GPU initializes cleanly without Code 43 or red security popups, with classic **NVIDIA Control Panel** added to your desktop context menu and Start Menu.
+
+> Unattended CLI flags are supported: `--silent`, `--clean`, `--nvpi`, `--uninstall`. See [TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md) for diagnostics and removal details.
 
 ---
 
-## 🛠️ How to Modify Official NVIDIA Drivers
+## 🛠️ How to Build From Official NVIDIA Drivers
 
-You can easily patch any official clean NVIDIA driver installer directly from NVIDIA's website using OpenFrankenDriver tools.
+You can build OpenFrankenDriver cleanly from any official NVIDIA DCH WHQL installer downloaded from nvidia.com.
 
-### Method 1: Automated Script Build (Recommended)
+### Method 1: Automated Build Script (Recommended)
 
-1. Install Python 3.10+ and requirements:
+1. Prerequisites: **Python 3.10+** (`pip install pefile Pillow`), **7-Zip**, **Windows 10/11 SDK** (`makecat.exe`, `signtool.exe`), and **Rust (`cargo` / `rustc` MSVC)** when building the v2 native installer (`--beta-installer`).
+2. Download an official clean NVIDIA WHQL installer from nvidia.com.
+3. Run **v2 Beta build (pure-Rust installer, zero `NVI2`)**:
    ```cmd
-   pip install pefile
+   python scripts/build.py --nvidia-exe "path\to\official_driver.exe" --beta-installer
    ```
-2. Download official clean NVIDIA driver package (621.xx WHQL or newer) from nvidia.com.
-3. Run the automated builder:
-   ```cmd
-   python scripts/build.py --nvidia-exe "path\to\official_installer.exe"
-   ```
-   The script automatically:
-   - Extracts payload;
-   - Injects 70 unique mutant GPU configurations with dynamic INF `SectionXXX` resolution (`17134` & `26200`);
-   - Removes vendor hardware locks and fixes Code 43 (`RM1457588`);
-   - Compiles and signs catalog `nv_disp.cat` with official RFC3161 DigiCert timestamp (including temporary expansion of compressed DLSS payloads for accurate hashing);
-   - Auto-compiles `src/install_helper.c` when MSVC/GCC is available (with prebuilt fallback) and integrates the offline Win32 Control Panel (`nvcplui.exe`);
-   - Runs automated Smoke Checks on all `.nvi` manifests and signatures before packing;
-   - Packages a monolithic SFX installer (also supports `--slim` to strip NVIDIA App/telemetry bloat and `--keep-telemetry`).
+   *(Omit `--beta-installer` for legacy 1.x `NVI2` packaging; add `--slim` to strip `NVIDIA App`/telemetry in 1.x mode.)*
+
+   The builder automatically:
+   - Extracts the official package and removes conflicting laptop `NVPCF` drivers;
+   - Injects **70+ mutant GPU entries** from [`data/devices.json`](data/devices.json) with dynamic INF `SectionXXX` resolution (`17134` & `26200`) and Code 43 bypass (`RM1457588=1`);
+   - Compiles and signs `nv_disp.cat` with an RFC3161 DigiCert timestamp (expanding compressed DLSS payloads prior to hashing);
+   - Extracts the standalone Win32 Control Panel (`nvcplui.exe`) from `NVCPL\*.appx`;
+   - Runs **Smoke Checks** and `.nvi` **Phase Guard**, compiles [`src/setup_rust`](src/setup_rust) and [`src/sfx_rust`](src/sfx_rust), packs the monolithic `.exe`, and verifies signatures via `signtool verify /pa`.
 
 ---
 
-### Method 2: Manual Modification
+### Method 2: Manual Step-by-Step Modification (v2 & 1.x Pipeline)
 
-If you prefer step-by-step customization:
+1. **Extract Official Package**:
+   Unpack the NVIDIA `.exe` with 7-Zip, delete `NVPCF`, and expand compressed DLSS binaries if present (`expand Display.Driver\ngx-builtins\nvngx_dlssd.dl_ Display.Driver\ngx-builtins\nvngx_dlssd.dll`).
 
-1. **Extraction**:
-   Unpack the official NVIDIA installer `.exe` with 7-Zip.
-
-2. **Patching INF**:
-   - Open `Display.Driver\nv_dispi.inf`;
-   - Locate `[NVIDIA_Devices.NTamd64.10.0...17134]` and `[NVIDIA_Devices.NTamd64.10.0...26200]`;
-   - Append IDs from [`data/devices.json`](data/devices.json);
-   - Ensure the Code 43 fix flag is present:
+2. **Patch `Display.Driver\nv_dispi.inf`**:
+   - Locate `[NVIDIA_Devices.NTamd64.10.0...17134]` and `[NVIDIA_Devices.NTamd64.10.0...26200]` and append device rows from [`data/devices.json`](data/devices.json);
+   - Append the Code 43 fix inside `nv_miscBase_addreg__*` sections:
      ```ini
      HKR,,RM1457588,%REG_DWORD%,1
      ```
 
-3. **Catalog Creation & Signing (`nv_disp.cat`)**:
-   - Generate CDF file for `Display.Driver`;
-   - Compile catalog using Windows SDK `makecat`:
+3. **Generate & Sign Security Catalog (`nv_disp.cat`)**:
+   - Build `nv_disp.cdf` covering `Display.Driver`;
+   - Compile and sign with DigiCert RFC3161 timestamp:
      ```cmd
      makecat -v nv_disp.cdf
-     ```
-   - Sign catalog via `signtool.exe` with RFC3161 DigiCert timestamp:
-     ```cmd
      signtool sign /f certs/OpenFrankenDriver.pfx /p 1234 /fd SHA256 /tr http://timestamp.digicert.com /td SHA256 nv_disp.cat
      ```
 
-4. **Control Panel Integration**:
-   - Create subfolder `Display.NVCPL`;
-   - Extract `nvcplui.exe`, `nvcpluir.dll`, `NvGpuUtilization.exe`, `nvImage.dll`, `EULA.txt` from `Display.Driver\NVCPL\*.appx`;
-   - Provide `NVCPL.nvi` configuration and native `install_helper.exe`.
+4. **Extract Win32 Control Panel (`Display.NVCPL`)**:
+   Extract `nvcplui.exe`, `nvcpluir.dll`, `NvGpuUtilization.exe`, `nvImage.dll`, and `EULA.txt` from `Display.Driver\NVCPL\*.appx` into `Display.NVCPL` (in v2, `setup.exe` handles deployment, shortcuts, and `EnableNvcplUIOnDCH` directly; 1.x uses `NVCPL.nvi` + `install_helper.exe`).
 
-5. **Packaging**:
-   - Compress with 7-Zip into `payload.7z` (`-mf=off -mx=4 -m0=LZMA2:d24` for fast unpacking);
-   - Prepend `PackageLauncher.exe` SFX stub;
-   - Sign final `.exe` with project certificate.
+5. **Compile Rust Binaries & Package Final `.exe` (v2 Beta)**:
+   - Build `setup.exe` and `sfx_stub.exe`:
+     ```cmd
+     cargo build --release --manifest-path src/setup_rust/Cargo.toml
+     cargo build --release --manifest-path src/sfx_rust/Cargo.toml
+     ```
+   - Assemble the staged payload (`Display.Driver`, `Display.NVCPL`, `HDAudio`, `PhysX` with `physx_manifest.json`, `Showcase`, `OpenFrankenDriver.cer`, `setup.exe`), pack `payload.7z` (`-m0=LZMA2:d24 -mf=off -mx=4 -ms=on`), and attach + sign via `scripts/beta_builder.py` (see [HOW_TO_BUILD.md](docs/HOW_TO_BUILD.md) and [ARCHITECTURE.md](docs/ARCHITECTURE.md)).
 
 ---
 
 ## 🔒 Security & WHQL Integrity
 
-OpenFrankenDriver is strictly non-invasive:
-- **No patched kernel drivers**: All core binaries (`nvlddmkm.sys`, DirectX, Vulkan, CUDA) remain byte-for-byte identical to official NVIDIA WHQL release;
-- Does **not** require dangerous `testsigning on` modes;
-- Anti-cheats **Easy Anti-Cheat (Apex Legends, Fortnite)**, **BattlEye (R6 Siege)**, **VAC (CS2)**, and **Vanguard (Valorant)** work without restrictions because kernel drivers are genuine and uncompromised.
+- **Zero patched kernel binaries:** `nvlddmkm.sys`, DirectX, Vulkan, CUDA, and OpenCL libraries remain byte-for-byte identical to the official NVIDIA WHQL package.
+- **No `testsigning` mode:** `bcdedit /set testsigning on` is never enabled.
+- **Full anti-cheat compatibility:** **Easy Anti-Cheat**, **BattlEye**, **Riot Vanguard**, **VAC (CS2)**, and **FaceIT** operate cleanly without driver signature issues.
 
 ---
 
 ## 🤝 Contributing & Hardware Submissions
 
-If your mutant card is not listed yet, please open an [Issue](https://github.com/lnp/OpenFrankenDriver/issues) with your Hardware ID (from Device Manager) and GPU-Z screenshot. We will gladly add support.
+If your mutant card is missing from [Supported Hardware](docs/SUPPORTED_DEVICES.md), open an [Issue](https://github.com/lnp/OpenFrankenDriver/issues) with its Hardware ID (from Device Manager) and a GPU-Z screenshot.
 
 ---
 
 ## 📄 License
 
-Build scripts, device mappings, and tools are licensed under the **MIT License**. NVIDIA binaries and drivers are proprietary property of NVIDIA Corporation.
+The native installer, SFX launcher, build scripts, and device database are licensed under the **MIT License** ([LICENSE](LICENSE)). NVIDIA driver binaries remain property of NVIDIA Corporation.

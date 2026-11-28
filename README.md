@@ -5,187 +5,142 @@
 
 <br>
 
-<a href="https://github.com/lnp/OpenFrankenDriver"><img src="assets/header_v6.png" alt="OpenFrankenDriver" width="100%"></a>
+<a href="https://github.com/lnp/OpenFrankenDriver"><img src="assets/header.svg" alt="OpenFrankenDriver" width="100%"></a>
 <br>
 
-**Полностью открытый, бесплатный и безопасный драйвер NVIDIA для китайских видеокарт-мутантов**  
-*(RTX 4070m, RTX 4060m, RTX 3070m, RTX 3060m, RTX 2060m, GTX 1660m и ещё 65 моделей на базе мобильных чипов AD106/GA104/GA106/TU106)*
+**Открытый нативный драйвер NVIDIA с установщиком на Rust для мобильно-десктопных видеокарт-мутантов**  
+*(RTX 4070m, RTX 4060m, RTX 3070m, RTX 3060m, RTX 2060m, GTX 1660m и ещё 65+ моделей на чипах AD106/GA104/GA106/TU106)*
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![NVIDIA Driver Version](https://img.shields.io/badge/NVIDIA-621.40%20WHQL-76B900?logo=nvidia)](https://www.nvidia.com)
-[![Anti-Cheat Ready](https://img.shields.io/badge/Anti--Cheat-EAC%20%7C%20BattlEye%20%7C%20VAC%20Passed-success)](docs/ARCHITECTURE.md)
+[![Anti-Cheat Ready](https://img.shields.io/badge/Anti--Cheat-EAC%20%7C%20BattlEye%20%7C%20Vanguard%20%7C%20VAC-success)](docs/ARCHITECTURE.md)
 [![Platform](https://img.shields.io/badge/Windows-10%20%7C%2011%20(64--bit)-0078D6?logo=windows)](docs/SUPPORTED_DEVICES.md)
-[![Boosty](https://img.shields.io/badge/Boosty-Поддержать%20проект-F15F2C?logo=boosty)](https://boosty.to/defrag)
 
----
+<br>
 
-<table>
-  <thead>
-    <tr>
-      <th width="38%"><img src="assets/icon.png" width="18" height="18" align="absmiddle">&nbsp;OpenFrankenDriver&nbsp;621.40.1</th>
-      <th width="62%">Что нового в версии 621.40.1 WHQL</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td valign="top" align="center">
-        <br>
-        <a href="https://disk.yandex.ru/d/KW0jFK7Eas2xYg"><img src="assets/download_chest_v2.png" width="96" height="96" alt="Скачать OpenFrankenDriver с Яндекс Диска"></a>
-        <br><br>
-        <a href="https://disk.yandex.ru/d/KW0jFK7Eas2xYg"><b>Скачать с Яндекс Диска (~1.15 ГБ) →</b></a>
-        <br><br>
-        <div align="left">
-        • <b>Версия:</b> 621.40 WHQL (ревизия 621.40.1)<br>
-        • <b>ОС:</b> Windows 10 &amp; 11 (64-bit, все версии)<br>
-        • <b>Zero-Touch:</b> автоустановка сертификата<br>
-        • Встроена автономная Панель управления Win32<br>
-        </div>
-        <br>
-      </td>
-      <td valign="top">
-        <b>Обновление пайплайна сборки и установщика (v621.40.1):</b><br>
-        • База <b>NVIDIA 621.40 WHQL</b> с быстрой распаковкой (<code>-mx=4</code>, словарь 16 МБ) и отключением <code>_nvtopps</code>.<br>
-        • Отключена фаза <code>removeCPLInstallData</code> в <code>DisplayDriver.nvi</code> — классическая панель <code>nvcplui.exe</code> стабильно сохраняется при установке.<br>
-        • Удалена неиспользуемая пустая заглушка <code>EACSupportCatalog</code> без <code>.nvi</code>-манифеста (каталог безопасности <code>nv_disp.cat</code> ставится штатно через <code>Display.Driver</code>), исправлена коллизия имён в <code>nv_disp.cat</code> и добавлен Smoke Check манифестов/подписей перед упаковкой.<br>
-        • Добавлено динамическое разрешение секций <code>nv_dispi.inf</code>, автокомпиляция <code>install_helper.c</code> и опция <code>--slim</code> в <code>scripts/build.py</code>.
-      </td>
-    </tr>
-  </tbody>
-</table>
+<a href="https://disk.yandex.ru/d/Pcw3GemKN-cOfQ"><img src="assets/btn_download_ru.svg" alt="Скачать OpenFrankenDriver 621.40 v2 Beta (Яндекс Диск, ~969 МБ)" height="48"></a>&nbsp;&nbsp;&nbsp;<a href="https://boosty.to/defrag"><img src="assets/btn_boosty.svg" alt="Поддержать проект на Boosty" height="48"></a>
 
-<table>
-  <tbody>
-    <tr>
-      <td width="38%" align="center" valign="middle">
-        <br>
-        <a href="https://boosty.to/defrag"><img src="assets/support_cat.png" width="96" height="96" alt="Поддержать проект на Boosty"></a>
-        <br><br>
-        <a href="https://boosty.to/defrag"><b>Поддержать на Boosty →</b></a>
-        <br><br>
-      </td>
-      <td width="62%" valign="middle">
-        <b>🧡 Поддержка проекта OpenFrankenDriver:</b><br><br>
-        Проект развивается на чистом энтузиазме. Драйверы и скрипты сборки всегда будут полностью открытыми и бесплатными.<br><br>
-        Если сборка сэкономила вам время, оживила вашу видеокарту и избавила от танцев с бубном — вы можете <a href="https://boosty.to/defrag"><b>добровольно поддержать разработку на Boosty</b></a>.
-      </td>
-    </tr>
-  </tbody>
-</table>
+<br><br>
 
----
-
-[**Поддерживаемые видеокарты**](docs/SUPPORTED_DEVICES.md) • [**Инструкция по модификации**](#-как-модифицировать-оригинальный-драйвер-инструкция) • [**Архитектура**](docs/ARCHITECTURE.md) • [**Решение проблем**](docs/TROUBLESHOOTING.md)
+[**Коренные преимущества v2**](#-коренные-преимущества-openfrankendriver-v2) • [**Быстрая установка**](#-быстрая-установка) • [**Сборка с нуля**](#️-как-собрать-драйвер-самостоятельно) • [**Видеокарты**](docs/SUPPORTED_DEVICES.md) • [**Архитектура**](docs/ARCHITECTURE.md) • [**Разбор NVI2**](docs/INSTALLER_REVERSE_ENGINEERING.md) • [**Проблемы**](docs/TROUBLESHOOTING.md)
 
 </div>
 
 ---
 
-## 🚀 Почему OpenFrankenDriver? (Преимущества перед оригиналом)
+## ⚡ Коренные преимущества OpenFrankenDriver v2
 
-Оригинальный проект **FrankenDriver** (`arutar/FrankenDriver`) долгое время был популярным решением для запуска китайских карт с мобильными чипами. Однако оригинальный репозиторий **не является open-source** (в нём нет исходного кода и скриптов), его бесплатные версии давно устарели, а свежие сборки распространяются по платной подписке на Boosty.
+В ветке **v2** мы полностью вырезали проприетарный установщик NVIDIA (`PackageLauncher.exe`, `NVI2.dll`, `NVI2UI.dll`), `NVIDIA App` и телеметрию, заменив их двумя открытыми нативными Win32-бинарниками на **Rust** (`src/sfx_rust` + `src/setup_rust`) без единого браузерного движка.
 
-**OpenFrankenDriver** — открытая, бесплатная и технически доработанная альтернатива оригинальному проекту:
+### Почему официальный установщик NVIDIA (`NVI2`) тормозил по 4–5 минут
+- **32-битный COM + встроенный Internet Explorer (`MSHTML`):** при разборе `NVI2UI.DLL` видно, что весь установщик NVIDIA до сих пор 32-битный (`x86`), а экран прогресса рисуется через ActiveX-хост `CAxHostWindow` (`AtlAxWin140`) с **Internet Explorer** (`CLSID_WebBrowser`, `urlmon.dll`), который при старте пытается тянуть промо-HTML с `gfwsl.geforce.com` в `<iframe>`. Полный пакет вдобавок навязывает **NVIDIA App (`libcef.dll` / Chromium CEF)** и службы телеметрии.
+- **Парсинг 43 чужих `.inf` (> 50 МБ) до старта:** вместо прямой установки нужного драйвера `DisplayDriverExt.dll` поддерживает кэш в `Installer2`, гоняет криптопроверки и в одном потоке перебирает десятки мегабайт ноутбучных INF-файлов (`nvlti.inf`, `nvdmi.inf`, `nvami.inf` и др.), из-за чего инсталлятор «думает» по **1.5–3 минуты ещё до начала установки**.
 
-| Возможность / Параметр | Оригинальный FrankenDriver | <img src="assets/badge.png" alt="OpenFrankenDriver" width="180"> |
+### Что даёт OpenFrankenDriver v2 на Rust
+| Параметр | Штатный `NVI2` + полный пакет NVIDIA | **OpenFrankenDriver v2 Beta** |
 |---|---|---|
-| **Открытость и прозрачность** | ❌ Закрытый бинарник. Репозиторий пуст, исходного кода нет. | ✅ **100% Open-Source**. Весь пайплайн сборки и исходники открыты. |
-| **Доступность версий** | ❌ Свежие версии закрыты за платным пейволлом. | ✅ **Всегда бесплатно**. Актуальная стабильная ветка **621.40 WHQL**. |
-| **Установка в 1 клик (Zero-Touch)** | ❌ Красное окно Windows Security («Издатель не проверен»). Требовалась ручная установка сертификата. | ✅ **Тихая автоматическая регистрация**. Сертификат сам импортируется в `Root` и `TrustedPublisher`. Никаких красных окон. |
-| **Классическая Панель управления** | ❌ На чистой Windows или лёгких сборках панель отсутствует (требовался Microsoft Store и интернет). | ✅ **Встроена автономная Win32-панель** (`nvcplui.exe`). Работает из коробки на Windows LTSC и Compact без Store и без сети. |
-| **Безопасность и античиты** | ❓ Закрытые бинарники вызывали вопросы у пользователей. | ✅ **Оригинальные нетронутые ядра NVIDIA**. 100% WHQL-целостность, чистый тест `signtool`, `testsigning No`, полная работа EAC / BattlEye / CS2. |
+| **Время установки** | ~4–5 минут (1.5–3 мин пауза на парсинге INF) | ✅ **~77–86 секунд** *(распаковка `3.24 ГБ` за `~4.7 с` через `sevenz-turbo`)* |
+| **Размер дистрибутива** | ~1.15 ГБ и выше (учёт `NVI2` / `NvApp`) | ✅ **`~969 МБ` (`0.95 ГБ`)** без потери нужных модулей |
+| **Движок UI** | 32-bit x86 COM + `IE/MSHTML` + `CEF` (`NVIDIA App`) | ✅ **Чистый нативный Rust + Win32 GDI/GDI+**, 0 браузеров, 0 сети |
+| **Телеметрия и мусор** | `NvTelemetry`, `_nvtopps` (баг износа SSD), `NvApp` | ✅ **Вырезано из коробки**, `_nvtopps DisableLoad=1` |
+| **Панель управления** | UWP из Microsoft Store (нет на LTSC / Compact) | ✅ **Классическая Win32 `nvcplui.exe`** — работает офлайн везде |
+| **Видеокарты-мутанты** | Ошибка 43 на мобильных чипах на десктопе | ✅ **70+ моделей + `RM1457588=1`** + опциональный `NVPI v3.0.2.1` |
+| **Античиты и WHQL** | Официальный WHQL | ✅ **100% оригинальное ядро `nvlddmkm.sys`**, `testsigning No`, **EAC / BattlEye / Vanguard / VAC / FaceIT** |
+
+<details>
+<summary><b>📸 Скриншоты нативного Rust-установщика v2 (распаковщик 03E и окно установки)</b></summary>
+<br>
+<div align="center">
+  <img src="assets/v2_unpacker.png" alt="SFX-распаковщик Variant 03E (sevenz-turbo)" width="520">
+  <br><br>
+  <img src="assets/v2_installer.png" alt="Нативный Rust-установщик setup_rust во время установки" width="840">
+</div>
+</details>
 
 ---
 
-## 💾 Быстрая установка (Для пользователей)
+## 💾 Быстрая установка
 
-1. **Скачайте готовый установщик** по ссылке в таблице выше или с [Яндекс Диска](https://disk.yandex.ru/d/KW0jFK7Eas2xYg).
-2. *(Рекомендуется)* Если вы обновляетесь со старых версий или меняли видеокарту, удалите предыдущий драйвер через **DDU (Display Driver Uninstaller)** в безопасном режиме.
-3. Запустите скачанный `.exe` файл.
-4. Выберите **«Графический драйвер NVIDIA»** и нажмите **«Далее»**.
-5. По завершении установки видеокарта определится без «Ошибки 43», а на рабочем столе и в контекстном меню сразу появится рабочая **Панель управления NVIDIA**.
+1. **Скачайте установщик** по кнопке в шапке или прямой ссылке: [Яндекс Диск (~969 МБ)](https://disk.yandex.ru/d/Pcw3GemKN-cOfQ).
+2. *(Рекомендуется при переходе со старых/битых сборок)* Удалите предыдущий драйвер через **DDU (Display Driver Uninstaller)** в безопасном режиме.
+3. Запустите скачанный `OpenFrankenDriver_v2_Beta_621.40.exe` *(при срабатывании Windows SmartScreen нажмите «Подробнее» → «Выполнить в любом случае» — пакет подписан локальным сертификатом проекта)*.
+4. Распаковка пройдёт за **~5 секунд**, после чего откроется окно установщика: выберите нужные компоненты (драйвер + Win32 Панель управления, HD Audio, PhysX, VC++ Runtime, при желании **Чистую установку** и **NVIDIA Profile Inspector v3.0.2.1**) и нажмите **«Установить»**.
+5. Через **~1.5 минуты** драйвер встанет без Ошибки 43 и предупреждений безопасности, а классическая **Панель управления NVIDIA** появится в контекстном меню рабочего стола и в меню «Пуск».
+
+> Поддерживаются тихие ключи CLI: `--silent` (автоустановка без окон), `--clean` (чистая установка), `--nvpi` (добавить Profile Inspector), `--uninstall` (полное удаление). Подробная диагностика и удаление описаны в [TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md).
 
 ---
 
-## 🛠️ Как модифицировать оригинальный драйвер (Инструкция)
+## 🛠️ Как собрать драйвер самостоятельно
 
-Вы можете в любой момент взять любой официальный чистый драйвер NVIDIA с официального сайта и самостоятельно получить модифицированный драйвер OpenFrankenDriver.
+Вы можете взять любой официальный чистый установщик NVIDIA DCH WHQL с nvidia.com и собрать собственный пакет OpenFrankenDriver из открытых исходников.
 
 ### Способ 1: Автоматическая сборка скриптом (Рекомендуется)
 
-1. Установите Python 3.10+ и зависимости:
+1. Установите зависимости: **Python 3.10+** (`pip install pefile Pillow`), **7-Zip**, **Windows 10/11 SDK** (`makecat.exe`, `signtool.exe`), а для сборки нативного установщика v2 (`--beta-installer`) — **Rust (`cargo` / `rustc` MSVC)**.
+2. Скачайте чистый драйвер NVIDIA WHQL с сайта NVIDIA.
+3. Запустите сборку **v2 Beta (нативный Rust-установщик без `NVI2`)**:
    ```cmd
-   pip install pefile
+   python scripts/build.py --nvidia-exe "путь\к\официальному_драйверу.exe" --beta-installer
    ```
-2. Скачайте официальный драйвер NVIDIA (ветки 621.xx WHQL или новее) с сайта NVIDIA.
-3. Запустите автоматический мастер сборки:
-   ```cmd
-   python scripts/build.py --nvidia-exe "путь\к\официальному_инсталлятору.exe"
-   ```
+   *(Для классической сборки 1.x с `NVI2` запустите без `--beta-installer`, с флагом `--slim` для вырезания `NVIDIA App`/телеметрии.)*
+
    Скрипт автоматически:
-   - Распакует инсталлятор;
-   - Внедрит 70 уникальных конфигураций видеокарт-мутантов (с динамическим определением секций INF `17134` и `26200`);
-   - Устранит блокировку драйвера и снимет код ошибки 43 (`RM1457588`);
-   - Пересоберёт и подпишет сертификатом безопасности каталог `nv_disp.cat` с официальной меткой времени DigiCert (включая расшифровку сжатых DLSS-библиотек перед хешированием);
-   - Скомпилирует (если доступен `cl.exe` или `gcc`) и интегрирует автономную классическую Панель управления (`nvcplui.exe`);
-   - Проведёт автоматический Smoke Check всех `.nvi` манифестов и подписей перед упаковкой;
-   - Запакует готовый монолитный SFX-инсталлятор (доступен также флаг `--slim` для вырезания NVIDIA App / телеметрии и `--keep-telemetry`).
+   - Распакует официальный драйвер и удалит конфликтующий `NVPCF`;
+   - Внедрит **70+ конфигураций видеокарт-мутантов** из [`data/devices.json`](data/devices.json) с динамическим определением INF-секций (`17134` / `26200`) и фиксом Ошибки 43 (`RM1457588=1`);
+   - Пересоберёт и подпишет каталог безопасности `nv_disp.cat` со штампом времени RFC3161 DigiCert (включая расшифровку сжатых DLSS-библиотек перед хешированием);
+   - Извлечёт автономную Win32 Панель управления (`nvcplui.exe`) из `NVCPL\*.appx`;
+   - Выполнит **Smoke Check** и **Phase Guard** `.nvi`-фаз, скомпилирует [`src/setup_rust`](src/setup_rust) и [`src/sfx_rust`](src/sfx_rust), запакует монолитный `.exe` и проверит подпись через `signtool verify /pa`.
 
 ---
 
-### Способ 2: Ручная модификация
+### Способ 2: Ручная сборка шаг за шагом (пайплайн v2 и 1.x)
 
-Если вы хотите внести изменения вручную:
+1. **Распаковка исходного пакета NVIDIA**:
+   Распакуйте официальный `.exe` от NVIDIA через 7-Zip в рабочую папку, удалите `NVPCF` (ноутбучный контроллер питания) и расшифруйте сжатые DLSS-библиотеки при наличии (`expand Display.Driver\ngx-builtins\nvngx_dlssd.dl_ Display.Driver\ngx-builtins\nvngx_dlssd.dll`).
 
-1. **Распаковка инсталлятора**:
-   Распакуйте официальный файл инсталлятора NVIDIA через 7-Zip в любую папку.
-
-2. **Модификация INF-файла**:
-   - Откройте `Display.Driver\nv_dispi.inf`;
-   - Найдите секции `[NVIDIA_Devices.NTamd64.10.0...17134]` и `[NVIDIA_Devices.NTamd64.10.0...26200]`;
-   - Добавьте строки идентификаторов ваших видеокарт из справочника [`data/devices.json`](data/devices.json);
-   - Убедитесь, что в блоке параметров указан флаг отключения аппаратной блокировки (снятие Code 43):
+2. **Модификация `Display.Driver\nv_dispi.inf`**:
+   - Найдите секции `[NVIDIA_Devices.NTamd64.10.0...17134]` и `[NVIDIA_Devices.NTamd64.10.0...26200]` и добавьте строки Hardware ID из [`data/devices.json`](data/devices.json);
+   - В секции `nv_miscBase_addreg__*` добавьте параметр снятия Ошибки 43:
      ```ini
      HKR,,RM1457588,%REG_DWORD%,1
      ```
 
-3. **Создание и подпись каталога безопасности (`nv_disp.cat`)**:
-   - Сгенерируйте файл списка файлов (`nv_disp.cdf`) для папки `Display.Driver`;
-   - Скомпилируйте каталог через утилиту Windows SDK:
+3. **Генерация и подпись каталога безопасности (`nv_disp.cat`)**:
+   - Сформируйте список файлов `nv_disp.cdf` для папки `Display.Driver`;
+   - Соберите каталог и подпишите его с меткой времени DigiCert:
      ```cmd
      makecat -v nv_disp.cdf
-     ```
-   - Подпишите созданный каталог через `signtool.exe` с добавлением RFC3161 метки времени (DigiCert):
-     ```cmd
      signtool sign /f certs/OpenFrankenDriver.pfx /p 1234 /fd SHA256 /tr http://timestamp.digicert.com /td SHA256 nv_disp.cat
      ```
 
-4. **Интеграция Панели управления**:
-   - Создайте подпапку `Display.NVCPL`;
-   - Извлеките исполняемые файлы (`nvcplui.exe`, `nvcpluir.dll`, `NvGpuUtilization.exe`, `nvImage.dll`, `EULA.txt`) из архива `Display.Driver\NVCPL\*.appx`;
-   - Добавьте файл конфигурации пакета `NVCPL.nvi` и нативный помощник развёртывания `install_helper.exe`.
+4. **Извлечение Win32 Панели управления (`Display.NVCPL`)**:
+   Извлеките `nvcplui.exe`, `nvcpluir.dll`, `NvGpuUtilization.exe`, `nvImage.dll`, `EULA.txt` из `Display.Driver\NVCPL\*.appx` в каталог `Display.NVCPL` (в ветке v2 деплой, ярлыки и ветки реестра `EnableNvcplUIOnDCH` выполняет сам `setup.exe`, в ветке 1.x используется `NVCPL.nvi` + `install_helper.exe`).
 
-5. **Сборка монолитного установщика**:
-   - Запакуйте все папки через 7-Zip в архив `payload.7z` с совместимым LZMA2 (`-mf=off -mx=4 -m0=LZMA2:d24`);
-   - Присоедините официальный запускающий стаб `PackageLauncher.exe` к полученному архиву;
-   - Подпишите финальный `.exe` файл цифровой подписью проекта.
+5. **Сборка нативных Rust-бинарников и финального `.exe` (v2 Beta)**:
+   - Соберите `setup.exe` и `sfx_stub.exe`:
+     ```cmd
+     cargo build --release --manifest-path src/setup_rust/Cargo.toml
+     cargo build --release --manifest-path src/sfx_rust/Cargo.toml
+     ```
+   - Подготовьте стейджинг-папку (`Display.Driver`, `Display.NVCPL`, `HDAudio`, `PhysX` с `physx_manifest.json`, `Showcase`, сертификат `OpenFrankenDriver.cer`, `setup.exe`), запакуйте в `payload.7z` (`-m0=LZMA2:d24 -mf=off -mx=4 -ms=on`) и соберите монолитный подписанный `.exe` через `scripts/beta_builder.py` (подробнее — в [HOW_TO_BUILD.md](docs/HOW_TO_BUILD.md) и [ARCHITECTURE.md](docs/ARCHITECTURE.md)).
 
 ---
 
-## 🔒 Безопасность и проверка целостности
+## 🔒 Безопасность и целостность WHQL
 
-OpenFrankenDriver принципиально отличается от закрытых сборок:
-- В пакете **нет сторонних или модифицированных dll/sys файлов драйвера** — все бинарники (`nvlddmkm.sys`, библиотеки DirectX/Vulkan/CUDA) взяты напрямую из официального пакета NVIDIA WHQL;
-- Драйвер не требует включения небезопасного тестового режима Windows (`bcdedit /set testsigning on`);
-- Античиты **Easy Anti-Cheat (Apex Legends, Fortnite)**, **BattlEye (R6 Siege)**, **VAC (CS2)** и **Vanguard (Valorant)** работают в штатном режиме, так как модуль ядра NVIDIA полностью аутентичен и подписан.
+- **Нет патченных бинарников ядра:** `nvlddmkm.sys`, библиотеки DirectX, Vulkan, CUDA и OpenCL на 100% байт-в-байт идентичны официальному WHQL-выпуску NVIDIA.
+- **Без тестового режима Windows:** `bcdedit /set testsigning on` не используется никогда.
+- **Полная совместимость с античитами:** **Easy Anti-Cheat**, **BattlEye**, **Riot Vanguard**, **Valve Anti-Cheat (CS2)** и **FaceIT** проходят проверку подписи ядра штатно.
 
 ---
 
 ## 🤝 Содействие проекту и обратная связь
 
-Если вашей видеокарты ещё нет в списке поддерживаемых, создайте [Issue](https://github.com/lnp/OpenFrankenDriver/issues) с указанием Hardware ID (из Диспетчера устройств) и скриншотом GPU-Z. Мы оперативно добавим поддержку в базу.
+Если вашей видеокарты ещё нет в списке [поддерживаемых устройств](docs/SUPPORTED_DEVICES.md), откройте [Issue](https://github.com/lnp/OpenFrankenDriver/issues), приложите Hardware ID из Диспетчера устройств и скриншот GPU-Z — добавим поддержку в базу.
 
 ---
 
 ## 📄 Лицензия
 
-Исходные скрипты сборки, база данных устройств и конфигурации распространяются под свободной лицензией **MIT**. Исполняемые файлы и драйверы NVIDIA являются собственностью компании NVIDIA Corporation.
+Исходный код установщика, SFX-распаковщика, скриптов сборки и база устройств распространяются под лицензией **MIT** ([LICENSE](LICENSE)). Бинарные драйверы NVIDIA являются собственностью NVIDIA Corporation.
